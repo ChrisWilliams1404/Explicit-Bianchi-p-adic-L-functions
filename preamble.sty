@@ -1,0 +1,320 @@
+%Packages
+\ProvidesPackage{preamble}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{amsmath,amscd}
+\usepackage{amssymb}
+\usepackage{setspace}
+\usepackage{cite}
+\usepackage[balance,small,nohug,heads=vee]{diagrams}
+\usepackage{bbm}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{bm}
+%\usepackage[backref=page]{hyperref}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+
+\newcommand{\Addresses}{{% additional braces for segregating \footnotesize
+  \bigskip
+  \footnotesize
+Marc Masdeu: 
+\texttt{masdeu@mat.uab.cat}
+
+Bharath Palvannan: \texttt{pbharath@math.upenn.edu}
+
+Chris Williams: %; Imperial College London\\% South Kensington Campus, London SW7 2AZ, United Kingdom\par\nopagebreak
+\texttt{christopher.williams@imperial.ac.uk}
+
+
+}}
+
+
+
+
+
+\renewcommand*{\backref}[1]{}
+\renewcommand*{\backrefalt}[4]{%
+    \ifcase #1 (Not cited.)%
+    \or        (Cited on page~#2.)%
+    \else      (Cited on pages~#2.)%
+    \fi}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%          FIGURES ENVIRONMENT
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{mfigure}[3]{
+\begin{figure}[h!]
+\centering
+\captionsetup{justification=centering}
+\caption{#1}
+\makebox[\textwidth][c]{\includegraphics[width=#2\textwidth]{#3}}
+\end{figure}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%              MACROS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Shortcuts
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Qp}{\mathbb{Q}_p}
+\newcommand{\Ql}{\mathbb{Q}_\ell}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Zp}{\mathbb{Z}_p}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Proj}{\mathbb{P}^1}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\f}{\mathcal{F}}
+\newcommand{\uhp}{\mathcal{H}}
+\newcommand{\roi}{\mathcal{O}}
+\newcommand{\pri}{\mathfrak{p}}
+\newcommand{\roik}{\mathcal{O}_K}
+\newcommand{\ctp}{\widehat{\otimes}\hspace{1pt}}
+\newcommand{\obms}{\symb_\Gamma(\D_{k,k}(K))}
+\newcommand{\Dfil}{\D_{k,k}(\roik)}
+\newcommand{\lup}{|_k\lambda^{-1}U_p}
+\newcommand{\blup}{\bigg|_k\lambda^{-1}U_p}
+\newcommand{\Up}{\sum\limits_{a=0}^{p-1}\sum\limits_{b=0}^{p-1}}
+\newcommand{\uk}{\underline{k}}
+\newcommand{\An}{\A_{n,\uk}}
+\newcommand{\Dn}{\D_{n,\uk}}
+\newcommand{\Vn}{V_{n,\uk}}
+\newcommand{\Fp}{F_\pri}
+\newcommand{\Op}{\roi_\pri}
+\newcommand{\GLRp}{\GLt(\R)_{>0}}
+\newcommand{\AQ}{\mathbb{A}_{\mathbb{Q}}}
+\newcommand{\n}{\mathfrak{n}}
+\newcommand{\uhs}{\mathcal{H}_3}
+\newcommand{\zbar}{\overline{z}}
+\newcommand{\Xbar}{\overline{X}}
+\newcommand{\Ybar}{\overline{Y}}
+\newcommand{\Xc}{\mathcal{X}}
+\newcommand{\Xcbar}{\overline{\mathcal{X}}}
+\newcommand{\Yc}{\mathcal{Y}}
+\newcommand{\Ycbar}{\overline{\mathcal{Y}}}
+\newcommand{\Gami}{\Gamma_i}
+\newcommand{\m}{\mathfrak{m}}
+\newcommand{\itGamma}{\mathit{\Gamma}}
+\newcommand{\ff}{\mathfrak{f}}
+\newcommand{\Dir}{{\mathrm{Dir}}}
+\newcommand{\AAA}{\mathcal{A}}
+\newcommand{\Upri}{U_{\pri}}
+\newcommand{\pribar}{\overline{\pri}}
+\newcommand{\Upribar}{U_{\pribar}}
+\newcommand{\newmod}[1]{\hspace{2pt}(\mathrm{mod}\hspace{2pt}#1)}
+\newcommand{\DV}{ [\D_k\otimes V_k^*]}
+\newcommand{\zeroinf}{\{0\}-\{\sinfty\}}
+%\newcommand{\comp}[1]{\h_c^n(Y(\Gamma),\widetilde{#1})}
+\newcommand{\Cp}{\mathbb{C}_p}
+\newcommand{\cl}{\mathrm{Cl}}
+\newcommand{\ur}{{\mathrm{ur}}}
+\newcommand{\frob}{\mathrm{Frob}_{\pri}}
+\newcommand{\Zalg}{\overline{\Z}}
+\newcommand{\Qalg}{\overline{\Q}}
+\newcommand{\pic}{\mathrm{Pic}^0}
+\newcommand{\Tl}{\mathrm{Ta}_{\ell}}
+\newcommand{\Div}{\mathrm{Div}}
+\newcommand{\CM}{\mathrm{CM}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\TT}{\mathbb{T}}
+
+\newcommand{\Symb}{\mathrm{Symb}}
+
+
+
+%Commutative Diagrams
+\newcommand{\CommDia}[8]{\begin{diagram}
+ #1&&\rTo^{#2}&&#3 \\
+\dTo_{#4}&&&&\dTo_{#5}\\
+ #6&&\rTo^{#7}&&#8
+\end{diagram}}
+
+\newcommand{\BigCommDia}[8]{\begin{diagram}
+ #1&&&\rTo^{#2}&&&#3 \\
+\dTo_{#4}&&&&&&\dTo_{#5}\\
+ #6&&&\rTo^{#7}&&&#8
+\end{diagram}}
+
+\newcommand{\TallCommDia}[8]{\begin{diagram}
+ #1&&&\rTo^{#2}&&&#3 \\
+&&&&&&&&\\
+\dTo_{#4}&&&&&&\dTo_{#5}\\
+ #6&&&\rTo^{#7}&&&#8
+\end{diagram}}
+
+%longer hook arrow
+\newcommand*{\longhookrightarrow}{\ensuremath{\lhook\joinrel\relbar\joinrel\rightarrow}}
+%definition =, :=
+\newcommand*{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                     \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
+                     =}
+ 
+\newcommand*{\defeqback}{= \mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                     \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
+                     }
+
+
+
+%Projective Line
+\newcommand{\projQ}{\mathbb{P}^1(\mathbb{Q})}
+\newcommand{\deltazero}{\Delta_0}
+\newcommand{\divzero}{\mathrm{Div}^0(\Proj(F))}
+\newcommand{\divzeroK}{\mathrm{Div}^0(\Proj(K))}
+\def\projK{\mathbb{P}^1(K)}
+\newcommand{\inv}{^{-1}}
+\newcommand{\labelrightarrow}[1]{\mathrel{\mathop{\xrightarrow{\hspace*{1cm}}}^{#1}}}
+
+%Text defs
+\newcommand{\symb}{\mathrm{Symb}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\SLt}{\mathrm{SL}_2}
+\newcommand{\GLt}{\mathrm{GL}_2}
+\newcommand{\SOt}{\mathrm{SO}_2}
+\newcommand{\Ot}{\mathrm{O}_2}
+\newcommand{\Ut}{\mathrm{U}_2}
+\newcommand{\SUt}{\mathrm{SU}_2}
+\newcommand{\hsp}{\hspace{12pt}}
+\newcommand{\wka}{|_k\gamma}
+\newcommand{\h}{\mathrm{H}}
+%Congruence Subgroups
+\newcommand{\congp}{\Gamma(N)}
+\newcommand{\congn}{\Gamma_0(N)}
+\newcommand{\congo}{\Gamma_1(N)}
+%Matrices
+\newcommand{\matr}{\begin{pmatrix}a&b\\c&d\end{pmatrix}}
+\newcommand{\matrd}[4]{\begin{pmatrix}#1 & #2\\#3 & #4\end{pmatrix}}
+\newcommand{\smallmatrd}[4]{\left(\begin{smallmatrix}#1 & #2\\#3 & #4\end{smallmatrix}\right)}
+\newcommand{\binomc}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\matrthree}[9]{\begin{pmatrix}#1&#2&#3\\#4&#5&#6\\#7&#8&#9\end{pmatrix}}
+\newcommand{\smallbinomc}[2]{\left(\begin{smallmatrix}#1\\#2\end{smallmatrix}\right)}
+
+%Enabling use of Sha
+%\usepackage[OT2,T1]{fontenc}
+%\DeclareSymbolFont{cyrletters}{OT2}{wncyr}{m}{n}
+%\DeclareMathSymbol{\Sha}{\mathalpha}{cyrletters}{"58}
+
+
+%Isomorphism arrow
+\newcommand\isorightarrow{\xrightarrow{
+   \,\smash{\raisebox{-0.65ex}{\ensuremath{\scriptstyle\sim}}}\,}}
+
+%Headers
+\usepackage{fancyhdr}
+%Tables
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{array}
+
+%Section Headings
+\usepackage{titlesec}
+\titlelabel{\thetitle.\quad}
+
+%vector height
+\renewcommand{\arraystretch}{1}
+
+%Indents zero
+\setlength{\parindent}{0in}
+
+
+
+%Theorem Styles
+\newtheoremstyle{defplain}% name
+  {}%1.0\baselineskip\@plus.2\baselineskip\@minus.2\baselineskip}% Space above
+  {}%1.0\baselineskip\@plus.2\baselineskip\@minus.2\baselineskip}% Space below
+  {}% Body font
+  {}%Indent amount (empty = no indent, \parindent = para indent)
+  {\bfseries}%  Thm head font
+  {.}%       Punctuation after thm head
+  { }%      Space after thm head: " " = normal interword space;
+        %       \newline = linebreak
+  {}%       Thm head spec
+\newtheoremstyle{slplain}% name
+  {1.0\baselineskip\@plus.2\baselineskip\@minus.2\baselineskip}% Space above
+  {1.0\baselineskip\@plus.2\baselineskip\@minus.2\baselineskip}% Space below
+  {\itshape}% Body font
+  {}%Indent amount (empty = no indent, \parindent = para indent)
+  {\bfseries}%  Thm head font
+  {.}%       Punctuation after thm head
+  { }
+  {}
+\newtheoremstyle{remarkplain}% name
+  {}%1.0\baselineskip\@plus.2\baselineskip\@minus.2\baselineskip}% Space above
+  {}%1.0\baselineskip\@plus.2\baselineskip\@minus.2\baselineskip}% Space below
+  {}% Body font
+  {}%Indent amount (empty = no indent, \parindent = para indent)
+  {\bfseries}%  Thm head font
+  {:}
+  { }
+  {}
+%numbered definitions
+\theoremstyle{defplain}
+\newtheorem{definition}{Definition}[section]
+\newtheorem*{definition*}{Definition}
+\newcounter{lett}
+\renewcommand\thelett{\Alph{lett}}
+%numbered theorems
+\theoremstyle{slplain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem*{theorem*}{Theorem}
+%\newtheorem{mthmalph}[lett]{Theorem}
+
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem*{lemma*}{Lemma}
+
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem*{proposition*}{Proposition}
+
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem*{corollary*}{Corollary}
+
+\newtheorem{definition-proposition}[definition]{Definition-Proposition}
+\newtheorem{claim}[definition]{Claim}
+\newtheorem{assumption}[definition]{Assumption}
+\newtheorem{conjecture}[definition]{Conjecture}
+\newtheorem{condition}[definition]{Condition}
+\newtheorem{hypothesis}[definition]{Hypothesis}
+%Remarks
+\theoremstyle{remarkplain}
+\newtheorem*{remark*}{Remark}
+\newtheorem*{remarks*}{Remarks}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{remarks}[definition]{Remarks}
+\newtheorem*{notation*}{Notation}
+\newtheorem{notation}[definition]{Notation}
+\newtheorem*{fact*}{Fact}
+\newtheorem{fact}[definition]{Fact}
+\newtheorem*{facts}{Facts}
+\newtheorem*{example}{Example}
+\newtheorem*{examples}{Examples}
+\newtheorem*{motivation}{Motivation}
+\newtheorem*{warning}{Warning}
+\newtheorem*{note}{Note}
+
+%Heading settings
+\pagestyle{fancy}
+\chead{}
+
+\cfoot{\thepage}
