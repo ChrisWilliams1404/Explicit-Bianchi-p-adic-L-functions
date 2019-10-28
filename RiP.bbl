@@ -1,0 +1,45 @@
+\begin{thebibliography}{BSW17}
+
+\bibitem[BSW17]{BW17}
+Daniel Barrera~Salazar and Chris Williams.
+\newblock Exceptional zeros and $\mathcal{L}$-invariants of {B}ianchi modular
+  forms.
+\newblock {\em Trans. Amer. Math. Soc.}, 2017.
+\newblock To appear.
+
+\bibitem[Har87]{Har87}
+G{\"u}nter Harder.
+\newblock Eisenstein cohomology of arithmetic groups: The case {GL}$_2$.
+\newblock {\em Invent. Math.}, 89:37--118, 1987.
+
+\bibitem[Hid94]{Hid94}
+Haruzo Hida.
+\newblock On the critical values of {$L$}-functions of {GL}(2) and
+  {GL}(2)$\times${GL}(2).
+\newblock {\em Duke Math.}, 74:432--528, 1994.
+
+\bibitem[Loe14]{Loe14}
+David Loeffler.
+\newblock {$P$}-adic integration on ray class groups and non-ordinary $p$-adic
+  {$L$}-functions.
+\newblock In T.~Bouganis and O.~Venjakob, editors, {\em Iwasawa 2012: {S}tate
+  of the art and recent advances}, volume~7 of {\em Contributions in
+  Mathematical and Computational Sciences}, pages 357 -- 378. Springer, 2014.
+
+\bibitem[PP09]{PP09}
+David Pollack and Robert Pollack.
+\newblock A construction of rigid analytic cohomology classes for congruence
+  subgroups of {$\mathrm{SL}_3(\Z)$}.
+\newblock {\em Canad. J. Math.}, 61:674--690, 2009.
+
+\bibitem[PS11]{PS11}
+Robert Pollack and Glenn Stevens.
+\newblock Overconvergent modular symbols and $p$-adic {$L$}-functions.
+\newblock {\em Annales Scientifique de l'Ecole Normale Superieure}, 2011.
+
+\bibitem[Wil17]{Wil17}
+Chris Williams.
+\newblock {$P$}-adic {$L$}-functions of {B}ianchi modular forms.
+\newblock {\em Proc. Lond. Math. Soc.}, 114 (4):614 -- 656, 2017.
+
+\end{thebibliography}
