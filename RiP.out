@@ -14,9 +14,11 @@
 \BOOKMARK [2][-]{subsection.4.1}{Definition and basic properties}{section.4}% 14
 \BOOKMARK [2][-]{subsection.4.2}{Computing p-adic L-series from cohomology}{section.4}% 15
 \BOOKMARK [2][-]{subsection.4.3}{Explicit inversion of }{section.4}% 16
-\BOOKMARK [3][-]{subsubsection.4.3.1}{The rational setting}{subsection.4.3}% 17
-\BOOKMARK [3][-]{subsubsection.4.3.2}{The Bianchi case}{subsection.4.3}% 18
-\BOOKMARK [1][-]{section.5}{The algorithms}{}% 19
-\BOOKMARK [2][-]{subsection.5.1}{Computing with distributions}{section.5}% 20
-\BOOKMARK [3][-]{subsubsection.5.1.1}{Computing the action of S0\(p\)2 on distributions}{subsection.5.1}% 21
-\BOOKMARK [2][-]{subsection.5.2}{An explicit lifting theorem}{section.5}% 22
+\BOOKMARK [2][-]{subsection.4.4}{Version as of October 2019}{section.4}% 17
+\BOOKMARK [2][-]{subsection.4.5}{old}{section.4}% 18
+\BOOKMARK [3][-]{subsubsection.4.5.1}{The rational setting}{subsection.4.5}% 19
+\BOOKMARK [3][-]{subsubsection.4.5.2}{The Bianchi case}{subsection.4.5}% 20
+\BOOKMARK [1][-]{section.5}{The algorithms}{}% 21
+\BOOKMARK [2][-]{subsection.5.1}{Computing with distributions}{section.5}% 22
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Computing the action of S0\(p\)2 on distributions}{subsection.5.1}% 23
+\BOOKMARK [2][-]{subsection.5.2}{An explicit lifting theorem}{section.5}% 24

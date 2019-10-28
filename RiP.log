@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7050 64-bit) (preloaded format=pdflatex 2019.6.3)  28 OCT 2019 09:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7050 64-bit) (preloaded format=pdflatex 2019.6.3)  28 OCT 2019 11:27
 entering extended mode
 **./RiP.tex
 (RiP.tex
@@ -717,62 +717,62 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 155.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 180.
+(Font)              <7> on input line 179.
 
 
-LaTeX Warning: Citation `MR2148798' on page 1 undefined on input line 184.
+LaTeX Warning: Citation `MR2148798' on page 1 undefined on input line 183.
 
 [1
 
 {C:/Users/44789/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 198.
+(hyperref)                removing `math shift' on input line 197.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 198.
+(hyperref)                removing `math shift' on input line 197.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 198.
+(hyperref)                removing `math shift' on input line 197.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 198.
+(hyperref)                removing `math shift' on input line 197.
 
-LaTeX Font Info:    Try loading font information for U+euf on input line 201.
+LaTeX Font Info:    Try loading font information for U+euf on input line 200.
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\ueuf.fd"
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 211.
+(Font)              <14.4> on input line 210.
 
-LaTeX Warning: Citation `BW18' on page 2 undefined on input line 221.
+LaTeX Warning: Citation `BW18' on page 2 undefined on input line 220.
 
 [2]
 
-LaTeX Warning: Citation `BW18' on page 3 undefined on input line 280.
+LaTeX Warning: Citation `BW18' on page 3 undefined on input line 279.
 
 [3]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 307.
+(hyperref)                removing `math shift' on input line 306.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 307.
+(hyperref)                removing `math shift' on input line 306.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 307.
+(hyperref)                removing `math shift' on input line 306.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 307.
+(hyperref)                removing `math shift' on input line 306.
 
 
-Overfull \hbox (21.41185pt too wide) in paragraph at lines 339--340
+Overfull \hbox (21.41185pt too wide) in paragraph at lines 338--339
 []\T1/lmr/m/n/9 We can iden-tify dis-tri-bu-tions $\OML/lmm/m/it/9 $ \T1/lmr/m
 /n/9 on $\U/msb/m/n/9 Z[]$ \T1/lmr/m/n/9 with an-a-lytic func-tions on \T1/lmr/
 m/it/9 weight space $\OMS/lmsy/m/n/9 W \OT1/lmr/m/n/9 = [][](\U/msb/m/n/9 Z[]\O
@@ -780,52 +780,67 @@ ML/lmm/m/it/9 ; \U/msb/m/n/9 C[]\OT1/lmr/m/n/9 )$\T1/lmr/m/n/9 ,
  []
 
 [4] [5]
-LaTeX Font Info:    Try loading font information for U+bbm on input line 383.
+LaTeX Font Info:    Try loading font information for U+bbm on input line 382.
  ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/bbm\ubbm.fd"
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
+) [6]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 431.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\delta' on input line 431.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 431.
+
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 438.
+
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omslmr.fd"
+File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
+LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <9> not available
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 438.
 
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 430.
+Overfull \hbox (4.33989pt too wide) in paragraph at lines 452--453
+[]\T1/lmr/m/n/9 Explicitly rep-re-sent $[][]$ as a cobound-ary in $\OT1/lmr/m/n
+/9 H[]([][](\OML/lmm/m/it/9 c[]\OT1/lmr/m/n/9 )\OML/lmm/m/it/9 ; \U/msb/m/n/9 D
+[]\OT1/lmr/m/n/9 )$\T1/lmr/m/n/9 . In par-tic-u-lar, find $\OML/lmm/m/it/9 v[];
+ :::; v[] \OMS/lmsy/m/n/9 2
+ []
 
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\delta' on input line 430.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 430.
-
-[6] [7] [8] [9] (RiP.bbl)
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 647.
+[7] [8] [9] [10] (RiP.bbl)
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 720.
 
 
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd"
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Commutative Diagram: try the PostScript option for better results
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 649.
-[10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 649.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 722.
+[11]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 722.
  (RiP.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 649.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 649.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 722.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 722.
 Package rerunfilecheck Info: File `RiP.out' has not changed.
-(rerunfilecheck)             Checksum: 1CF79300DBF428C9D8236208E2CFE362;1719.
+(rerunfilecheck)             Checksum: E03848CA0DCDD159913F18181FACCE87;1850.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 649.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 722.
  ) 
 Here is how much of TeX's memory you used:
- 11769 strings out of 492895
- 160419 string characters out of 3123736
- 275186 words of memory out of 3000000
- 15401 multiletter control sequences out of 15000+200000
+ 11792 strings out of 492895
+ 160824 string characters out of 3123736
+ 274187 words of memory out of 3000000
+ 15417 multiletter control sequences out of 15000+200000
  140090 words of font info for 141 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,15n,45p,903b,543s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 43i,15n,45p,903b,517s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.en
 c}{C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.en
 c}{C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathi
@@ -870,9 +885,9 @@ msbm10.pfb><C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
 /amsfonts/symbols/msbm7.pfb><C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/f
 onts/type1/public/rsfs/rsfs10.pfb><C:/Users/44789/AppData/Local/Programs/MiKTeX
  2.9/fonts/type1/public/amsfonts/cyrillic/wncyr10.pfb>
-Output written on RiP.pdf (10 pages, 585540 bytes).
+Output written on RiP.pdf (11 pages, 593789 bytes).
 PDF statistics:
- 366 PDF objects out of 1000 (max. 8388607)
- 62 named destinations out of 1000 (max. 500000)
- 177 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 379 PDF objects out of 1000 (max. 8388607)
+ 66 named destinations out of 1000 (max. 500000)
+ 193 words of extra memory for PDF output out of 10000 (max. 10000000)
 
