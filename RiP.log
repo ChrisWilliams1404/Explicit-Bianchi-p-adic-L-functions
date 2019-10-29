@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7050 64-bit) (preloaded format=pdflatex 2019.6.3)  28 OCT 2019 11:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7050 64-bit) (preloaded format=pdflatex 2019.6.3)  29 OCT 2019 20:06
 entering extended mode
 **./RiP.tex
 (RiP.tex
@@ -540,21 +540,153 @@ Package: titlesec 2019/09/09 v2.12 Sectioning titles
 \c@definition=\count136
 \c@lett=\count137
 )
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xypic.sty"
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xy.sty"
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xy.tex"
+Bootstrap'ing: catcodes, docmode,
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xyrecat.te
+x")
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xyidioms.t
+ex")
+
+ Xy-pic version 3.8.9 <2013/10/06>
+ Copyright (c) 1991-2013 by Kristoffer H. Rose <krisrose@tug.org> and others
+ Xy-pic is free software: see the User's Guide for details.
+
+Loading kernel: messages; fonts; allocations: state,
+\X@c=\dimen171
+\Y@c=\dimen172
+\U@c=\dimen173
+\D@c=\dimen174
+\L@c=\dimen175
+\R@c=\dimen176
+\Edge@c=\toks52
+\X@p=\dimen177
+\Y@p=\dimen178
+\U@p=\dimen179
+\D@p=\dimen180
+\L@p=\dimen181
+\R@p=\dimen182
+\Edge@p=\toks53
+\X@origin=\dimen183
+\Y@origin=\dimen184
+\X@xbase=\dimen185
+\Y@xbase=\dimen186
+\X@ybase=\dimen187
+\Y@ybase=\dimen188
+\X@min=\dimen189
+\Y@min=\dimen190
+\X@max=\dimen191
+\Y@max=\dimen192
+\lastobjectbox@=\box44
+\zerodotbox@=\box45
+\almostz@=\dimen193
+ direction,
+\d@X=\dimen194
+\d@Y=\dimen195
+\K@=\count138
+\KK@=\count139
+\Direction=\count140
+\K@dXdY=\dimen196
+\K@dYdX=\dimen197
+\xyread@=\read1
+\xywrite@=\write3
+\csp@=\count141
+\quotPTK@=\dimen198
+
+utility macros; pictures: \xy, positions,
+\swaptoks@@=\toks54
+\connectobjectbox@@=\box46
+ objects,
+
+Xy-pic Warning: `\objectstyle' redefined.
+
+
+Xy-pic Warning: `\objectwidth' redefined.
+
+
+Xy-pic Warning: `\objectheight' redefined.
+
+\styletoks@=\toks55
+decorations; kernel objects: directionals, circles, text; options;
+algorithms: directions, edges, connections;  Xy-pic loaded)
+
+LaTeX Warning: You have requested package `xypic',
+               but the package provides `xy'.
+
+Package: xy 2013/10/06 Xy-pic version 3.8.9
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xypdf.tex"
+ Xy-pic option: PDF driver v.1.7 loaded))
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xyv2.tex"
+ Xy-pic option: Version 2 Compatibility v.3.8
+
+Xy-pic Warning: `\Xc' redefined.
+
+
+Xy-pic Warning: `\Yc' redefined.
+
+
+Xy-pic Warning: `\Up' redefined.
+
+
+Xy-pic Warning: `\stop' redefined.
+
+
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xyframe.te
+x"  Xy-pic option: Frame and Bracket extension v.3.14 loaded)
+Xy-pic pdf driver: `frame' extension support
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xypdf-fr.t
+ex"
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xycurve.te
+x"  Xy-pic option: Curve and Spline extension v.3.12 curve,
+\crv@cnt@=\count142
+\crvpts@=\toks56
+\splinebox@=\box47
+\splineval@=\dimen199
+\splinedepth@=\dimen256
+\splinetol@=\dimen257
+\splinelength@=\dimen258
+ circles,
+\L@=\dimen259
+ loaded)
+Xy-pic pdf driver: `curve' extension support
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xypdf-cu.t
+ex" loaded) loaded)
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xymatrix.t
+ex"  Xy-pic option: Matrix feature v.3.14
+\Row=\count143
+\Col=\count144
+\queue@=\toks57
+\queue@@=\toks58
+\qcount@=\count145
+\qcount@@=\count146
+\matrixsize@=\count147
+ loaded)
+
+Xy-pic Warning: `\diagram' redefined.
+
+
+("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xypic\xyarrow.te
+x"  Xy-pic option: Arrow and Path feature v.3.9 path,
+
+Xy-pic Warning: `\labelstyle' redefined.
+
+\ar, loaded) loaded))
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/etoolbox\etoolbox.
 sty"
 Package: etoolbox 2018/08/19 v2.5f e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count138
+\etb@tempcnta=\count148
 )
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/comment\comment.st
 y"
-\CommentStream=\write3
+\CommentStream=\write4
  Excluding comment 'comment')
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\verbatim.sty
 "
 Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks52
-\verbatim@line=\toks53
-\verbatim@in@stream=\read1
+\every@verbatim=\toks59
+\verbatim@line=\toks60
+\verbatim@in@stream=\read2
 )
 \symmcy=\mathgroup10
  (RiP.aux)
@@ -620,17 +752,17 @@ Package caption Info: End \AtBeginDocument code.
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-p
 df.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count139
-\scratchdimen=\dimen171
-\scratchbox=\box44
-\nofMPsegments=\count140
-\nofMParguments=\count141
-\everyMPshowfont=\toks54
-\MPscratchCnt=\count142
-\MPscratchDim=\dimen172
-\MPnumerator=\count143
-\makeMPintoPDFobject=\count144
-\everyMPtoPDFconversion=\toks55
+\scratchcounter=\count149
+\scratchdimen=\dimen260
+\scratchbox=\box48
+\nofMPsegments=\count150
+\nofMParguments=\count151
+\everyMPshowfont=\toks61
+\MPscratchCnt=\count152
+\MPscratchDim=\dimen261
+\MPnumerator=\count153
+\makeMPintoPDFobject=\count154
+\everyMPtoPDFconversion=\toks62
 )
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-
 base.sty"
@@ -647,7 +779,7 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
-\AtBeginShipoutBox=\box45
+\AtBeginShipoutBox=\box49
 
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\color.sty
 "
@@ -669,55 +801,56 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 estring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count145
+\c@section@level=\count155
 )
 LaTeX Info: Redefining \ref on input line 145.
 LaTeX Info: Redefining \pageref on input line 145.
 LaTeX Info: Redefining \nameref on input line 145.
  (RiP.out) (RiP.out)
-\@outlinefile=\write4
-\openout4 = `RiP.out'.
+\@outlinefile=\write5
+\openout5 = `RiP.out'.
 
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 153.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 145.
 
 
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 153.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 145.
 
 
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 153
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 145
 .
 
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 153
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 145
 .
 
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 145.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 145.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 145.
+Package xypdf Info: Line width: 0.39998pt on input line 145.
+LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <17.28> on input line 153.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <12> on input line 153.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 153.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 153.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 153.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <9> on input line 155.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 155.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 179.
 
 
 LaTeX Warning: Citation `MR2148798' on page 1 undefined on input line 183.
@@ -786,66 +919,72 @@ File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 ) [6]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 431.
+(hyperref)                removing `math shift' on input line 435.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\delta' on input line 431.
+(hyperref)                removing `\delta' on input line 435.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 431.
+(hyperref)                removing `math shift' on input line 435.
 
-LaTeX Font Info:    Try loading font information for OMS+lmr on input line 438.
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 444.
 
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omslmr.fd"
 File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 438.
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 444.
 
-Overfull \hbox (4.33989pt too wide) in paragraph at lines 452--453
-[]\T1/lmr/m/n/9 Explicitly rep-re-sent $[][]$ as a cobound-ary in $\OT1/lmr/m/n
-/9 H[]([][](\OML/lmm/m/it/9 c[]\OT1/lmr/m/n/9 )\OML/lmm/m/it/9 ; \U/msb/m/n/9 D
-[]\OT1/lmr/m/n/9 )$\T1/lmr/m/n/9 . In par-tic-u-lar, find $\OML/lmm/m/it/9 v[];
- :::; v[] \OMS/lmsy/m/n/9 2
- []
+<xymatrix 5x4 456>
 
-[7] [8] [9] [10] (RiP.bbl)
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 720.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 472.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\delta' on input line 472.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 472.
+
+[7] [8] [9] [10] [11] (RiP.bbl)
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 759.
 
 
 ("C:\Users\44789\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd"
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Commutative Diagram: try the PostScript option for better results
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 722.
-[11]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 722.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 761.
+[12]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 761.
  (RiP.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 722.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 722.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 761.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 761.
 Package rerunfilecheck Info: File `RiP.out' has not changed.
-(rerunfilecheck)             Checksum: E03848CA0DCDD159913F18181FACCE87;1850.
+(rerunfilecheck)             Checksum: C54C65B7162890B287EF834B81CC7667;1872.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 722.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 761.
  ) 
 Here is how much of TeX's memory you used:
- 11792 strings out of 492895
- 160824 string characters out of 3123736
- 274187 words of memory out of 3000000
- 15417 multiletter control sequences out of 15000+200000
- 140090 words of font info for 141 fonts, out of 3000000 for 9000
+ 14382 strings out of 492895
+ 190547 string characters out of 3123736
+ 349841 words of memory out of 3000000
+ 17955 multiletter control sequences out of 15000+200000
+ 143951 words of font info for 147 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,15n,45p,903b,517s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 43i,17n,45p,1427b,545s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.en
 c}{C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.en
-c}{C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathi
-t.enc}{C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-m
-athsy.enc} <C:\Users\44789\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/public/bbm/
+c}{C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-maths
+y.enc}{C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-m
+athit.enc} <C:\Users\44789\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/public/bbm/
 dpi600\bbm9.pk>{C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvip
 s/lm/lm-mathex.enc}<C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/type
 1/public/amsfonts/euler/eufm10.pfb><C:/Users/44789/AppData/Local/Programs/MiKTe
@@ -884,10 +1023,12 @@ rs/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/
 msbm10.pfb><C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
 /amsfonts/symbols/msbm7.pfb><C:/Users/44789/AppData/Local/Programs/MiKTeX 2.9/f
 onts/type1/public/rsfs/rsfs10.pfb><C:/Users/44789/AppData/Local/Programs/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cyrillic/wncyr10.pfb>
-Output written on RiP.pdf (11 pages, 593789 bytes).
+ 2.9/fonts/type1/public/amsfonts/cyrillic/wncyr10.pfb><C:/Users/44789/AppData/L
+ocal/Programs/MiKTeX 2.9/fonts/type1/public/xypic/xyatip10.pfb><C:/Users/44789/
+AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/xypic/xybtip10.pfb>
+Output written on RiP.pdf (12 pages, 609329 bytes).
 PDF statistics:
- 379 PDF objects out of 1000 (max. 8388607)
- 66 named destinations out of 1000 (max. 500000)
+ 406 PDF objects out of 1000 (max. 8388607)
+ 74 named destinations out of 1000 (max. 500000)
  193 words of extra memory for PDF output out of 10000 (max. 10000000)
 

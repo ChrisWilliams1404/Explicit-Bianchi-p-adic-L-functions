@@ -30,7 +30,7 @@
 \usepackage{preamble}
 %\ProvidesPackage{preamble-ams}
 %\usepackage{preamble-ams}
-
+\usepackage{xypic}
 
 \usepackage{etoolbox}
 \newtoggle{notes}
@@ -261,7 +261,7 @@ The space $\Symb_\Gamma(\C)$ admits an action of the Hecke operators, indexed by
     For a prime $\fl\nmid \n$ of norm $\ell$, the Hecke operator $T_{\fl}$ acts on $\mathrm{Eis}_2^K(\Gamma)$ as multiplication by $\ell+1$.
 \end{proposition}
 \begin{proof}
-    See \cite{Wil17} for the injection. For part (ii), observe that by \cite[Lemma 8.2]{BW17} we have a Hecke-equivariant isomorphism
+    See, for example, \cite{Wil17} for the injection. For part (ii), observe that by \cite[Lemma 8.2]{BW17} we have a Hecke-equivariant isomorphism
     \[
         \symb_\Gamma(\C) \cong \mathrm{H}^1_{\mathrm{c}}(Y_\Gamma, \C),
     \]
@@ -294,7 +294,7 @@ Dualising the inclusion of $L$ into $\A_2(L)$ gives a surjection $\D_2(L) \right
 \]
 Whilst this map will have a huge kernel, crucially, the Hecke action allows us to control it.
 
-\begin{theorem}[\cite{Wil17}] 
+\begin{theorem}\emph{\cite[Thm.~6.10]{Wil17}} \label{thm:control theorem}
 Let $\f \in S_2^K(\Gamma)$ be an eigenform, with $U_{\pri}\f = a_{\pri}\f$ for each $\pri|p$. If $v_{\pri}(a_{\pri}) < 1$ for all $\pri$, then the restriction of $\rho$ to the $\f$-eigenspaces of the Hecke operators is an isomorphism.
 \end{theorem}
 
@@ -410,7 +410,7 @@ then computes $L_p(\mu,\psi\chi,T) \defeq L_p(\mu_\chi,\psi,T),$ where $\mu_\chi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Rephrasing via arithmetic cohomology}
-The above gives a complete algorithm for constructing $p$-adic $L$-series from Bianchi modular symbols. For practical reasons, however, this space would be slow to compute, and it is better to work instead with the arithmetic cohomology groups $\h^1(\Gamma_0(p\n),\D_2)$, for which extensive implementation already exists. Such an approach might also generalise more naturally to different settings, where modular symbols themselves do not exist.
+The above gives a complete algorithm for constructing $p$-adic $L$-series from Bianchi modular symbols. For practical reasons, however, this space would be slow to compute, and it is better to work instead with the arithmetic cohomology groups $\h^1(\Gamma,\D_2)$, for which extensive implementation already exists. Such an approach might also generalise more naturally to different settings, where modular symbols themselves do not exist.
 
 \subsection{Definition and basic properties}
 See Marc's papers (which one explains it best, Marc?), or  \cite{PP09}; include things such as $U_p$ operators.
@@ -421,39 +421,67 @@ See Marc's papers (which one explains it best, Marc?), or  \cite{PP09}; include 
 
 One downside of computing with arithmetic cohomology, rather than modular symbols, is that we are not free to evaluate at the same range of divisors. Directly from the definition, we have a map
 \begin{align*}
-	\delta : \symb_{\Gamma_0(p\n)}(\D_2) &\longrightarrow \h^1(\Gamma_0(p\n),\D_2)\\
+	\delta : \symb_{\Gamma}(\D_2) &\longrightarrow \h^1(\Gamma,\D_2)\\
     \Phi &\longmapsto \big(\varphi: \gamma \mapsto \Phi\{\gamma\cdot\infty \rightarrow \infty\}\big).
 \end{align*}
 In particular, given $\varphi$, we can read off directly the values $\Phi\{r \to s\}$ \emph{only} for $r,s$ equivalent to the cusp $\infty$. This poses a problem for our algorithm, since we need to evaluate at pairs $\{a/p \to \infty\}$, where $a$ is coprime to $p$, and in general $a/p$ will \emph{not} give the same cusp as $\infty$. To obtain the information we need from $\varphi$, then, requires a careful study of the map $\delta$.
 
 From the general theory, the kernel and cokernel of $\delta$ are Eisenstein; in particular, it is an isomorphism on the cuspidal part. It follows that there is a \emph{unique} cuspidal lift $\Phi$ of $\varphi$ under $\delta$. In the next section, we show how to explicitly invert $\delta$ to obtain this class $\Phi$ from $\varphi$, and thus how to obtain the $p$-adic $L$-function from $\varphi$.
 
-\subsection{Explicit inversion of $\delta$}
+
+%%===============================================================
+%%		MOTIVATION
+
+\subsection{Explicit inversion of $\delta$: motivation}
+In the next subsection, we give an explicit and computable recipe for inverting $\delta$ on cuspidal arithmetic cohomology classes. Before doing this, however, we give some motivation as to where this recipe comes from. 
+
 The map $\delta$ can be realised in cohomology as 
 \[
-\delta : \h^0(\Gamma_0(p\n),\mathrm{Hom}(\Delta_0,\D_2) \longrightarrow \h^1(\Gamma_0(p\n),\D_2),
+\delta : \h^0(\Gamma,\mathrm{Hom}(\Delta_0,\D_2) \longrightarrow \h^1(\Gamma,\D_2),
 \]
-and is the connecting map in a long exact sequence given by the snake lemma. In particular, for a right $\Gamma_0(p\n)$-module $M$, let:
+and is the connecting map in a long exact sequence given by the snake lemma. In particular, for a right $\Gamma$-module $\mathcal{M}$, let:
 \begin{itemize}
-	\item $C^i(M) \defeq C^i(\Gamma_0(p\n),M)$ = $M$-valued $i$-cochains for $\Gamma_0(p\n)$,
-	\item $Z^i(M) \defeq$ $M$-valued $i$-cocycles for $\Gamma_0(p\n)$,
-	\item and $B^i(M) \defeq$ $M$-valued $i$-coboundaries for $\Gamma_0(p\n)$. 
+	\item $C^i(\mathcal{M}) \defeq C^i(\Gamma,M)$ = $\mathcal{M}$-valued $i$-cochains for $\Gamma$,
+	\item $Z^i(\mathcal{M}) \defeq$ $\mathcal{M}$-valued $i$-cocycles for $\Gamma$,
+	\item and $B^i(\mathcal{M}) \defeq$ $\mathcal{M}$-valued $i$-coboundaries for $\Gamma$. 
 \end{itemize}
-Explicitly, as we are using right modules, a 1-cocycle is a map $z : \Gamma_0(p\n) \to M$ such that $z(\gamma_1\gamma_2) = z(\gamma_1) + z(\gamma_2)|\gamma_1^{-1}$.
+Explicitly, as we are using right modules, a 1-cocycle is a map $z : \Gamma \to \mathcal{M}$ such that $z(\gamma_1\gamma_2) = z(\gamma_1) + z(\gamma_2)|\gamma_1^{-1}$. Also write $(C^i/B^i)(\mathcal{M})$ for the $i$-cochains modulo the $i$-coboundaries.
 
-\subsection{Version as of October 2019}
+Recall that $\Delta_0 = \mathrm{Div}^0(\Proj(F))$, and let $\Delta = \mathrm{Div}(\Proj(F)) = \Z[\Proj(F)]$. Now, the degree map gives a short exact sequence $0 \to \Delta_0 \to \Delta \to \Z \to 0$, and hence -- for any right $\Gamma$-module $M$ -- a short exact sequence
+\[
+	0 \to M \longrightarrow \Hom(\Delta,M) \longrightarrow \Hom(\Delta_0,M) \to 0,
+\]
+of $\Gamma$-modules, identifying $M \cong \Hom(\Z,M')$, and where $\Gamma$ act on $\Hom(\Delta,M')$ by $(\phi|\gamma)(D) = \phi(\gamma D)|\gamma$. This gives rise to a diagram
+\[
+	\xymatrix@C=10mm{
+		& & & \h^0(\Gamma,\Hom(\Delta_0,M))\ar[d] &\\
+			 & \frac{C^0}{B^0}\bigg(\Gamma,M\bigg)\ar[r]\ar[d]   & \frac{C^0}{B^0}\bigg(\Gamma,\Hom(\Delta,M)\bigg)\ar[r]\ar[d] &  \frac{C^0}{B^0}\bigg(\Gamma,\Hom(\Delta_0,M)\bigg)\ar[r]\ar[d] &0\\
+	0 \ar[r]  & Z^1(\Gamma,M)  \ar[r]\ar[d] & Z^1(\Gamma,\Hom(\Delta,M))  \ar[r] & Z^1(\Gamma,\Hom(\Delta_0,M)) &\\
+	& \h^1(\Gamma,M) & & & \\
+}
+\]
+from which we obtain the snake exact sequence
+\[
+\cdots \to \h^0(\Gamma,\Hom(\Delta,M)) \xrightarrow{\alpha} \h^0(\gamma,\Hom(\Delta_0,M)) \xrightarrow{\delta} \h^1(\Gamma,M) \xrightarrow{\beta} \h^1(\Gamma,\Hom(\Delta,M)) \to \cdots.
+\]
+In proving that this is exact, one takes an element in $\ker(\beta)$ -- such as our class $\varphi$ -- and explicitly realises it in the image of $\delta$. Thus we can lift $\delta$ by pursuing this diagram chase.
 
-\begin{itemize}
-	\item Find $c_1 = \infty, c_2, ..., c_t$ reps of the cusps
-	\item For each $r \in \Proj(\Q)$, let $c_{i(r)}$ be the equivalent representative, and let $g_r \in \Gamma_0(p\n)$ be such that in $\Proj(\Q)$, we have
+%%===============================================================
+%%		ALGORITHM
+
+\subsection{Explicit inversion of $\delta$: an algorithm}
+Recapping the above, we arrive at the following recipe for inverting $\delta$. Let $\varphi \in \h^1(\Gamma,\D_2)$ be a lift of a cuspidal classical eigenclass. In particular, it will be parabolic, and for each cusp $r \in \Proj(F)$, it will vanish under the restriction maps $\mathrm{Res}_r : \h^1(\Gamma,\D_2) \to \h^1(\mathrm{Stab}_{\Gamma}(r),\D_2)$.
+\begin{enumerate}
+	\item Find representatives $c_1 = \infty, c_2, ..., c_t \in \Proj(F)$ of the cusps $\Gamma\backslash\Proj(F)$ of $\Gamma$.
+	\item For each $r \in \Proj(\F)$, let $c_{i(r)}$ be the equivalent representative, and let $g_r \in \Gamma$ be such that in $\Proj(\Q)$, we have
 	\[
 			g_r \cdot r = c_{i(r)}.
 	\]
-	\item Explicitly represent $\mathrm{Res}_{c_i}$ as a coboundary in $\h^1(\mathrm{Stab}_{\Gamma}(c_i), \D_2)$. In particular, find $v_1, ..., v_t \in \D_2$ such that 
+	\item Explicitly represent $\mathrm{Res}_{c_i}(\varphi)$ as a coboundary in $\h^1(\mathrm{Stab}_{\Gamma}(c_i), \D_2)$. In particular, find $v_1, ..., v_t \in \D_2$ such that 
 	\[
-		\Phi(g) = v_i|g^{-1} - v_i
+		\varphi(g) = v_i|g^{-1} - v_i
 	\]
-	for all $g \in \mathrm{Stab}_{\Gamma}(c_i).$ For this, we compute the action of $g$ as a linear operator on $\D_2$ up to some precision, and then solve the resulting linear system for a sufficiently large set of generators of the stabiliser.
+	for all $g \in \mathrm{Stab}_{\Gamma}(c_i).$ For this, we compute the action of $g$ as a linear operator on $\D_2$ up to some precision, and then solve the resulting linear system for a sufficiently large set of generators of the stabiliser\footnote{In practice, this is actually more subtle than it appears: in the linear system, the variables will appear with varying degrees of precision, due to the filtration appearing in the explicit lifting theorem.}.
 	
 	\item Now define
 	\begin{align*}
@@ -464,12 +492,11 @@ Explicitly, as we are using right modules, a 1-cocycle is a map $z : \Gamma_0(p\
 	\[
 		\Phi\{r\to s\} \defeq \widetilde{\Phi}(s) - \widetilde{\Phi}(r).
 	\]
-	\item Apply $T_\ell - \ell - 1$, normalised by $a_\ell - \ell - 1$, to kill the Eisenstein part.
-\end{itemize}	
+\end{enumerate}	
 	
 	
 	\begin{proposition}
-		The map $\Phi$ gives a well-defined element of $\Symb_{\Gamma_0(p\n)}(\D_2)$ such that $\delta(\Phi) = \varphi$.
+		The map $\Phi$ gives a well-defined element of $\Symb_{\Gamma}(\D_2)$ such that $\delta(\Phi) = \varphi$.
 	\end{proposition}
 	\begin{proof}
 		The map $\Phi$ is linear in $r \to s$, since it is defined as the difference $\widetilde{\Phi}(s) - \widetilde{\Phi}(r)$. It is mapped to $\varphi$ under $\delta$; setting $r = \gamma\cdot\infty$ and $s = \infty$, we have $g_r = \gamma^{-1}$, $g_s = 1$, and $c_{i(r)} = c_{i(s)} = c_1$. Then by definition,
@@ -479,7 +506,7 @@ Explicitly, as we are using right modules, a 1-cocycle is a map $z : \Gamma_0(p\
 		\end{align*}
 		using that $\varphi(1) = 0 = \varphi(\gamma\gamma^{-1}) = \varphi(\gamma) + \varphi(\gamma^{-1})|\gamma^{-1}$. The term in the square brackets is a coboundary; thus the cocycle $\delta(\Phi)$ represents the same cohomology class as $\varphi$.
 		
-		It remains to show that $\Phi$ is $\Gamma_0(p\n)$-equivariant. Let $\gamma \in \Gamma_0(p\n)$. Note that if $g_r \cdot r = c_{i(r)}$, then $g_r\gamma^{-1} \cdot \gamma r = c_{i(r)}$, so that $c_{i(\gamma r)} = c_{i(r)}$ and $g_{\gamma r} = g_r\gamma^{-1}$. Then
+		It remains to show that $\Phi$ is $\Gamma$-equivariant. Let $\gamma \in \Gamma$. Note that if $g_r \cdot r = c_{i(r)}$, then $g_r\gamma^{-1} \cdot \gamma r = c_{i(r)}$, so that $c_{i(\gamma r)} = c_{i(r)}$ and $g_{\gamma r} = g_r\gamma^{-1}$. Then
 		\begin{align*}
 			\widetilde{\Phi}(\gamma r) &= \varphi(g_{\gamma r})|g_{\gamma r} + v_{i(\gamma r)}|g_{\gamma r}\\
 					 &= \varphi(g_r \gamma^{-1})|g_r\gamma^{-1} + v_{i(r)}|g_r\gamma^{-1}\\
@@ -493,7 +520,19 @@ Explicitly, as we are using right modules, a 1-cocycle is a map $z : \Gamma_0(p\
 		as required.
 	\end{proof}
 
+In general, the map $\Phi$ thus defined is not an eigensymbol. In particular, whilst there is a unique cuspidal lift $\Phi_{\mathrm{cusp}}$ of $\varphi$ under $\delta$, the map $\Phi$ can be any element of $\Phi_{\mathrm{cusp}} + \mathrm{ker}(\delta)$. However, we have:
 
+\begin{proposition}
+	For all sufficiently large primes $\mathfrak{l}$ of $K$, coprime to $p\n$, the symbol
+	\[
+		\Phi_{\f} \defeq \frac{T_{\mathfrak{l}} - \ell - 1}{a_{\mathfrak{l}} - \ell + 1} \Phi \in \Symb_\Gamma(\D_2)
+	\] 
+	is the uniquely determined overconvergent (cuspidal) eigensymbol mapped to $\varphi$ under $\delta$, where $\ell$ is the norm of $\mathfrak{l}$ and $a_{\mathfrak{l}}$ is the $T_{\mathfrak{l}}$-eigenvalue of the Bianchi modular form $\f$.
+\end{proposition}
+\begin{proof}
+By the long exact sequence given by the snake lemma, the kernel of $\delta$ is given by the image of $\mathrm{Hom}_\Gamma(\Delta,\D_2)$ in $\Symb_\Gamma(\D_2)$, or, more precisely, the Eisenstein subspace. We know that for prime $\mathfrak{l}\nmid p\n$ of norm $\ell$, the Hecke operator $T_{\mathfrak{l}}$ acts on the Eisenstein subspace by $\ell + 1$ (see, for example, \cite[Rem.~5.2]{PS11} for this in the rational case; more generally, it can be obtained by studying $\mathrm{Hom}(\Delta,\D_2)$ as a Hecke-module). For sufficiently large $\mathfrak{l}$, the Hasse bound implies that $a_{\mathfrak{l}} \neq \ell + 1$. By the remarks above, the operator $T_{\mathfrak{l}} - \ell -1$ kills any Eisenstein contribution, and thus acts as a projector onto the cuspidal subspace. Now renormalising by $a_{\mathfrak{l}} - \ell - 1$ gives a cuspidal eigensymbol in $\delta^{-1}(\varphi)$. Such a symbol is unique by strong multiplicity one combined with Theorem \ref{thm:control theorem}.
+\end{proof}
+%Henceforth we shall simply renormalise and write $\Phi$ in place of $\Phi_{\mathrm{cusp}}$.
 
 
 
@@ -501,7 +540,7 @@ Explicitly, as we are using right modules, a 1-cocycle is a map $z : \Gamma_0(p\
 
 
 
-Let thus $\varphi$ be a cocycle representing a cohomology class $[\varphi]\in H^1(\Gamma_0(p\n),\D_2)$, and assume that its restriction to each cusp $c$ is trivial. Choose representatives $\infty=c_1,\ldots c_t\in \mathbb{P}^1(\Q)$ for the cusps of $\Gamma_0(p\n)$, and set, for $\gamma_i,\gamma_j\in \Gamma_0(p\n)$ and representatives $c_i$ and $c_j$,
+Let thus $\varphi$ be a cocycle representing a cohomology class $[\varphi]\in H^1(\Gamma,\D_2)$, and assume that its restriction to each cusp $c$ is trivial. Choose representatives $\infty=c_1,\ldots c_t\in \mathbb{P}^1(\Q)$ for the cusps of $\Gamma$, and set, for $\gamma_i,\gamma_j\in \Gamma$ and representatives $c_i$ and $c_j$,
 \[
 \Phi\{\gamma_j c_j\rightarrow \gamma_i c_i\} = \gamma_j\varphi(\gamma_j^{-1})-\gamma_i\varphi(\gamma_i^{-1}).
 \]
@@ -509,7 +548,7 @@ Let thus $\varphi$ be a cocycle representing a cohomology class $[\varphi]\in H^
 With the previous definition, we have:
 \begin{enumerate}
     \item $\Phi$ is well defined.
-    \item $\Phi\in \Symb_{\Gamma_0(p\n)}(\D_2)$,
+    \item $\Phi\in \Symb_{\Gamma}(\D_2)$,
     \item $\delta(\Phi)=\varphi$.
 \end{enumerate}
 \end{proposition}
@@ -526,16 +565,16 @@ so it suffices to prove that
 \[
 \gamma_i\varphi(\gamma_i^{-1}) = \gamma_i'\varphi((\gamma_i')^{-1}).
 \]
-But remember that $\gamma_ic_i =\gamma_i'c_i$, which means that $\gamma_i'= \gamma_i g$, for some $g\in\operatorname{Stab}_{\Gamma_0(p\n)}(c_i)$. In this case, we have
+But remember that $\gamma_ic_i =\gamma_i'c_i$, which means that $\gamma_i'= \gamma_i g$, for some $g\in\operatorname{Stab}_{\Gamma}(c_i)$. In this case, we have
 \[
 \gamma_i g \varphi(g^{-1} \gamma_i^{-1}) - \gamma_i \varphi(\gamma_i^{-1}) = \gamma_i g \varphi(g^{-1}).
 \]
-We will show that $\varphi(g)=0$ for all $g\in\operatorname{Stab}_{\Gamma_0(p\n)}(c_i)$. Since $\varphi$ is parabolic, we know there is a map $f\colon \mathbb{P}^1(\Q_p)\to \D_2$ such that $\varphi(g) = gf(g^{-1}P) - f(P)$ for all $P\in \mathbb{P}^1(\Q_p)$, and without loss of generality we may assume that $f(c_i)=0$. Therefore,
+We will show that $\varphi(g)=0$ for all $g\in\operatorname{Stab}_{\Gamma}(c_i)$. Since $\varphi$ is parabolic, we know there is a map $f\colon \mathbb{P}^1(\Q_p)\to \D_2$ such that $\varphi(g) = gf(g^{-1}P) - f(P)$ for all $P\in \mathbb{P}^1(\Q_p)$, and without loss of generality we may assume that $f(c_i)=0$. Therefore,
 \[
 \varphi(g)=gf(c_i)-f(c_i) = 0 -0=0.
 \]
 
-To prove the second claim, the definition clearly makes $\Phi$ to be linear on $\Div^0(\mathbb{P}^1(\Q))$, so it is enough to check $\Gamma_0(p\n)$-equivariance. This follows from the following calculation:
+To prove the second claim, the definition clearly makes $\Phi$ to be linear on $\Div^0(\mathbb{P}^1(\Q))$, so it is enough to check $\Gamma$-equivariance. This follows from the following calculation:
 \begin{align*}
 \Phi\{g\gamma_jc_j\rightarrow g\gamma_ic_i\}&=\varphi(g\gamma_j)-\varphi(g\gamma_i) = 
 g\gamma_j\varphi(\gamma_j^{-1}g^{-1}) - g\gamma_i\varphi(\gamma_i^{-1}g^{-1})\\
@@ -555,8 +594,8 @@ The modular symbol thus defined is not an eigensymbol, in general. Since $\delta
 \delta(T(f) - f) = 0,
 \]
 and so $T(f) = f + \epsilon$, where $\epsilon$ is an Eistenstein symbol. In order to obtain an eigensymbol it suffices to apply for example $T_\ell-\ell-1$ for any prime $\ell$.
-
-% The problem, however, is that it is difficult to make the inverse of $\delta$ explicit. In particular, given an overconvergent arithmetic class $\varphi$, from the definition we only know how to evaluate $\delta^{-1}(\varphi)$ at divisors of the form $\gamma\cdot\infty \rightarrow \infty$, where $\gamma \in \Gamma_0(p\n)$. The cusps $0$ and $\infty$, however, are not $\Gamma_0(p\n)$-equivalent, so it is far from clear how to extract the data $\delta^{-1}(\varphi)\{0\rightarrow\infty\}$ from $\varphi$. For clarity, we first explain how to do this for $\GLt/\Q$, which is similar but simpler.
+      
+% The problem, however, is that it is difficult to make the inverse of $\delta$ explicit. In particular, given an overconvergent arithmetic class $\varphi$, from the definition we only know how to evaluate $\delta^{-1}(\varphi)$ at divisors of the form $\gamma\cdot\infty \rightarrow \infty$, where $\gamma \in \Gamma$. The cusps $0$ and $\infty$, however, are not $\Gamma$-equivalent, so it is far from clear how to extract the data $\delta^{-1}(\varphi)\{0\rightarrow\infty\}$ from $\varphi$. For clarity, we first explain how to do this for $\GLt/\Q$, which is similar but simpler.
 
 
 
