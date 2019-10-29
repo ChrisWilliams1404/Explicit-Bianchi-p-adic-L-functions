@@ -432,7 +432,9 @@ From the general theory, the kernel and cokernel of $\delta$ are Eisenstein; in 
 %%===============================================================
 %%		MOTIVATION
 
-\subsection{Explicit inversion of $\delta$: motivation}
+\subsection{Explicit inversion of $\delta$}
+
+\subsubsection{Motivation}
 In the next subsection, we give an explicit and computable recipe for inverting $\delta$ on cuspidal arithmetic cohomology classes. Before doing this, however, we give some motivation as to where this recipe comes from. 
 
 The map $\delta$ can be realised in cohomology as 
@@ -453,9 +455,9 @@ Recall that $\Delta_0 = \mathrm{Div}^0(\Proj(F))$, and let $\Delta = \mathrm{Div
 \]
 of $\Gamma$-modules, identifying $M \cong \Hom(\Z,M')$, and where $\Gamma$ act on $\Hom(\Delta,M')$ by $(\phi|\gamma)(D) = \phi(\gamma D)|\gamma$. This gives rise to a diagram
 \[
-	\xymatrix@C=10mm{
+	\xymatrix@C=10mm@R=4mm{
 		& & & \h^0(\Gamma,\Hom(\Delta_0,M))\ar[d] &\\
-			 & \frac{C^0}{B^0}\bigg(\Gamma,M\bigg)\ar[r]\ar[d]   & \frac{C^0}{B^0}\bigg(\Gamma,\Hom(\Delta,M)\bigg)\ar[r]\ar[d] &  \frac{C^0}{B^0}\bigg(\Gamma,\Hom(\Delta_0,M)\bigg)\ar[r]\ar[d] &0\\
+			 & \frac{C^0}{B^0}\big(\Gamma,M\big)\ar[r]\ar[d]   & \frac{C^0}{B^0}\big(\Gamma,\Hom(\Delta,M)\big)\ar[r]\ar[d] &  \frac{C^0}{B^0}\big(\Gamma,\Hom(\Delta_0,M)\big)\ar[r]\ar[d] &0\\
 	0 \ar[r]  & Z^1(\Gamma,M)  \ar[r]\ar[d] & Z^1(\Gamma,\Hom(\Delta,M))  \ar[r] & Z^1(\Gamma,\Hom(\Delta_0,M)) &\\
 	& \h^1(\Gamma,M) & & & \\
 }
@@ -469,8 +471,8 @@ In proving that this is exact, one takes an element in $\ker(\beta)$ -- such as 
 %%===============================================================
 %%		ALGORITHM
 
-\subsection{Explicit inversion of $\delta$: an algorithm}
-Recapping the above, we arrive at the following recipe for inverting $\delta$. Let $\varphi \in \h^1(\Gamma,\D_2)$ be a lift of a cuspidal classical eigenclass. In particular, it will be parabolic, and for each cusp $r \in \Proj(F)$, it will vanish under the restriction maps $\mathrm{Res}_r : \h^1(\Gamma,\D_2) \to \h^1(\mathrm{Stab}_{\Gamma}(r),\D_2)$.
+\subsubsection{Algorithm for inverting $\delta$}
+Summarising the above, we arrive at the following recipe for inverting $\delta$. Let $\varphi \in \h^1(\Gamma,\D_2)$ be a lift of a cuspidal classical eigenclass. In particular, it will be parabolic, and for each cusp $r \in \Proj(F)$, it will vanish under the restriction maps $\mathrm{Res}_r : \h^1(\Gamma,\D_2) \to \h^1(\mathrm{Stab}_{\Gamma}(r),\D_2)$.
 \begin{enumerate}
 	\item Find representatives $c_1 = \infty, c_2, ..., c_t \in \Proj(F)$ of the cusps $\Gamma\backslash\Proj(F)$ of $\Gamma$.
 	\item For each $r \in \Proj(\F)$, let $c_{i(r)}$ be the equivalent representative, and let $g_r \in \Gamma$ be such that in $\Proj(\Q)$, we have
@@ -535,7 +537,7 @@ By the long exact sequence given by the snake lemma, the kernel of $\delta$ is g
 %Henceforth we shall simply renormalise and write $\Phi$ in place of $\Phi_{\mathrm{cusp}}$.
 
 
-
+\begin{comment}
 \subsection{old}
 
 
@@ -596,7 +598,7 @@ The modular symbol thus defined is not an eigensymbol, in general. Since $\delta
 and so $T(f) = f + \epsilon$, where $\epsilon$ is an Eistenstein symbol. In order to obtain an eigensymbol it suffices to apply for example $T_\ell-\ell-1$ for any prime $\ell$.
       
 % The problem, however, is that it is difficult to make the inverse of $\delta$ explicit. In particular, given an overconvergent arithmetic class $\varphi$, from the definition we only know how to evaluate $\delta^{-1}(\varphi)$ at divisors of the form $\gamma\cdot\infty \rightarrow \infty$, where $\gamma \in \Gamma$. The cusps $0$ and $\infty$, however, are not $\Gamma$-equivalent, so it is far from clear how to extract the data $\delta^{-1}(\varphi)\{0\rightarrow\infty\}$ from $\varphi$. For clarity, we first explain how to do this for $\GLt/\Q$, which is similar but simpler.
-
+\end{comment}
 
 
 \subsubsection{The rational setting}
@@ -726,7 +728,7 @@ Recall that $\Sigma_0(p)^2$ acts on the \emph{left} of $\A(L)$ by
 Denote by $\psi_{\A}(g)$ the matrix of $g$ acting on $\A(L)$ in the basis $
 \{v_{n,i}\}$.
 
-We want to compute the dual action on distributions. The natural dual action is a \emph{right} action. However, since we will ultimately compute with the group cohomology -- which prefers \emph{left} actions -- it is convenient here to pass to the right action on $\A_(L)$ defined by $f|g = g^{-1}\cdot f,$ inducing a left dual action. 
+We want to compute the dual action on distributions. The natural dual action is a \emph{right} action. However, since we will ultimately compute with the group cohomology -- which prefers \emph{left} actions -- it is convenient here to pass to the right action on $\A_2(L)$ defined by $f|g = g^{-1}\cdot f,$ inducing a left dual action. 
 
 Now write
 \[
