@@ -1,8 +1,9 @@
 
-def get_P1List(self):
-    from sage.modular.modsym.p1list import P1List
-    N = self.level * self.ideal_p
-    return P1List(N)
+def get_P1List(self, N=False):
+        from sage.modular.modsym.p1list import P1List
+    	if N is False:
+		N = self.level * self.ideal_p
+        return P1List(N)
 
 def cusp_reduction_table(self):
     r'''
