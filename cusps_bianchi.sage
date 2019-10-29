@@ -85,9 +85,11 @@ class arith_gp(object):
             K = P.N().number_field()
             ## Write down generators of a finite index subgroup in Stab_Gamma(infinity)
             infinity_gens = [matrix(K,[[1,1],[0,1]]), matrix(K,[[1,K.gen()],[0,1]])]
+            N_ideal = P.N()
         else:
             K = QQ
             infinity_gens = [matrix([[1,1],[0,1]])]
+            N_ideal = ZZ.ideal(P.N())
 
         ## Initilise (empty) list of generators of Stab_Gamma(cusp)
         cusp_gens = []
@@ -98,7 +100,7 @@ class arith_gp(object):
             gen = T_conj
 
             ## Now take successive powers until the result is in Gamma_0(N)
-            while not gen[1][0] in self.N:
+            while not gen[1][0] in N_ideal:
                  gen *= T_conj
 
             ## We've found an element in Stab_Gamma(cusp): add to our list of generators
