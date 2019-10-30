@@ -1,3 +1,9 @@
+##============================================================
+##
+##              PRESENTING ARITHMETIC GROUPS
+##              
+##============================================================
+
 
 class arith_gp(object):
         
@@ -6,6 +12,22 @@ class arith_gp(object):
         self.N = N
         self._get_P1List = get_P1List(None,N)
         self._cusp_reduction_table,self._cusp_set = cusp_reduction_table(self._get_P1List)
+        self.P = self._get_P1List
+        if hasattr(self.P.N(),'number_field'):
+            self.K = self.P.N().number_field()
+        else:
+            self.K = QQ
+
+        ## HARD CODING SL2(Z) FOR NOW SINCE THIS IS ALREADY IN SAGE
+        self.level_1_gp = Gamma0(1) ## Insert your favourite group here
+        self.level_1_word_problem = self.level_1_gp.farey_symbol()
+        self.level_1_gens = self.level_1_word_problem.generators() ## WARNING!!! FAREY_SYMBOL USES DIFFERENT GENS TO GP.gens()!!!!
+       
+        
+    ##=================================================
+    ## BASIC FUNCTIONALITY
+    def __repr__(self):
+        return 'Class for working with arithmetic group with index {}'.format(self.get_P1List())
 
     def get_P1List(self):
         return self._get_P1List
@@ -15,6 +37,187 @@ class arith_gp(object):
 
     def cusp_set(self):
         return self._cusp_set
+
+
+    ##=================================================
+    ## COMPUTE GENS OF SUBGROUP
+
+    @cached_method
+    def coset_reps(self):
+        """
+        Compute generators of the subgroup Gamma_0(N), where N is the specified level.
+    
+        Write down representatives of the cosets
+        for Gamma_0(N) in Gamma(1), which we identify with P^1(O_F/N). We already have
+        code to compute with this: namely, cusp_reduction_table does precisely this.
+        """
+        ## Retrieve the cusp reduction table. Recall that this is a dictionary with keys
+        ## given by tuples (a,c) representing the element (a:c) in P^1(O_F/N). The entries
+        ## are C, A, where c is the corresponding cusp (from cusp_set) and A is a matrix 
+        ## taking C to a matrix with bottom row (a:c). In particular: 
+        crt = self.cusp_reduction_table()
+
+        ## Generate the coset representatives: this is given by taking A*C as we range 
+        ## over all (A,C) in the values of cusp_reduction_table
+        coset_reps = {}
+        for key in crt.keys():
+            coset_reps[key] = crt[key][0] * crt[key][1]
+
+        ## coset_reps is now a dictionary: keys are elements of P^1(O_F/N), and values are
+        ## matrices which are coset reps for Gamma_0(N) in Gamma(1) cor. to these elements
+
+        return coset_reps
+
+    
+    def represent_in_coset(self,g):
+        """
+        g is an element of Gamma(1). Represent it as h.p, where h in Gamma_0 and p is a rep.
+        """
+        ## We can read off the class from the bottom row, computing in P(O_F/N)
+        c,d = g[1]
+        if self.K == QQ:
+            coset_class = self.P.normalize(c,d)
+        else:
+            coset_class = self.P.normalize(c,d).tuple()
+        representative = self.coset_reps()[coset_class]
+        h = g*representative^(-1)
+        
+        ## Now check that h really is in Gamma_0(N)
+        if self.K == QQ:
+            assert h[1][0] in ZZ.ideal(self.P.N())
+        else:
+            assert h[1][0] in self.P.N()
+        
+        return (h,representative)
+
+    @cached_method
+    def compute_generators(self):
+        """
+        Compute generators for Gamma_0(N) via its right coset representatives in Gamma(1).
+
+        Returns:
+            - small_gens_matrices, a dictionary: the keys are matrices A, 
+                which are generators of the small group, and the values are integers;
+
+            - small_gens_words, a list: the D[A]-th entry is the matrix A written 
+                as a word in the generators of Gamma(1). 
+
+        The words are written in Tietze form, i.e. [1,2,1,-2,-1,2] corr. to 
+        g * h * g * h^(-1) * g^(-1) * h, where g,h = (ordered) gens of Gamma(1).
+
+        """
+        big_gp_gens = tuple(self.level_1_gens) + tuple([~g for g in self.level_1_gens]) 
+        small_gens_matrices_dict = {} ## This will contain the output: matrix form, dictionary with keys the matrices
+        small_gens_matrices = [] ## list of the matrices in order
+        small_gens_words = [] ## This will contain the output: word form. 
+        current_index = 0
+
+        ## Loop over all gens of big group
+        for g in big_gp_gens:
+            ## Loop over all coset reps
+            for key in self.coset_reps().keys():
+                p = self.coset_reps()[key]
+                ## compute p*g, represent as h * p_prime for h in subgroup
+                product = p*g
+                (h,p_prime) = self.represent_in_coset(product)
+                h = self.level_1_gp(h)
+                if not h.is_one():
+                    ## check h is not 1
+                    if not h in small_gens_matrices_dict: ## HACK: check we're not repeating gens (maybe better to kill this)
+                        if not h^(-1) in small_gens_matrices_dict:
+                        
+                            ## This is new. Add h to the dictionary and add one to the index for next time
+                            small_gens_matrices_dict[h] = current_index
+                            current_index += 1
+                    
+                            ## also add h to the list of matrices
+                            small_gens_matrices.append(h)
+
+                            ##============================ [ REPLACE ORACLE ]================================
+                            ## HACK! WE'RE ONLY DOING GAMMA0(1) in SL2(Z)
+                            ## Now solve the word problem
+                            word = self.level_1_word_problem.word_problem(h)
+                            small_gens_words.append(word)
+                    
+        return small_gens_matrices_dict, small_gens_matrices, small_gens_words
+        
+
+    def level_N_word_problem(self,h):
+        """
+        Solve the word problem in the small group Gamma_0(N) in the list of generators output 
+        by compute_generators.
+
+        Firstly, we write this as h = 1.h. Then we write h = gh', where g in Gens(G) (so we must be
+        able to solve the word problem for G). Then write 1.g = zp', so that
+            h = z.p'h'. Now iterate. We will end up with z_1 z_2 ... z_t p_0, where p_0 = id rep.
+
+        Outputs a list of ints in {-t,-t+1,...,t-1,t}, where the output of compute_generators is
+        [a_1,...,a_t].
+
+        EXAMPLE:
+           h = abc in H, a,b,c in Gens(G)
+           h = 1.abc
+             = 1ap^(-1) . pbc
+             = 1ap^(-1) . pbq^(-1) . qc
+             = 1ap^(-1) . pbq^(-1) . qc1^(-1)
+             = z1 . z2 . z3, where each zi is in the generating set.
+        """
+        ## Maybe write check to make sure h is in the right group?
+        h = self.level_1_gp(h)
+ 
+        ## compute the generators of H
+        gens_dict, gens_matrices, gens_words = self.compute_generators()
+        gens_G = self.level_1_gens ## gens of G
+
+        ## Initialise final output
+        h_level_N_wp = []
+
+        ## Write h in the generators of g
+        h_level_1_wp = self.level_1_word_problem.word_problem(h)
+    
+        ## We start with p_0 = id representative
+        current_p = matrix([[1,0],[0,1]])
+
+        ## loop through every generator that appears in the word of h (in G)
+        for gen_ind in h_level_1_wp:
+
+            ## Compute the generator we're processing
+            current_gen = gens_G[ZZ(gen_ind).abs()-1]**ZZ(gen_ind).sign()
+           
+            ## Compute the generator and update p_i to p_{i+1}
+            (h_current, current_p) = self.represent_in_coset(current_p * current_gen)
+            h_current = self.level_1_gp(h_current)
+
+            ## h_current should be one of our generators! As it is of form p'gp^(-1)
+            if not h_current.is_one(): ## check not identity
+                if not h_current in gens_dict:
+                    ## h_current^(-1) should be in the dictionary
+                    assert h_current^(-1) in gens_dict ## sanity check
+                    ## Great, we've found a generator. Let's move on
+                    ## Compute the index corresponding to this generator
+                    gen_number = gens_dict[~h_current]
+    
+                    ## The generator appearing is an inverse. So append negative the index
+                    h_level_N_wp.append(-gen_number-1)
+              
+                else:
+                    assert h_current in gens_dict ## sanity check
+                    ## Great, we've found a generator. Let's move on
+                    ## Compute the index corresponding to this generator
+                    gen_number = gens_dict[h_current]
+
+                    ## The generator appearing is not inverse. So append the index
+                    h_level_N_wp.append(gen_number+1)
+        
+        ## Check that we have actually solved the word problem correctly
+        check_h = matrix([[1,0],[0,1]])
+        for i in h_level_N_wp:
+            check_h *= gens_matrices[ZZ(i).abs() - 1]**(ZZ(i).sign())
+        assert check_h == h
+            
+        return h_level_N_wp
+
+
        
     def find_matrix_from_cusp(self, cusp = None, a=1,c=0):
         r'''
@@ -109,7 +312,6 @@ class arith_gp(object):
         return cusp_gens
 
 
-
 def get_P1List(self, N=None):
     """
     Generates the projective line of O_F/N, where N is an ideal specified   
@@ -146,6 +348,8 @@ def cusp_reduction_table(P):
 		    remove this translate from the set of remaining elements;
 	    - store the matrix T in the stabiliser such that C' * T = C (as elements in P^1)
 		    in the dictionary, with key C'.
+
+    (The normalisation here might be wrong)
     '''
     if hasattr(P.N(),'number_field'):
         K = P.N().number_field()
@@ -188,8 +392,9 @@ def cusp_reduction_table(P):
             h = K(hh) ## put into the number field
             ## Run over all finite order units in the number field
             for u in units:
-                ## Now have the matrix (u,h; 0,u^-1).
-                ## Compute the action of this matrix on c
+                ## Now have the matrix T = (u,h; 0,u^-1).
+                ## Compute the action of this matrix on c.
+                ## lift c = (c,d) to A' = (a,b;c,d), compute action of A'*T, normalise bottom row in P(O_F/N)
                 new_c = P.normalize(u * c[0], u**-1 * c[1] + h * c[0])
                 if K != QQ: 
                     new_c = new_c.tuple()
@@ -230,10 +435,20 @@ def xgcd_F(a,c):
 
 
     
+
+#for k in crt.keys():
+#     print 'k = \n{}'.format(k)
+#     print 'cusp = \n{}'.format(crt[k][0])
+#     print 'matrix = \n{}'.format(crt[k][1])
+#     print 'product c*m =\n{}'.format(crt[k][0]*crt[k][1])
+#     print '======================'
+
     
 
 X = var('X')
 K.<a> = NumberField(X^2+1)
 N = K.primes_above(13)[0]
-G = arith_gp(N)
-H = arith_gp(5)
+#G = arith_gp(N)
+G = arith_gp(5)
+H = arith_gp(N)
+h = G.level_1_gp(matrix([[6,1],[5,1]]))
