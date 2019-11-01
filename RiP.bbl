@@ -1,11 +1,17 @@
-\begin{thebibliography}{BSW17}
+\begin{thebibliography}{BSW19}
 
-\bibitem[BSW17]{BW17}
+\bibitem[BSW18]{BW18}
 Daniel Barrera~Salazar and Chris Williams.
-\newblock Exceptional zeros and $\mathcal{L}$-invariants of {B}ianchi modular
+\newblock Families of {B}ianchi modular symbols: critical base-change $p$-adic
+  {$L$}-functions and $p$-adic {A}rtin formalism.
+\newblock 2018.
+\newblock Submitted.
+
+\bibitem[BSW19]{BW17}
+Daniel Barrera~Salazar and Chris Williams.
+\newblock Exceptional zeros and {$\mathcal{L}$}-invariants of {B}ianchi modular
   forms.
-\newblock {\em Trans. Amer. Math. Soc.}, 2017.
-\newblock To appear.
+\newblock {\em Trans. Amer. Math. Soc.}, 372(1):1--34, 2019.
 
 \bibitem[Har87]{Har87}
 G{\"u}nter Harder.

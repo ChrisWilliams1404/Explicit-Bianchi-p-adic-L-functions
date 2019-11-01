@@ -6,18 +6,18 @@
 \BOOKMARK [2][-]{subsection.2.2}{Overconvergent modular symbols}{section.2}% 6
 \BOOKMARK [2][-]{subsection.2.3}{The p-adic L-function of a Bianchi modular form}{section.2}% 7
 \BOOKMARK [1][-]{section.3}{Computing p-adic L-series from modular symbols}{}% 8
-\BOOKMARK [2][-]{subsection.3.1}{Recap of the classical theory}{section.3}% 9
-\BOOKMARK [2][-]{subsection.3.2}{The Bianchi case}{section.3}% 10
-\BOOKMARK [2][-]{subsection.3.3}{Obtaining power series from the moments of mu}{section.3}% 11
-\BOOKMARK [2][-]{subsection.3.4}{Twists}{section.3}% 12
-\BOOKMARK [1][-]{section.4}{Rephrasing via arithmetic cohomology}{}% 13
-\BOOKMARK [2][-]{subsection.4.1}{Definition and basic properties}{section.4}% 14
-\BOOKMARK [2][-]{subsection.4.2}{Computing p-adic L-series from cohomology}{section.4}% 15
-\BOOKMARK [2][-]{subsection.4.3}{Explicit inversion of }{section.4}% 16
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Motivation}{subsection.4.3}% 17
-\BOOKMARK [3][-]{subsubsection.4.3.2}{Algorithm for inverting }{subsection.4.3}% 18
-\BOOKMARK [3][-]{subsubsection.4.3.3}{The rational setting}{subsection.4.3}% 19
-\BOOKMARK [3][-]{subsubsection.4.3.4}{The Bianchi case}{subsection.4.3}% 20
+\BOOKMARK [2][-]{subsection.3.1}{Distributions on Zp}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.2}{Passing to p-adic L-series}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.3}{The Bianchi case}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.4}{Obtaining power series from the moments of mu}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.5}{Twists}{section.3}% 13
+\BOOKMARK [1][-]{section.4}{Rephrasing via arithmetic cohomology}{}% 14
+\BOOKMARK [2][-]{subsection.4.1}{Definition and basic properties}{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.2}{Computing p-adic L-series from cohomology}{section.4}% 16
+\BOOKMARK [2][-]{subsection.4.3}{Explicit inversion of }{section.4}% 17
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Motivation}{subsection.4.3}% 18
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Algorithm for inverting }{subsection.4.3}% 19
+\BOOKMARK [3][-]{subsubsection.4.3.3}{Remark: an alternative formula using Up}{subsection.4.3}% 20
 \BOOKMARK [1][-]{section.5}{The algorithms}{}% 21
 \BOOKMARK [2][-]{subsection.5.1}{Computing with distributions}{section.5}% 22
 \BOOKMARK [3][-]{subsubsection.5.1.1}{Computing the action of S0\(p\)2 on distributions}{subsection.5.1}% 23

@@ -1,0 +1,262 @@
+\documentclass[a4paper,11pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       FRONT MATTER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Explicit Bianchi $p$-adic $L$-functions and pseudo-nullity conjectures for fine Selmer groups}
+\author{Marc Masdeu, Bharathwaj Palvannan and Chris Williams}
+\date{}
+\pagestyle{headings}
+
+
+\usepackage{enumitem}
+
+
+\let\OLDthebibliography\thebibliography
+\renewcommand\thebibliography[1]{
+\OLDthebibliography{#1}
+\setlength{\parskip}{0pt}
+\setlength{\itemsep}{0pt plus 0.3ex}
+}
+
+
+% Line spacing: 1 is normal
+%\renewcommand{\baselinestretch}{1.1}
+
+
+%Preamble
+\usepackage[lmargin=1in, rmargin=1in, tmargin=1.3in, bmargin=1.3in]{geometry}
+\usepackage{preamble}
+%\ProvidesPackage{preamble-ams}
+%\usepackage{preamble-ams}
+\usepackage{xypic}
+
+\usepackage{etoolbox}
+\newtoggle{notes}
+\toggletrue{notes}
+%\togglefalse{notes} 
+\usepackage{comment}
+\usepackage{verbatim}
+\iftoggle{notes}{
+%% INCLUDE NOTES
+
+\newcommand{\CWnote}[1]{
+ \begin{color}{red}
+ \marginpar{$\spadesuit$} #1
+  --- Chris
+ \end{color}
+}
+\newcommand{\thoughts}[1]{
+#1
+}
+}{
+
+
+\newcommand{\CWnote}[1]{
+
+}
+\newcommand{\thoughts}[1]{
+}
+}
+
+
+\usepackage{fancyhdr}
+
+%Heading Title
+\lhead{\emph{Explicit inversion of $\delta$ via $U_p$}}
+\rhead{\emph{Masdeu, Palvannan \& Williams}}
+
+
+\newcommand{\lb}{\\[8pt]}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%                                                                MACROS
+% 
+%                          (To make sure we agree the same notation everywhere and can change it easily)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\fl}{\mathfrak{l}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\q}{\mathfrak{q}}
+\newcommand{\pibar}{\overline{\pi}}
+
+\newcommand{\unitsize}{\#\roi_K^\times}
+\newcommand{\roihat}{\widehat{\roi}}
+\newcommand{\FQ}{_{K/\Q}}
+
+
+
+\newcommand{\Tbc}{T_{\mathrm{bc}}}
+
+
+%Rigid spaces
+\newcommand{\W}{\mathcal{W}}
+\newcommand{\Wfull}{\mathscr{W}}
+
+\newcommand{\WW}{\mathcal{W}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\CC}{\mathcal{C}}
+
+\newcommand{\cyc}{{\mathrm{cyc}}}
+
+\newcommand{\Dz}{\mathcal{D}^0}
+\newcommand{\Dl}{\mathscr{D}^0}
+\newcommand{\Dla}{\mathcal{D}}
+\newcommand{\DD}{\mathscr{D}}
+\newcommand{\VV}{\mathscr{V}}
+
+\newcommand{\rigidA}{\mathcal{A}^0}
+\newcommand{\laA}{\mathcal{A}}
+
+%Cohomology
+\newcommand{\hc}{\h^1_{\mathrm{c}}}
+\newcommand{\ssh}{^{\leq h}}
+\newcommand{\Y}{Y_1(\n)}
+
+%Localisations
+\newcommand{\locx}{_{\m_x}}
+\newcommand{\locl}{_{\m_\lambda}}
+
+
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Sp}{Sp}
+\DeclareMathOperator{\Gal}{Gal}
+
+\newcommand{\mel}{\mathrm{Mel}}
+
+
+\newcommand{\Epar}{\E_{\mathrm{par}}}
+\newcommand{\Ref}{\mathrm{ref}}
+\newcommand{\bc}{\mathrm{bc}}
+
+  \DeclareFontFamily{U}{wncy}{}
+    \DeclareFontShape{U}{wncy}{m}{n}{<->wncyr10}{}
+    \DeclareSymbolFont{mcy}{U}{wncy}{m}{n}
+\DeclareMathSymbol{\Sha}{\mathord}{mcy}{"58}
+
+\numberwithin{equation}{section}
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%                   TITLE AND ABSTRACT
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\maketitle
+
+
+
+\section{The rational setting}
+Throughout this subsection we take $\Gamma_0(Np) \subset \mathrm{SL}_2(\Z)$, with $N$ square-free prime to $p$, and work with a rational overconvergent eigensymbol $\Phi \in \Symb_{\Gamma_0(Np)}(\D)$. The $\Gamma_0(Np)$ orbit of $\infty$ is precisely the set of rationals $b/c$, where $b$ and $c$ are coprime and $Np|c$. We wish, then, to compute integrals of the form
+\[
+ \int_{a+p\Zp}z^j d\Phi\{0\rightarrow\infty\} = \Phi\{0\rightarrow\infty\}(z^j\mathbf{1}_{a+p\Zp}(z)),
+\]
+for $a \in \{1,...,p-1\}$ and $j \geq 0$, in terms of the distributions $\Phi\{b/Np\rightarrow\infty\}$ (for $b$ prime to $Np$).
+
+\begin{proposition} Let $a_p$ denote the $U_p$-eigenvalue of $\Phi$.
+\begin{itemize}
+\item[(i)] Suppose $N = 1$. Then
+\[
+\Phi\{0\rightarrow\infty\}(z^j \mathbf{1}_{a+p\Zp}(z)) = a_p^{-1}\Phi\{a/p \rightarrow \infty\}\bigg((a+pz)^j\bigg).
+\]
+\item[(ii)] Suppose $N = q$ is prime. Let $d_q$ denote the order of $q$ in $(\Z/p\Z)^\times$, and write $a_q$ for the $U_q$-eigenvalue of $\Phi$. Then we have
+\begin{align*}
+\big(a_q -a_q^{1-d_q}&q^{d_qj}\big)\Phi\{0\rightarrow\infty\}(z^j \mathbf{1}_{a+p\Zp}(z)) =
+\\
+& a_p^{-1} \sum_{m = 0}^{d_q-1} a_q^{-m}q^{jm}%\lambda_1^{-m_1}q_1^{m_1j}\cdots \lambda_r^{-m_r}q_r^{m_rj} 
+\sum_{\substack{\beta \in (\Z/Np\Z)^\times\\ \beta \equiv a/q^m\newmod{p}}} \Phi\{\beta/qp\rightarrow \infty\}\big((\beta + qpz)^j\big).
+\end{align*}
+
+\item[(iii)]Let $N = q_1\cdots q_r$, with each $q_i$ prime. For $1\leq i \leq r$, let $d_i$ denote the order of $q_i$ in $(\Z/p\Z)^\times$, and let $a_i$ denote the $U_{q_i}$-eigenvalue of $\Phi$. Then we have 
+\begin{align*}
+	\bigg[\prod_{i=1}^r\big(&a_i -a_i^{1-d_i}q_i^{d_ij}\big)\bigg]\Phi\{0\rightarrow\infty\}(z^j \mathbf{1}_{a+p\Zp}(z)) =
+\\
+&a_p^{-1} \sum_{m_1 = 0}^{d_1-1} \cdots \sum_{m_r = 1}^{d_r - 1} \bigg(\bigg[\prod_{i=1}^ra_i^{-m_i}q_i^{jm_i}\bigg]%\lambda_1^{-m_1}q_1^{m_1j}\cdots \lambda_r^{-m_r}q_r^{m_rj} 
+\sum_{\substack{\beta \in (\Z/Np\Z)^\times\\ \beta \equiv a/\prod_iq_i^{m_i} \\\newmod{p}}} \Phi\{\beta/Np\rightarrow \infty\}\big((\beta + Npz)^j\big)\bigg).
+\end{align*}
+\end{itemize}
+\end{proposition}
+
+\begin{remark}
+Before giving the proof, we note that if $j = 0$ and there is some $i$ such that $a_{i} = 1$ or $a_{i} = -1$ and $d_i$ is even, then the multiplying factor on the left-hand side of (iii) is zero. In any other case, we can simply divide through by this factor to obtain the required value. This leads us to the rather odd situation where we can compute all of the higher moments, but \emph{not} the zeroth moments; in other words, we can compute all of the `overconvergence', but not the original classical symbol. In certain cases, for example for the elliptic curve of conductor 55, none of the above exceptional cases occur and we can compute complete information.
+\end{remark}
+
+\begin{proof}
+To prove (i), apply $a_p^{-1}U_p$, and note that 
+\[
+ \Phi\{b/p \rightarrow \infty\}((b+pz)^j\mathbf{1}_{a+p\Zp}(b+pz)) = 0
+\]
+if $b \neq a$. To prove (ii), we pursue a similar strategy. A single application of $U_q$ gives
+\begin{align*}
+ a_q\Phi\{0\rightarrow\infty\}(z^j\mathbf{1}(z)) = q^j&\Phi\{0\rightarrow\infty\}(z^j\mathbf{1}_{a+p\Zp}(qz)) \\
+&+ \sum_{b = 1}^{q-1}\Phi\{b/q \rightarrow \infty\}\big((b+qz)^j\mathbf{1}_{a+p\Zp}(b+qz)\big).
+\end{align*}
+Every term in the sum involves $\Phi\{b/q\rightarrow \infty\}$ with $b$ coprime to $q$, which is moving towards what we ultimately require, and we have another $\Phi\{0\rightarrow\infty\}$ term that is very similar to the left-hand side. Now applying $a_q^{-1}U_q$ to this $\Phi\{0\rightarrow\infty\}$ term in the right hand side, we obtain 
+\begin{align*}
+ \Phi\{0\rightarrow\infty\}(z^j\mathbf{1}(z)) = a_q^{-1}q^{2j}&\Phi\{0\rightarrow\infty\}(z^j\mathbf{1}_{a+p\Zp}(q^2z)) \\
+&+ a_q^{-1}q^j\sum_{b = 1}^{q-1}\Phi\{b/q \rightarrow \infty\}\big((b+qz)^j\mathbf{1}_{a+p\Zp}(q(b+qz))\big)\\
+&+ \sum_{b = 1}^{q-1}\Phi\{b/q \rightarrow \infty\}\big((b+qz)^j\mathbf{1}_{a+p\Zp}(b+qz)\big).
+\end{align*}
+Continuing in this vein, after $d_q$ iterations we are left with a series of sums including $\Phi\{b/q\rightarrow\infty\}$, with $b$ coprime to $q$, and the term
+\[
+ a_q^{1-d_q}q^{d_qj}\Phi\{0\rightarrow\infty\}(z^j\mathbf{1}_{a+p\Zp}(q^{d_q}z)) = 
+ a_q^{1-d_q}q^{d_qj}\Phi\{0\rightarrow\infty\}(z^j\mathbf{1}_{a+p\Zp}(z)).
+\]
+We can bring this over to the left-hand side and factor out the resulting factor of $(a_q - a_q^{1-d_q}q^{d_q})$ to obtain 
+\begin{align}\label{eqn:almost there}
+\Phi\{0\rightarrow\infty\}(z^j &\mathbf{1}_{a+p\Zp}(z)) =
+\big(a_q -a_q^{1-d_q}q^{d_qj}\big)^{-1}\\\
+&\times \sum_{m = 0}^{d_q-1} a_q^{-m}q^{jm}
+\sum_{b=1}^\infty \Phi\{b/q\rightarrow \infty\}\big((b + qz)^j\mathbf{1}_{a+p\Zp}(q^{m}(b+qz))\big).
+\end{align}
+Now apply $a_p^{-1}U_p$. For each individual summand $\Phi\{b/q \rightarrow \infty\}((b+qz)^j\mathbf{1}_{a+p\Zp}(q^{m}(b+qz))$ in (\ref{eqn:almost there}), there is a unique $c_{b,m} \newmod{p}$ such that 
+\[
+ q^m(b + q(c_{b,m}+pz) \equiv a \newmod{p},
+\]
+namely, $c_{b,m} \equiv q^{-1}(a/q^m - b) \newmod{p}.$ On this summand, only the $c_{b,m}$ term of the $U_p$ operator survives, yielding the new summand
+\[
+ \Phi\left\{\frac{b+qc_{b,m}}{pq}\rightarrow\infty\right\}\big((b+qc_{b,m})^j\big)
+\]
+Writing $\beta = b+qc_{b,m}$. It remains to show:
+\begin{claim}
+As $b$ ranges over $\{1,...,q-1\},$ the values $b+qc_{b,m}$ range over elements of $(\Z/pq\Z)^\times$ congruent to $a/q^m \newmod{p}$.
+\end{claim}
+But it is clear that all the $b + qc_{b,m}$ are distinct modulo $q$, and by definition, each is congruent to $a/q^m \newmod{p}$. As both $\{b+qc_{b,m}\}$ and $\{\beta \in (\Z/pq\Z)^\times: \beta \equiv a/q^m \newmod{p}\}$ have $q-1$ members, they must be equal. This gives the claim and completes the proof of (ii).
+
+To prove (iii), we work by induction on the number of primes, repeating exactly the arguments of above.
+\end{proof}
+
+
+\section{The Bianchi case}
+We now return to the Bianchi case, letting $\n\subset \roi_K$ be a squarefree ideal prime to $(p)$, and $\Phi \in \Symb_{\Gamma_0(\n)}(\D_2)$ an overconvergent Bianchi eigensymbol. For each prime $\q|p\n$, write $a_{\q}$ for the $U_{\q}$-eigenvalue of $\Phi$, and write $\pi_{\q}$ for a fixed choice of generator of the ideal (recalling we restrict to $K$ of class number 1). Using very much the same techniques as in the rational case, we have the following.
+
+\begin{proposition}
+Write $\n = \q_1\cdots\q_r$ with each $\q_i$ prime. For $1 \leq i \leq r$, let $d_{i}$ denote the order of $\pi_{\q}$ in $(\roi_K/p\roi_K)^\times$. Also write $\pi_{\n} \defeq \pi_{\q_1}\cdots\pi_{\q_r}$, a generator of $\n$. Then 
+\begin{align*}
+	\bigg[\prod_{i=1}^r\big(a_{\q_i} - &a_{\q_i}^{1-d_i}\pi_{\q_i}^{d_ij}\pibar_{\q_i}^{d_ik}\big)\bigg]\Phi\{0\rightarrow\infty\}(x^jy^k \mathbf{1}_{a+p\Zp \times b+p\Zp}(x,y)) =
+\\
+&a_{(p)}^{-1} \sum_{m_1 = 0}^{d_1-1} \cdots \sum_{m_r = 1}^{d_r - 1} \bigg(\bigg[\prod_{i=1}^ra_{\q_i}^{-m_i}\pi_{\q_i}^{jm_i}\pibar_{\q_i}^{km_i}\bigg]\\%\lambda_1^{-m_1}q_1^{m_1j}\cdots \lambda_r^{-m_r}q_r^{m_rj} 
+&\hspace{20pt}\times\sum_{\substack{\beta \in (\roi_K/p\n\roi_K)^\times\\ \beta \equiv a/\prod_i\pi_{\q_i}^{m_i} \newmod{\pri}\\
+\overline{\beta} \equiv b/\prod_i\pibar_{\q_i}^{m_i} \newmod{\pribar}}} \Phi\{\beta/p\pi_{\n}\rightarrow \infty\}\big((\beta + p\pi_{\n}x)^j(\overline{\beta} + p\pibar_{\n})^k\big)\bigg).
+\end{align*}
+
+\end{proposition}
+
+
+
+\footnotesize
+\renewcommand{\refname}{\normalsize References} 
+\bibliography{references}{}
+\bibliographystyle{alpha}
+
+\Addresses
+
+\end{document}
+

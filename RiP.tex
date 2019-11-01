@@ -1,17 +1,13 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,11pt]{article}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %       FRONT MATTER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Explicit Bianchi $p$-adic $L$-functions and pseudo-nullity conjectures for fine Selmer groups}
+\title{Computing Bianchi $p$-adic $L$-functions and applications in Iwasawa theory}
 \author{Marc Masdeu, Bharathwaj Palvannan and Chris Williams}
 \date{}
 \pagestyle{headings}
-
-
-
-
 
 
 \usepackage{enumitem}
@@ -25,8 +21,12 @@
 }
 
 
+% Line spacing: 1 is normal
+%\renewcommand{\baselinestretch}{1.1}
+
+
 %Preamble
-\usepackage[margin=1.1in]{geometry}
+\usepackage[lmargin=1in, rmargin=1in, tmargin=1.3in, bmargin=1.3in]{geometry}
 \usepackage{preamble}
 %\ProvidesPackage{preamble-ams}
 %\usepackage{preamble-ams}
@@ -64,7 +64,7 @@
 \usepackage{fancyhdr}
 
 %Heading Title
-\lhead{\emph{Explicit Bianchi $p$-adic $L$-functions \& pseudo-nullity}}
+\lhead{\emph{Explicit Bianchi $p$-adic $L$-functions}}
 \rhead{\emph{Masdeu, Palvannan \& Williams}}
 
 
@@ -159,9 +159,10 @@ Things we need to add:
     \item Sketch of sharp/flat construction
     \item description of how to get the classical class/citation of Marc's papers
     \item More detail on the pseudo-nullity conjecture
-    \item snake lemma trick motivation
     \item description of resultant calculations to show coprimality
     \item Evidence!!!
+    \item Fox derivatives and Fox gradients (RH Fox, free differential calculus)
+    \item Tietze algorithm
 \end{enumerate}
 \section{Introduction}
 
@@ -202,7 +203,7 @@ To $E/\Q$, one can attach a classical modular form $f$ under modularity, and thr
 We actually use a modified version of the construction of \cite{Wil17}. Existing code is much more developed for computations with arithmetic group cohomology, rather than modular symbols, so we develop a cohomological version of the construction. This approach, however, introduces new theoretical complications, which we explain and treat in the main text. In particular, it requires explicitly inverting the natural map from modular symbols to group cohomology.
 
 \subsection*{Acknowledgements}
- This research was supported through the programme "Research in Pairs" by the Mathematisches Forschungsinstitut Oberwolfach in 2018. We are grateful to the MFO for providing such a stimulating place to do research. 
+This research was supported through the programme "Research in Pairs" by the Mathematisches Forschungsinstitut Oberwolfach in 2018. The MFO also supported this project by enabling MM and CW to visit BP whilst he was there in 2019 as a Leibniz fellow. We are grateful to the MFO for (twice!) providing such a stimulating place to do research.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -276,7 +277,7 @@ Now let $\f \in S_2^K(\Gamma)$ be an eigenform, and let $\phi_{\f} \in \symb_\Ga
 %     Ovcvgt modular symbols
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Overconvergent modular symbols}
-We briefly recap the main ideas in the construction of \cite{Wil17}. Overconvergent modular symbols provide a $p$-adic interpolation of the space of `classical' modular symbols. For such an interpolation to exist, it is crucial to pass to a level subgroup $\Gamma \subset \Gamma_0(p\cO_F).$ If $(p)|\n$, then $\Gamma_0(\n) \subset \Gamma_0(p\cO_F)$ already; if not, then it is necessary to `$p$-stabilise' to ensure this condition holds (see \cite[\S2.4]{BW18}). We now assume $\Gamma \subset \Gamma_0(p\cO_F)$ without further comment.
+We briefly recap the main ideas in the construction of \cite{Wil17}. Overconvergent modular symbols provide a $p$-adic interpolation of the space of `classical' modular symbols. For such an interpolation to exist, it is crucial to pass to a level subgroup $\Gamma \subset \Gamma_0(p\cO_F).$ If $(p)|\n$, then $\Gamma_0(\n) \subset \Gamma_0(p\cO_F)$ already; if not, then it is necessary to `$p$-stabilise' to ensure this condition holds (see for example \cite[\S2.4]{BW18}). We now assume $\Gamma \subset \Gamma_0(p\cO_F)$ without further comment.
 
 We pass to an (infinite-dimensional) coefficient module; namely, let $L/\Qp$ be a finite extension, let $\A_2(L)$ denote the space of convergent power series on $\Zp^2$, and let
 \[
@@ -331,19 +332,53 @@ Writing $h_{\pri} = v_{\pri}(\alpha_{\pri})$, the distribution $L_p(\f,*)$ is $(
 In this section, we show how to compute the $p$-adic $L$-series of a Bianchi modular form from its $p$-adic $L$-function (as a distribution on $\cl_K(p^\infty)$). Since we are working in the case where $p$ is split, this essentially just the product of two copies of the theory for classical modular forms, as found in \cite[\S9]{PS11}, and which we first briefly recall.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Recap of the classical theory}
+\subsection{Distributions on $\Zp^\times$}
 
-For simplicity, we assume that $p \geq 3$, though the case $p = 2$ can be obtained with very little (and completely standard) modification. Let $\Phi \in \Symb_\Gamma(\D)$ be an overconvergent cohomology class for $\GLt/\Q$. We have a decomposition $\Zp^\times = (\Z/p\Z)^\times \times (1+p\Zp)$, and we denote projection to the first and second factors by $z \mapsto \{z\}$ and $z \mapsto \langle z\rangle$ respectively. 
-
-We can identify distributions $\mu$ on $\Zp^\times$ with analytic functions on \emph{weight space} $\W = \mathrm{Hom}_{\mathrm{cts}}(\Zp^\times, \C_p^\times)$, which -- as a rigid space -- is $p-1$ copies of the open unit disc. Given an element $\phi$ in weight space, we can write $\phi$ as $\{\phi\}\langle\phi\rangle$, where $\{\phi\}$ is a homomorphism $(\Z/p\Z)^\times \rightarrow \Cp^\times,$ and the disc in $\W$ in which $\phi$ lives is completely determined by $\{\phi\}$. To $\mu = \Phi\{0\rightarrow\infty\}|_{\Zp^\times}$, then, we attach a collection of $p-1$ analytic functions on the open unit disc, one for each character of $(\Z/p\Z)^\times$. Each of these functions has a power series representation, which is what we compute.
-
-Now fix a character $\psi$ on $(\Z/p\Z)^\times$, corresponding to some fixed disc in $\W$. Let $T$ be a parameter on this open unit disc.  The part of the (analytic) function attached to $\mu$ defined over this disc is defined as
+For simplicity, we assume that $p \geq 3$, though the case $p = 2$ can be obtained with very little (and completely standard) modification. The $p$-adic $L$-function is naturally a distribution on the Galois group $\mathrm{Gal}_p \defeq \mathrm{Gal}(\Q^{\mathrm{ab},p\infty}/\Q)$ of the maximal abelian extension of $\Q$ unramified outside $p\infty$. By class field theory, this is isomorphic to the narrow ray class group 
 \[
-	L_p(\mu, \psi, T) \defeq \int_{\Zp^\times} \psi(z)(T+1)^{\log_{\gamma}(\langle z\rangle)} d\mu(z),
+	\cl_{\Q}^+(p^\infty) = \Q^\times\backslash \A^\times/\R_{>0}\widehat{\Z}^{\times,(p)} \cong \Zp^\times.
 \]
- where $\gamma=p+1$. (Of course, for $z \in 1 + p\Zp$, we have $\log_\gamma(z) = \log_p(z) / \log_p(\gamma)$). Writing $z = \{z\}\langle z\rangle$ and expanding the log, we obtain the power series representation $L_p(\mu,\psi,T) = \sum_{n\geq 0} d_n(\psi)T^n$, where $d_n(\psi)$ is defined as
+Let now $f$ be a small slope classical eigenform (for $\GLt/\Q$), and $\Phi_f \in \Symb_\Gamma(\D)$ the unique overconvergent modular symbol attached to $f$. Then $\Phi_f\{0 \to \infty\} \in \D$ is by definition a distribution on $\Zp$, and we obtain a distribution $\mu_f$ on $\Zp^\times$ by restriction. This distribution is, by \cite{PS11}, the $p$-adic $L$-function attached to $f$, and is entirely encoded in its moments $\{\mu_f(z^j) : j \geq 0\}$. We have a simple description of the moments of $\mu_f$ in terms of $\Phi_f$, and thus, in particular, we can compute them by knowing $\Phi_f$.
+
+\begin{proposition}
+	If $\Phi_f$ is the overconvergent modular symbol attached to a small slope classical cuspidal eigenform, then
+	\[
+		\Phi\{0\rightarrow\infty\}(z^j \mathbf{1}_{a+p\Zp}(z)) = a_p^{-1}\Phi\left\{\tfrac{a}{p} \rightarrow \infty\right\}\big((a+pz)^j\big),
+	\]
+     where $a_p$ is the $U_p$-eigenvalue of $f$. In particular, we recover
+     \[
+     	\mu_f(z^j) = a_p^{-1}\sum_{a=1}^{p-1} \Phi\left\{\tfrac{a}{p} \rightarrow \infty\right\}\big((a+pz)^j\big).
+     \]
+\end{proposition}
+\begin{proof}
+Apply $a_p^{-1}U_p$, which acts as 1 on $\Phi_f$, and note that if $a = b$, then
 \[
-  d_n=\sum_{j\geq 0} c_j^{(n)} \sum_{a=0}^{p-1}\psi(a) \int_{a+p\Z_p} \left(\frac{z}{\{a\}}-1\right)^j d\mu(z).
+\Phi\{b/p \rightarrow \infty\}((b+pz)^j\mathbf{1}_{a+p\Zp}(b+pz)) = 0. \qedhere
+\]
+The final statement follows since $\mathbf{1}_{\Zp^\times} = \sum_{a=1}^{p-1}\mathbf{1}_{a+p\Zp}$.
+\end{proof}
+
+\subsection{Passing to $p$-adic $L$-series}
+The distribution $\mu_f$ is completely canonical. Even in higher weight situations, it is canonical up to a fixed choice of periods. For practical purposes, however, to compute $p$-adic $L$-series from $\mu_f$ we wish to break this into $p-1$ pieces via the decomposition 
+\begin{equation}\label{eqn:Zp decomp}
+	\Zp^\times = (\Z/p\Z)^\times \times (1+p\Zp),
+\end{equation}
+ and then (non-canonically) identify each one with a distribution on $\Zp$ (depending on a choice of topological generator for $1+p\Zp$). On the algebraic side, this corresponds to considering the cyclotomic $\Zp$-extension of $\Q$, identifying its Galois group $\mathcal{G}$ with $\Zp$ via the choice of a topological generator, and studying Selmer groups over $\mathcal{G}$.
+
+
+\begin{notation}
+	In \eqref{eqn:Zp decomp}, denote projection to the first and second factors by $z \mapsto \{z\}$ and $z \mapsto \langle z\rangle$ respectively. 
+\end{notation}
+
+We can identify distributions $\mu$ on $\Zp^\times$ with analytic functions on \emph{weight space} $\W = \mathrm{Hom}_{\mathrm{cts}}(\Zp^\times, \C_p^\times)$, which -- as a rigid space -- is $p-1$ copies of the open unit disc. Given an element $\phi$ in weight space, we can write $\phi$ as $\{\phi\}\langle\phi\rangle$, where $\{\phi\}$ is a homomorphism $(\Z/p\Z)^\times \rightarrow \Cp^\times,$ and the disc in $\W$ in which $\phi$ lives is completely determined by $\{\phi\}$. From $\mu_f$ we then obtain $p-1$ analytic functions on the open unit disc, one for each character of $(\Z/p\Z)^\times$. Each has a power series representation, which is what we compute.
+
+Fix now a character $\psi$ on $(\Z/p\Z)^\times$, corresponding to some fixed disc in $\W$. Let $T$ be a parameter on this open unit disc. The part of the (analytic) function attached to $\mu_f$ defined over this disc is defined as
+\[
+	L_p(\mu, \psi, T) \defeq \int_{\Zp^\times} \psi(z)(T+1)^{\log_{\gamma}(\langle z\rangle)} d\mu_f(z),
+\]
+ where $\gamma=p+1$, our fixed choice of topological generator for $1 + p\Zp$. (Of course, for $z \in 1 + p\Zp$, we have $\log_\gamma(z) = \log_p(z) / \log_p(\gamma)$). Writing $z = \{z\}\langle z\rangle$ and expanding the log, we obtain the power series representation $L_p(\mu,\psi,T) = \sum_{n\geq 0} d_n(\psi)T^n$, where $d_n(\psi)$ is defined as
+\[
+  d_n(\psi) =\sum_{a=0}^{p-1}\psi(a)  \int_{a+p\Z_p} \left[\sum_{j\geq 0} c_j^{(n)}\left(\frac{z}{\{a\}}-1\right)^j \right]d\mu(z).
 \]
 Here, $c_j^{(n)}$ is defined by from the equation
 \[
@@ -353,7 +388,11 @@ Note also that for $a$ prime to $p$, we have $\int_{a+p\Zp}h(z) d\mu(z) = \int_{
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Bianchi case}
-Now we turn to the Bianchi case. Let $\Phi$ now be an element of $\Symb_{\Gamma}(\D_2)$. As outlined above, the $p$-adic $L$-function is most naturally a distribution $\mu$ on $\cl_K(p^\infty)$, which -- since we are assuming class number one for simplicity -- we identify with $(\roi_K\otimes_{\Z}\Zp)^\times/\roi_K^\times \cong (\Zp^\times \times \Zp^\times)/\roi_K^\times$. Evaluating $\Phi$ at $\{0\rightarrow\infty\}$, we obtain a distribution on all of $\roi_K\otimes_{\Z} \Zp$, and we pass to the $p$-adic $L$-function by restricting to functions with support on the units that are invariant under the global units. In this sense, we will identify $\mu$ with $\Phi\{0\rightarrow\infty\}$.
+Now we turn to the Bianchi case. Let $f$ be a small slope classical cuspidal Bianchi eigenform, and $\Phi_f \in \Symb_{\Gamma}(\D_2)$ the attached overconvergent modular symbol. As outlined above, the $p$-adic $L$-function of $f$ is most naturally a distribution $\mu$ on 
+\[
+	\mathrm{Gal}(K^{\mathrm{ab},p}/K) \cong \cl_K(p^\infty) \cong (\roi_K\otimes_{\Z}\Zp)^\times/\roi_K^\times,
+\]
+where in the last assertion we are assuming class number one for simplicity. Since $p$ is split, we identify this with $(\Zp^\times \times \Zp^\times)/\roi_K^\times$. Evaluating $\Phi_f$ at $\{0\rightarrow\infty\}$, we obtain a distribution on all of $\Zp^2$, and we pass to the $p$-adic $L$-function by restricting to functions with support on the units that are invariant under the global units. In this sense, we will identify $\mu$ with $\Phi\{0\rightarrow\infty\}$.
 
 One can consider the direct analogue of the weight space above, that is, considering continuous homomorphisms $\Zp^\times \times \Zp^\times \rightarrow \Cp^\times$, and show that this decomposes as the disjoint union of $(p-1)^2$ products of open unit discs, parametrised by characters of $(\roi_K/p)^\times = (\Z/p)^\times \times (\Z/p)^\times$. By directly generalising the approach above, given a measure $\mu$ on $(\roi_K\otimes_{\Z}\Zp)^\times$ and such a character $\psi$, one can define an associated (two-variable) analytic function $L_p(\mu,\psi,T_1,T_2)$ on the corresponding product of open discs. Because the $p$-adic $L$-function actually lives on $\cl_K(p^\infty)$ rather than $(\roi_K\otimes_{\Z}\Zp)^\times$, such a function only has meaning (in relation to $p$-adic $L$-functions) when $\psi$ descends to the quotient $(\roi_K/p)^\times/\roi_K^\times$.
 
@@ -641,8 +680,14 @@ and so $T(f) = f + \epsilon$, where $\epsilon$ is an Eistenstein symbol. In orde
 \end{comment}
 
 
-\subsubsection{The rational setting}
-Throughout this subsection we take $\Gamma_0(Np) \subset \mathrm{SL}_2(\Z)$, with $N$ square-free prime to $p$, and work with a rational overconvergent eigensymbol $\Phi \in \Symb_{\Gamma_0(Np)}(\D)$. The $\Gamma_0(Np)$ orbit of $\infty$ is precisely the set of rationals $b/c$, where $b$ and $c$ are coprime and $Np|c$. We wish, then, to compute integrals of the form
+\subsubsection{Remark: an alternative formula using $U_p$}
+In certain cases, there are even more explicit formula for computing $p$-adic $L$-functions from the knowledge only of $\varphi$ (without inverting $\delta$ to compute the whole modular symbol $\Phi$). 
+
+ though they do not work in all cases. We highlight this only in the rational case for simplicity, though the same ideas go through for Bianchi modular forms too.
+
+Let $\varphi$ be an overconvergent cohomology class 
+
+Let  If for example we consider $\Gamma_0(Np) \subset \mathrm{SL}_2(\Z)$, with $N$ square-free prime to $p$, and work with a rational overconvergent eigensymbol $\Phi \in \Symb_{\Gamma_0(Np)}(\D)$. The $\Gamma_0(Np)$ orbit of $\infty$ is precisely the set of rationals $b/c$, where $b$ and $c$ are coprime and $Np|c$. We wish, then, to compute integrals of the form
 \[
  \int_{a+p\Zp}z^j d\Phi\{0\rightarrow\infty\} = \Phi\{0\rightarrow\infty\}(z^j\mathbf{1}_{a+p\Zp}(z)),
 \]
@@ -721,21 +766,6 @@ But it is clear that all the $b + qc_{b,m}$ are distinct modulo $q$, and by defi
 To prove (iii), we work by induction on the number of primes, repeating exactly the arguments of above.
 \end{proof}
 
-
-\subsubsection{The Bianchi case}
-We now return to the Bianchi case, letting $\n\subset \roi_K$ be a squarefree ideal prime to $(p)$, and $\Phi \in \Symb_{\Gamma_0(\n)}(\D_2)$ an overconvergent Bianchi eigensymbol. For each prime $\q|p\n$, write $a_{\q}$ for the $U_{\q}$-eigenvalue of $\Phi$, and write $\pi_{\q}$ for a fixed choice of generator of the ideal (recalling we restrict to $K$ of class number 1). Using very much the same techniques as in the rational case, we have the following.
-
-\begin{proposition}
-Write $\n = \q_1\cdots\q_r$ with each $\q_i$ prime. For $1 \leq i \leq r$, let $d_{i}$ denote the order of $\pi_{\q}$ in $(\roi_K/p\roi_K)^\times$. Also write $\pi_{\n} \defeq \pi_{\q_1}\cdots\pi_{\q_r}$, a generator of $\n$. Then 
-\begin{align*}
-	\bigg[\prod_{i=1}^r\big(a_{\q_i} - &a_{\q_i}^{1-d_i}\pi_{\q_i}^{d_ij}\pibar_{\q_i}^{d_ik}\big)\bigg]\Phi\{0\rightarrow\infty\}(x^jy^k \mathbf{1}_{a+p\Zp \times b+p\Zp}(x,y)) =
-\\
-&a_{(p)}^{-1} \sum_{m_1 = 0}^{d_1-1} \cdots \sum_{m_r = 1}^{d_r - 1} \bigg(\bigg[\prod_{i=1}^ra_{\q_i}^{-m_i}\pi_{\q_i}^{jm_i}\pibar_{\q_i}^{km_i}\bigg]\\%\lambda_1^{-m_1}q_1^{m_1j}\cdots \lambda_r^{-m_r}q_r^{m_rj} 
-&\hspace{20pt}\times\sum_{\substack{\beta \in (\roi_K/p\n\roi_K)^\times\\ \beta \equiv a/\prod_i\pi_{\q_i}^{m_i} \newmod{\pri}\\
-\overline{\beta} \equiv b/\prod_i\pibar_{\q_i}^{m_i} \newmod{\pribar}}} \Phi\{\beta/p\pi_{\n}\rightarrow \infty\}\big((\beta + p\pi_{\n}x)^j(\overline{\beta} + p\pibar_{\n})^k\big)\bigg).
-\end{align*}
-
-\end{proposition}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
