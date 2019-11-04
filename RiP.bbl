@@ -1,5 +1,12 @@
 \begin{thebibliography}{BSW19}
 
+\bibitem[BS15]{Bar15}
+Daniel Barrera~Salazar.
+\newblock Overconvergent cohomology of {H}ilbert modular varieties and
+  {$p$}-adic {$L$}-functions.
+\newblock {\em Ann. I. Fourier}, 2015.
+\newblock To appear.
+
 \bibitem[BSW18]{BW18}
 Daniel Barrera~Salazar and Chris Williams.
 \newblock Families of {B}ianchi modular symbols: critical base-change $p$-adic
@@ -12,6 +19,12 @@ Daniel Barrera~Salazar and Chris Williams.
 \newblock Exceptional zeros and {$\mathcal{L}$}-invariants of {B}ianchi modular
   forms.
 \newblock {\em Trans. Amer. Math. Soc.}, 372(1):1--34, 2019.
+
+\bibitem[CW94]{CrWh94}
+John Cremona and Elise Whitley.
+\newblock Periods of cusp forms and elliptic curves over imaginary quadratic
+  fields.
+\newblock {\em Math. Comp.}, 62(205):407--429, 1994.
 
 \bibitem[Har87]{Har87}
 G{\"u}nter Harder.
