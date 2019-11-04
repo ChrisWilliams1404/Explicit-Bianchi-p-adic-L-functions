@@ -281,7 +281,8 @@ where $\Gamma$ acts on the cusps by $\smallmatrd{a}{b}{c}{d}\cdot r = (ar+b)/(cr
 
 Now let $\f \in S_2^K(\Gamma)$. To $\f$ one may attach an explicit differential form $\delta_{\f}$ on $\uhs$ as follows: let $(z,t)$ be a co-ordinate on $\uhs$, and note that $dz, d\overline{z}, dt$ span the $\C$-valued 1-forms on $\uhs$. Then define
 \[
-    \delta_{\f} := \f_0(z,t)dz - \f_1(z,t)dt - \f_2(z,t)d\overline{z} \in \Omega^1(\uhs)\]
+    \delta_{\f} := \f_0(z,t)dz - \f_1(z,t)dt - \f_2(z,t)d\overline{z} \in \Omega^1(\uhs)
+\]
 (see e.g.\ \cite{CrWh94}). For $r,s \in \Proj(K),$ the map
 \begin{align*}
     \phi_{\f} : \Delta_0 &\longrightarrow \C,\\
@@ -599,7 +600,8 @@ Let now $c_1, ..., c_t \in \Proj(K)$ be a complete set of representatives for th
 	g_r \cdot r = c_{i(r)}. 
 \]
 Assuming $\varphi \in \ker(\beta)$, let $v_1, ..., v_t \in \D_2$ be the distributions arising from Proposition \ref{prop:stab coboundaries}. We can compute the $v_i$ by computing the action of $g$ as a linear operator on $\D_2$ (up to some precision), and then solving the resulting linear system for a sufficiently large set of elements of the stabiliser\footnote{In practice, this is actually more subtle than it appears: in the linear system, the variables will appear with varying degrees of precision, due to the filtration appearing in the explicit lifting theorem.}.
-	Again motivated by the snake lemma, we consider $\widetilde{\Phi} \in \Hom_\Gamma(\Delta,\D_2) = \h^0(\Gamma,\Hom(\Delta,\D_2))$ defined by setting
+	
+Again motivated by the snake lemma, we consider $\widetilde{\Phi} \in \Hom_\Gamma(\Delta,\D_2) = \h^0(\Gamma,\Hom(\Delta,\D_2))$ defined by setting
 	\begin{align*}
 		\widetilde{\Phi} : \Proj(K) &\longrightarrow \D_2,\\
 				r = g_r^{-1}c_{i(r)} &\longmapsto \varphi(g_r)\big|g_r + v_{i(r)}\big|g_r
