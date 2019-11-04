@@ -18,10 +18,12 @@
 \BOOKMARK [1][-]{section.4}{Rephrasing via arithmetic cohomology}{}% 18
 \BOOKMARK [2][-]{subsection.4.1}{Definition and basic properties}{section.4}% 19
 \BOOKMARK [2][-]{subsection.4.2}{Explicit inversion of }{section.4}% 20
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Remark: an alternative formula using Up}{subsection.4.2}% 21
-\BOOKMARK [1][-]{section.5}{The algorithms}{}% 22
-\BOOKMARK [2][-]{subsection.5.1}{Computing with the classical cohomology}{section.5}% 23
-\BOOKMARK [2][-]{subsection.5.2}{Computing with distributions}{section.5}% 24
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Computing the action of S0\(p\)2 on distributions}{subsection.5.2}% 25
-\BOOKMARK [2][-]{subsection.5.3}{An explicit lifting theorem}{section.5}% 26
-\BOOKMARK [1][-]{section.6}{Data}{}% 27
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Motivation: a snake diagram}{subsection.4.2}% 21
+\BOOKMARK [3][-]{subsubsection.4.2.2}{An explicit formula for inverting }{subsection.4.2}% 22
+\BOOKMARK [3][-]{subsubsection.4.2.3}{Remark: an alternative formula using Up}{subsection.4.2}% 23
+\BOOKMARK [1][-]{section.5}{The algorithms}{}% 24
+\BOOKMARK [2][-]{subsection.5.1}{Computing with the classical cohomology}{section.5}% 25
+\BOOKMARK [2][-]{subsection.5.2}{Computing with distributions}{section.5}% 26
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Computing the action of S0\(p\)2 on distributions}{subsection.5.2}% 27
+\BOOKMARK [2][-]{subsection.5.3}{An explicit lifting theorem}{section.5}% 28
+\BOOKMARK [1][-]{section.6}{Data}{}% 29

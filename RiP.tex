@@ -150,6 +150,18 @@
 \numberwithin{equation}{section}
 \newcommand{\fn}{\mathfrak{n}}
 
+
+
+\titleformat{\subsubsection}[runin]% runin puts it in the same paragraph
+{\normalfont\itshape}% formatting commands to apply to the whole heading
+{\thesubsubsection.}% the label and number
+{0.5em}% space between label/number and subsection title
+{}% formatting commands applied just to subsection title
+[.\hspace*{4pt}]% punctuation or other commands following subsection title
+
+
+
+
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -166,7 +178,7 @@
 
 \section*{To do:}
 
-\begin{enumerate}
+\begin{enumerate}\setlength{\itemsep}{-2pt}
     \item Sketch of sharp/flat construction
     \item description of how to get the classical class/citation of Marc's papers
     \item More detail on the pseudo-nullity conjecture
@@ -281,7 +293,8 @@ where $\Gamma$ acts on the cusps by $\smallmatrd{a}{b}{c}{d}\cdot r = (ar+b)/(cr
 
 Now let $\f \in S_2^K(\Gamma)$. To $\f$ one may attach an explicit differential form $\delta_{\f}$ on $\uhs$ as follows: let $(z,t)$ be a co-ordinate on $\uhs$, and note that $dz, d\overline{z}, dt$ span the $\C$-valued 1-forms on $\uhs$. Then define
 \[
-    \delta_{\f} := \f_0(z,t)dz - \f_1(z,t)dt - \f_2(z,t)d\overline{z} \in \Omega^1(\uhs)\]
+    \delta_{\f} := \f_0(z,t)dz - \f_1(z,t)dt - \f_2(z,t)d\overline{z} \in \Omega^1(\uhs)
+\]
 (see e.g.\ \cite{CrWh94}). For $r,s \in \Proj(K),$ the map
 \begin{align*}
     \phi_{\f} : \Delta_0 &\longrightarrow \C,\\
@@ -444,7 +457,7 @@ Note also that for $a$ prime to $p$, we have $\int_{a+p\Zp}h(z) d\mu(z) = \int_{
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Bianchi case}
-Now we turn to the Bianchi case. Let $f$ be a small slope classical cuspidal Bianchi eigenform, and $\Phi_f \in \Symb_{\Gamma}(\D_2)$ the attached overconvergent modular symbol. As outlined in \S\ref{sec:L-functions}, the $p$-adic $L$-function of $f$ is most naturally a distribution $\mu$ on $\cl_K(p^\infty) \cong (\roi_K\otimes_{\Z}\Zp)^\times/\roi_K^\times,$ where in the last assertion we are assuming class number one for simplicity. Since $p$ is split, we identify this with $(\Zp^\times \times \Zp^\times)/\roi_K^\times$. Evaluating $\Phi_f$ at $\{0\rightarrow\infty\}$, we obtain a distribution on all of $\Zp^2$. Inside $\A_2$ is the subspace of functions with support in $\Zp^\times \times \Zp^\times$ that are invariant under $\roi_K^\times$, and we pass to the $p$-adic $L$-function $\mu_f$ by restricting $\Phi_f\{0\to\infty\}$ to this subspace.
+Now we turn to the Bianchi case. Let $f$ be a small slope classical cuspidal Bianchi eigenform, and $\Phi_f \in \Symb_{\Gamma}(\D_2)$ the attached overconvergent modular symbol. As outlined in \S\ref{sec:l-functions}, the $p$-adic $L$-function of $f$ is most naturally a distribution $\mu$ on $\cl_K(p^\infty) \cong (\roi_K\otimes_{\Z}\Zp)^\times/\roi_K^\times,$ where in the last assertion we are assuming class number one for simplicity. Since $p$ is split, we identify this with $(\Zp^\times \times \Zp^\times)/\roi_K^\times$. Evaluating $\Phi_f$ at $\{0\rightarrow\infty\}$, we obtain a distribution on all of $\Zp^2$. Inside $\A_2$ is the subspace of functions with support in $\Zp^\times \times \Zp^\times$ that are invariant under $\roi_K^\times$, and we pass to the $p$-adic $L$-function $\mu_f$ by restricting $\Phi_f\{0\to\infty\}$ to this subspace.
 
 One can consider the direct analogue of the weight space above, that is, considering continuous homomorphisms $\Zp^\times \times \Zp^\times \rightarrow \Cp^\times$, and show that this decomposes as the disjoint union of $(p-1)^2$ products of open unit discs, parametrised by characters of $(\roi_K/p)^\times = (\Z/p)^\times \times (\Z/p)^\times$. By directly generalising the approach above, given a measure $\mu$ on $\cl_K(p^\infty)$ and such a character $\psi$, one can define an associated (two-variable) analytic function $L_p(\mu,\psi,T_1,T_2)$ on the corresponding product of open discs. Because the $p$-adic $L$-function actually lives on $\cl_K(p^\infty)$ rather than $(\roi_K\otimes_{\Z}\Zp)^\times$, such a function can only be defined when $\psi$ descends to the quotient $(\roi_K/p)^\times/\roi_K^\times$.
 
@@ -509,12 +522,12 @@ See Marc's papers (which one explains it best, Marc?), or  \cite{PP09}; include 
 
 %\subsection{Computing \texorpdfstring{$p$}{p}-adic \texorpdfstring{$L$}{L}-series from cohomology}
 
-A downside of computing with arithmetic cohomology over modular symbols is that we are not free to evaluate at the same range of divisors. Directly from the definition, we have a map
+A downside of computing with arithmetic cohomology over modular symbols is that we are not free to evaluate at the same range of divisors. In particular, we have a map
 \begin{align*}
 	\delta : \symb_{\Gamma}(\D_2) &\longrightarrow \h^1(\Gamma,\D_2)\\
     \Phi &\longmapsto \big(\varphi: \gamma \mapsto \Phi\{\gamma\cdot\infty \rightarrow \infty\}\big).
 \end{align*}
-In particular, given $\varphi$, we can read off directly the values $\Phi\{r \to s\}$ \emph{only} for $r,s$ equivalent to the cusp $\infty$. This poses a problem for our algorithm, since we need to evaluate at pairs $\{a/p \to \infty\}$, where $a$ is coprime to $p$, and in general $a/p$ will \emph{not} give the same cusp as $\infty$. To obtain the information we need from $\varphi$, then, requires a careful study of the map $\delta$.
+ Given $\varphi$, we can thus read off the values $\Phi\{r \to s\}$ \emph{only} for $r,s$ equivalent to the cusp $\infty$. This poses a problem for our algorithm, since we need to evaluate at pairs $\{a/p \to \infty\}$, where $a$ is coprime to $p$, and in general $a/p$ will \emph{not} give the same cusp as $\infty$. To obtain the information we need from $\varphi$, then, requires a careful study of the map $\delta$.
 
 From the general theory, the kernel and cokernel of $\delta$ are Eisenstein; in particular, it is an isomorphism on the cuspidal part. It follows that there is a \emph{unique} cuspidal lift $\Phi$ of $\varphi$ under $\delta$. In the next section, we show how to explicitly invert $\delta$ to obtain this class $\Phi$ from $\varphi$, and thus how to obtain the $p$-adic $L$-function from $\varphi$.
 
@@ -524,8 +537,9 @@ From the general theory, the kernel and cokernel of $\delta$ are Eisenstein; in 
 
 \subsection{Explicit inversion of $\delta$}
 
-We now give an explicit and computable recipe for inverting $\delta$ on cuspidal arithmetic cohomology classes. Before doing this, however, we give some motivation as to where this recipe comes from. 
+We now give an explicit and computable recipe for inverting $\delta$ on cuspidal arithmetic cohomology classes, taking care to be precise at every step.
 
+\subsubsection{Motivation: a snake diagram}
 The map $\delta$ can be realised in cohomology as 
 \[
 \delta : \h^0(\Gamma,\mathrm{Hom}(\Delta_0,\D_2) \longrightarrow \h^1(\Gamma,\D_2),
@@ -556,6 +570,8 @@ from which we obtain the snake exact sequence
 \cdots \to \h^0(\Gamma,\Hom(\Delta,M)) \xrightarrow{\alpha} \h^0(\gamma,\Hom(\Delta_0,M)) \xrightarrow{\delta} \h^1(\Gamma,M) \xrightarrow{\beta} \h^1(\Gamma,\Hom(\Delta,M)) \to \cdots.
 \]
 In proving that this is exact, one takes an element in $\ker(\beta)$ -- such as our class $\varphi$ -- and explicitly realises it in the image of $\delta$. Thus we can lift $\delta$ by pursuing this diagram chase.
+
+\subsubsection{An explicit formula for inverting $\delta$}
 
 In practice, we will work at the level of cocycles, and this will depend on choices made throughout the algorithm (whilst the corresponding cohomology classes, and the $p$-adic $L$-functions, will not). Suppose we are given a cohomology class $\varphi \in H^1(M)$ represented by a cocycle $\varphi_0$. If $M = \D_2$ and $\varphi$ arises as the lift of a cuspidal classical eigenclass, then it is in $\ker(\beta)$. Then:
 
@@ -599,7 +615,8 @@ Let now $c_1, ..., c_t \in \Proj(K)$ be a complete set of representatives for th
 	g_r \cdot r = c_{i(r)}. 
 \]
 Assuming $\varphi \in \ker(\beta)$, let $v_1, ..., v_t \in \D_2$ be the distributions arising from Proposition \ref{prop:stab coboundaries}. We can compute the $v_i$ by computing the action of $g$ as a linear operator on $\D_2$ (up to some precision), and then solving the resulting linear system for a sufficiently large set of elements of the stabiliser\footnote{In practice, this is actually more subtle than it appears: in the linear system, the variables will appear with varying degrees of precision, due to the filtration appearing in the explicit lifting theorem.}.
-	Again motivated by the snake lemma, we consider $\widetilde{\Phi} \in \Hom_\Gamma(\Delta,\D_2) = \h^0(\Gamma,\Hom(\Delta,\D_2))$ defined by setting
+	
+Again motivated by the snake lemma, we now define $\widetilde{\Phi} \in \Hom_\Gamma(\Delta,\D_2) = \h^0(\Gamma,\Hom(\Delta,\D_2))$ by setting
 	\begin{align*}
 		\widetilde{\Phi} : \Proj(K) &\longrightarrow \D_2,\\
 				r = g_r^{-1}c_{i(r)} &\longmapsto \varphi(g_r)\big|g_r + v_{i(r)}\big|g_r
@@ -628,7 +645,7 @@ Assuming $\varphi \in \ker(\beta)$, let $v_1, ..., v_t \in \D_2$ be the distribu
 	
 	
 	\begin{proposition}
-		The map $\Phi$ gives a well-defined element of $\Symb_{\Gamma}(\D_2)$ such that $\delta(\Phi) = \varphi$.
+		The map $\Phi$ gives a well-defined element of $\Symb_{\Gamma}(\D_2)$ with $\delta(\Phi) = \varphi$.
 	\end{proposition}
 	\begin{proof}
 		The map $\Phi$ is linear in $r \to s$, since it is defined as the difference $\widetilde{\Phi}(s) - \widetilde{\Phi}(r)$. It is mapped to $\varphi$ under $\delta$; setting $r = \gamma\cdot\infty$ and $s = \infty$, we have $g_r = \gamma^{-1}$, $g_s = 1$, and $c_{i(r)} = c_{i(s)} = c_1$. Then by definition,
@@ -735,7 +752,7 @@ and so $T(f) = f + \epsilon$, where $\epsilon$ is an Eistenstein symbol. In orde
 In certain cases, there are even more explicit formula -- inspired by Prop.~\ref{prop:apply Up} -- for computing $p$-adic $L$-functions from the knowledge only of $\varphi$ (without inverting $\delta$ to compute the whole modular symbol $\Phi$). We highlight this only in the rational case for simplicity, though the same ideas go through for Bianchi modular forms too.
 
 
-Let $\varphi \in \h^1(\Gamma,\D_2)$ be an overconvergent eigenclass. Recall if $\delta(\Phi) = \varphi$, then $\varphi(\gamma) = \Phi\{\gamma\infty \to \infty\}$, and in particular we can directly evaluate $\Phi$ at any pair of cusps that are both equivalent to $\infty$. The idea is then to use the Hecke operators to rewrite our target values -- namely, the moments $\Phi\{a/p \to \infty\}((a+pz)^j)$ -- in terms of values of $\Phi\{r\to \infty\}$, where each $r$ is $\Gamma$-equivalent to $\infty$, and which we can then read off from $\varphi$. For $\Gamma = \Gamma_0(N)$, this is true if and only if $r = a/N$, where $a$ is prime to $N$. 
+Let $\varphi \in \h^1(\Gamma,\D_2)$ be an overconvergent eigenclass. Recall if $\delta(\Phi) = \varphi$, then $\varphi(\gamma) = \Phi\{\gamma\infty \to \infty\}$, and in particular we can directly evaluate $\Phi$ at any pair of cusps that are both equivalent to $\infty$. The idea is then to use the Hecke operators to rewrite our target values -- namely, the moments $\Phi\{a/p \to \infty\}((a+pz)^j)$ -- in terms of values of $\Phi\{r\to \infty\}$, where each $r$ is $\Gamma$-equivalent to $\infty$, and which we can then read off from $\varphi$. For $\Gamma = \Gamma_0(N)$, this is true if and only if $r = a/N$, where $a$ is prime to $N$. We must thus express the $\Phi\{a/p \to \infty\}$ in terms of values $\Phi\{\beta/N \to \infty\} = \varphi(\gamma),$ where $\gamma = \smallmatrd{\beta}{*}{N}{*} \in \Gamma_0(N)$.
 
 Suppose for simplicity that $N = q \neq p$ is prime. Then we have:
 \begin{proposition}
@@ -747,9 +764,9 @@ Let $d_q$ denote the order of $q$ in $(\Z/p\Z)^\times$, and write $a_q$ for the 
 \sum_{\substack{\beta \in (\Z/Np\Z)^\times\\ \beta \equiv a/q^m\newmod{p}}} \Phi\left\{\tfrac{\beta}{qp}\rightarrow \infty\right\}\big((\beta + qpz)^j\big).
 \end{align*}
 \end{proposition}
-We will not give the full proof, but instead observe that one obtains this by applying the operator $\alpha_q^{-1}U_q$, which acts as the identity, to force $q$ to be in the denominator. At each iteration, there is one problem term where the $q$ in the denominator cancels. By repeating this process with this problem term, after $d_q$ iterations one arrives at the original expression $\Phi\{a/p \to \infty\}((a+pz)^j)$ multiplied by $a_q^{-d_q}q^{jd_q}$, which then cancels off to give the claimed formula.
+We will not give the full proof, but instead observe that one obtains this by applying the operator $\alpha_q^{-1}U_q$, which acts as the identity, to force $q$ to be in the denominator. At each iteration, there is one problem term where the $q$ in the denominator cancels, and we end up with only $p$ (rather than $pq$) in the denominator. Iterating this process at the problem term, after $d_q$ iterations one arrives at the original expression $\Phi\{a/p \to \infty\}((a+pz)^j)$ multiplied by $a_q^{-d_q}q^{jd_q}$, giving the claimed formula.
 
-We can now find an element $\gamma = \smallmatrd{\beta}{*}{pq}{*} \in \Gamma_0(N)$, and $\gamma\infty = \beta/pq$; thus $\Phi\{\beta/pq - \infty\} = \varphi(\gamma)$ and we can compute this directly, without inverting $\delta$. Similar formula hold for $N$ a product of primes, and also in the Bianchi setting, where now we consider a pair of integers $(j,k)$.
+We can now find an element $\gamma = \smallmatrd{\beta}{*}{pq}{*} \in \Gamma_0(N)$, and $\gamma\infty = \beta/pq$; thus $\Phi\{\beta/pq - \infty\} = \varphi(\gamma)$ and we can compute this directly, without inverting $\delta$. Similar formula hold for $N$ a product of primes, and also in the Bianchi setting, where now we consider moments attached to a pair of integers $(j,k)$.
 
 \begin{remark}
 Note that if $j \neq 0$ (or, in the Bianchi setting, when either $j \neq 0$ or $k \neq 0$) the scalar $1-a_q^{-d_q}q^{jd_q}$ is always non-zero, and thus we can always recover the \emph{higher} moments required to define the $p$-adic $L$-series without inverting $\delta$. However, when $j = 0$ (or $j=k=0$), it is possible for the scalar to vanish. In particular, if $f$ is attached to an elliptic curve $E$ of rank 1 with good reduction at $p$, then the sign of the functional equation forces the existence of some prime $q$ such that $a_q(E) = 1$, and then the scalar vanishes. This leads to the curious phenomenon where we can compute all but the first moment; and yet the first moment is precisely the value of the \emph{classical} modular symbol we started with. Thus via this method, in this case we can compute all of the overconvergent moments, but not the classical starting moment!
@@ -822,7 +839,7 @@ Complexity in computing this: lots of Up operators. Fox derivative and gradient.
 
 
 \section{Data}
-[Include our data, in some form or other]rx
+[Include our data, in some form or other]
 
 
 \footnotesize
