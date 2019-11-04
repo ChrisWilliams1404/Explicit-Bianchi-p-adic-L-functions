@@ -151,14 +151,12 @@
 \newcommand{\fn}{\mathfrak{n}}
 
 
-
 \titleformat{\subsubsection}[runin]% runin puts it in the same paragraph
 {\normalfont\itshape}% formatting commands to apply to the whole heading
 {\thesubsubsection.}% the label and number
 {0.5em}% space between label/number and subsection title
 {}% formatting commands applied just to subsection title
 [.\hspace*{4pt}]% punctuation or other commands following subsection title
-
 
 
 
@@ -527,6 +525,7 @@ A downside of computing with arithmetic cohomology over modular symbols is that 
 	\delta : \symb_{\Gamma}(\D_2) &\longrightarrow \h^1(\Gamma,\D_2)\\
     \Phi &\longmapsto \big(\varphi: \gamma \mapsto \Phi\{\gamma\cdot\infty \rightarrow \infty\}\big).
 \end{align*}
+
  Given $\varphi$, we can thus read off the values $\Phi\{r \to s\}$ \emph{only} for $r,s$ equivalent to the cusp $\infty$. This poses a problem for our algorithm, since we need to evaluate at pairs $\{a/p \to \infty\}$, where $a$ is coprime to $p$, and in general $a/p$ will \emph{not} give the same cusp as $\infty$. To obtain the information we need from $\varphi$, then, requires a careful study of the map $\delta$.
 
 From the general theory, the kernel and cokernel of $\delta$ are Eisenstein; in particular, it is an isomorphism on the cuspidal part. It follows that there is a \emph{unique} cuspidal lift $\Phi$ of $\varphi$ under $\delta$. In the next section, we show how to explicitly invert $\delta$ to obtain this class $\Phi$ from $\varphi$, and thus how to obtain the $p$-adic $L$-function from $\varphi$.
@@ -571,8 +570,8 @@ from which we obtain the snake exact sequence
 \]
 In proving that this is exact, one takes an element in $\ker(\beta)$ -- such as our class $\varphi$ -- and explicitly realises it in the image of $\delta$. Thus we can lift $\delta$ by pursuing this diagram chase.
 
-\subsubsection{An explicit formula for inverting $\delta$}
 
+\subsubsection{An explicit formula for inverting $\delta$}
 In practice, we will work at the level of cocycles, and this will depend on choices made throughout the algorithm (whilst the corresponding cohomology classes, and the $p$-adic $L$-functions, will not). Suppose we are given a cohomology class $\varphi \in H^1(M)$ represented by a cocycle $\varphi_0$. If $M = \D_2$ and $\varphi$ arises as the lift of a cuspidal classical eigenclass, then it is in $\ker(\beta)$. Then:
 
 \begin{proposition}\label{prop:stab coboundaries}
@@ -617,6 +616,7 @@ Let now $c_1, ..., c_t \in \Proj(K)$ be a complete set of representatives for th
 Assuming $\varphi \in \ker(\beta)$, let $v_1, ..., v_t \in \D_2$ be the distributions arising from Proposition \ref{prop:stab coboundaries}. We can compute the $v_i$ by computing the action of $g$ as a linear operator on $\D_2$ (up to some precision), and then solving the resulting linear system for a sufficiently large set of elements of the stabiliser\footnote{In practice, this is actually more subtle than it appears: in the linear system, the variables will appear with varying degrees of precision, due to the filtration appearing in the explicit lifting theorem.}.
 	
 Again motivated by the snake lemma, we now define $\widetilde{\Phi} \in \Hom_\Gamma(\Delta,\D_2) = \h^0(\Gamma,\Hom(\Delta,\D_2))$ by setting
+
 	\begin{align*}
 		\widetilde{\Phi} : \Proj(K) &\longrightarrow \D_2,\\
 				r = g_r^{-1}c_{i(r)} &\longmapsto \varphi(g_r)\big|g_r + v_{i(r)}\big|g_r
@@ -753,6 +753,7 @@ In certain cases, there are even more explicit formula -- inspired by Prop.~\ref
 
 
 Let $\varphi \in \h^1(\Gamma,\D_2)$ be an overconvergent eigenclass. Recall if $\delta(\Phi) = \varphi$, then $\varphi(\gamma) = \Phi\{\gamma\infty \to \infty\}$, and in particular we can directly evaluate $\Phi$ at any pair of cusps that are both equivalent to $\infty$. The idea is then to use the Hecke operators to rewrite our target values -- namely, the moments $\Phi\{a/p \to \infty\}((a+pz)^j)$ -- in terms of values of $\Phi\{r\to \infty\}$, where each $r$ is $\Gamma$-equivalent to $\infty$, and which we can then read off from $\varphi$. For $\Gamma = \Gamma_0(N)$, this is true if and only if $r = a/N$, where $a$ is prime to $N$. We must thus express the $\Phi\{a/p \to \infty\}$ in terms of values $\Phi\{\beta/N \to \infty\} = \varphi(\gamma),$ where $\gamma = \smallmatrd{\beta}{*}{N}{*} \in \Gamma_0(N)$.
+
 
 Suppose for simplicity that $N = q \neq p$ is prime. Then we have:
 \begin{proposition}
