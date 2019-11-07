@@ -11,12 +11,12 @@
 \usepackage{cite}
 \usepackage[balance,small,nohug,heads=vee]{diagrams}
 \usepackage{bbm}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{bm}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+%\usepackage{bm}
 %\usepackage[backref=page]{hyperref}
-\usepackage{hyperref}
+\usepackage[backref=page]{hyperref}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -24,6 +24,14 @@
     linkcolor=black,
     urlcolor=black
 }
+
+%Referencing: include page numbers where referenced in bibliography
+\renewcommand*{\backref}[1]{}
+\renewcommand*{\backrefalt}[4]{%
+    \ifcase #1 (Not cited.)%
+    \or        ($\uparrow$~#2.)%
+    \else      ($\uparrow$~#2.)%
+    \fi}
 
 
 \newcommand{\Addresses}{{% additional braces for segregating \footnotesize
@@ -34,8 +42,8 @@ Marc Masdeu:
 
 Bharath Palvannan: \texttt{pbharath@math.upenn.edu}
 
-Chris Williams: %; Imperial College London\\% South Kensington Campus, London SW7 2AZ, United Kingdom\par\nopagebreak
-\texttt{christopher.williams@imperial.ac.uk}
+Chris Williams: %; University of Warwick\\% Mathematics Institute, Zeeman Building, Coventry, CV4 7AL, United Kingdom\par\nopagebreak
+\texttt{christopher.d.williams@warwick.ac.uk}
 
 
 }}
@@ -236,7 +244,7 @@ Chris Williams: %; Imperial College London\\% South Kensington Campus, London SW
 \renewcommand{\arraystretch}{1}
 
 %Indents zero
-\setlength{\parindent}{0in}
+%\setlength{\parindent}{0in}
 
 
 
