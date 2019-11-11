@@ -3,11 +3,11 @@ CHANGED VERSION AS OF 31/10/2019.
 
 We have gutted Maite Aranes' original code to look for hacks to speed it up;
 in particular we have removed the functionality of MSymbol, almost all the check,
-and replaced in-built functions (such as is_coprime) with hacked, but faster, 
+and replaced in-built functions (such as is_coprime) with hacked, but faster,
 global functions (e.g. new_is_coprime).
 
-The new functions should plug in as before. Instead of MSymbol we now use 
-MyMSymbol, which does much less. 
+The new functions should plug in as before. Instead of MSymbol we now use
+MyMSymbol, which does much less.
 
 To speed up: normalize_tuple, the global function, still uses lots of in-built
 ideal functionality which should be replaced by more hacky global functions in
@@ -51,14 +51,13 @@ class MyMSymbol(SageObject):
     However, still wanted MSymbol.tuple() to work for compatibility with our
     other code.
     """
-    
     def __init__(self,c,d):
         self._c = c
         self._d = d
-    
+
     def __repr__(self):
         return '{}'.format(self.tuple())
-        
+
     def tuple(self):
         return (self._c,self._d)
 
@@ -190,7 +189,7 @@ class P1NFList(SageObject):
         r"""
         [We have gutted this function from its orginal state!]
         [Note: there is now no check!]
-        
+
         Return a normalized  element of (a canonical representative of an element
         of `\mathbb{P}^1(R/N)` ) equivalent to ``elt``.
 
@@ -208,9 +207,7 @@ class P1NFList(SageObject):
         -  a normalized tuple (c', d') equivalent to ``self`` in P^1(R/N).
 
         """
-        return normalize_tuple(self.__N,(c,d),with_scalar)        
-
-
+        return normalize_tuple(self.__N,(c,d),with_scalar)
 
     def N(self):
         """
@@ -424,11 +421,11 @@ class P1NFList(SageObject):
 
 def my_p1NFlist(N):
     """
-    New hacked version of in-built sage function p1NFlist. 
+    New hacked version of in-built sage function p1NFlist.
         - instead of MSymbol, uses MyMSymbol
         - instead of MSymbol's normalize, uses hacked global function normalize_tuple
         - removed all check
-    
+
     Previous documentation:
 
     Returns a list of the normalized elements of `\\mathbb{P}^1(R/N)`, where
@@ -456,10 +453,10 @@ def my_p1NFlist(N):
     for D in divisors(N):
         if not D.is_trivial() and D!=N:
             #we find Dp ideal coprime to N, in inverse class to D
-            
+
             Dp = k.ideal(1)
             c = D.gens_reduced()[0]
-           
+
             #now we find all the (c,d)'s which have associated divisor D
             J = N/D
             I = D + J
@@ -468,7 +465,7 @@ def my_p1NFlist(N):
                     M = D.prime_to_idealM_part(J)
                     u = (Dp*M).element_1_mod(J)
                     d1 = u*d + (1-u)
-                    L.append(normalize_tuple(N,(c,d1))) 
+                    L.append(normalize_tuple(N,(c,d1)))
     return L
 
 def lift_to_sl2_Ok(N, c, d):
@@ -655,7 +652,7 @@ def psi(N):
 
 
 def normalize_tuple(N, elt, with_scalar=False):
-        r"""    
+        r"""
         Hacked function to replace MSymbol.normalize.
             - removed all check
             - now work with fake MSymbol class that doesn't really do anything
@@ -738,7 +735,3 @@ def new_is_zero(I):
     New is zero function
     """
     return I.gens_reduced()[0] == 0
-
-
-
-

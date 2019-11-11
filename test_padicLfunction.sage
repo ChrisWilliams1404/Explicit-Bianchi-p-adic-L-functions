@@ -77,3 +77,39 @@ for n in range(1,10):
     B = Phi.get_Lseries_term(n)
     print A == B
 print '####################'
+
+##########################################################################
+## Bianchi Test
+#######################################################################
+from darmonpoints.sarithgroup import BigArithGroup
+from darmonpoints.cohomology_arithmetic import *
+
+page_path = '~/Dropbox/darmonpoints/darmonpoints/KleinianGroups-1.0/klngpspec'
+magma.eval('SetSeed(%s)'%1231241)
+magma.attach_spec(page_path)
+magma.eval('Page_initialized := true')
+set_verbose(1)
+
+K.<a> = QuadraticField(-1)
+E = EllipticCurve('11a1')
+p = 5
+assert len(K.ideal(p).factor()) == 2
+P = K.ideal(p).factor()[0][0]
+N = K.ideal(p * E.conductor())
+assert K.ideal(p).divides(N)
+M = N/P
+
+implementation = 'coset_enum'
+G = BigArithGroup(P, (1,1), M, base= K, magma = magma, use_shapiro=True,grouptype="PGL2", implementation=implementation) # needs magma
+
+HH = ArithCoh(G) # needs darmonpoints & magma
+phi = HH.get_cocycle_from_elliptic_curve(EllipticCurve('55a').change_ring(K)) # needs darmonpoints & magma
+
+prec = 10
+ap = ##
+apbar = ##
+Phi = get_overconvergent_class_bianchi(P,phi,G,prec,ap, apbar)
+Phi.elliptic_curve = E
+
+r, s = 1,1
+print Phi.get_Lseries_term((r,s))
