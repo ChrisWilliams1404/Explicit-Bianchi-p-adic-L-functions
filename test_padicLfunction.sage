@@ -97,9 +97,9 @@ assert len(K.ideal(p).factor()) == 2
 P = K.ideal(p).factor()[0][0]
 N = K.ideal(p * E.conductor())
 assert K.ideal(p).divides(N)
-M = N/P
+M = N/P5
 
-implementation = 'coset_enum'
+implementation = 'coset_enum' # can be either None or 'geometric' or 'coset_enum'
 G = BigArithGroup(P, (1,1), M, base= K, magma = magma, use_shapiro=True,grouptype="PGL2", implementation=implementation) # needs magma
 
 HH = ArithCoh(G) # needs darmonpoints & magma
