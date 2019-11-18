@@ -93,6 +93,7 @@ N = K.ideal(p * 11)
 assert K.ideal(p).divides(N)
 M = N/P
 
+
 implementation = 'coset_enum' # can be either None or 'geometric' or 'coset_enum'
 G = BigArithGroup(P, (1,1), M, base= K, magma = magma, use_shapiro=True,grouptype="PGL2", implementation=implementation) # needs magma
 
@@ -107,3 +108,24 @@ Phi.elliptic_curve = E
 
 r, s = 1,1
 print Phi.get_Lseries_term((r,s))
+
+
+##########################################################################
+## Bianchi Initialisation test
+#######################################################################
+
+from darmonpoints.sarithgroup import BigArithGroup
+from darmonpoints.cohomology_arithmetic import *
+
+
+## Simpler example: just running BigArithGp
+K.<a> = QuadraticField(-1)
+p = 5
+P = K.ideal(p).factor()[0][0]
+Pbar = K.ideal(p).factor()[1][0]
+assert len(K.ideal(p).factor()) == 2
+N = K.ideal(11)
+M = N
+
+implementation = 'coset_enum' # can be either None or 'geometric' or 'coset_enum'
+%time G = BigArithGroup(Pbar, (1,1), P, base=K, magma = magma, use_shapiro=True,grouptype="PGL2", implementation=implementation) # needs magma
