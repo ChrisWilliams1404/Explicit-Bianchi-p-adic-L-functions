@@ -8,11 +8,14 @@
 \author{Marc Masdeu, Bharathwaj Palvannan and Chris Williams}
 \date{}
 \pagestyle{headings}
-
+\usepackage{fourier}
 
 \usepackage{enumitem}
 %\usepackage{ulem}
 \usepackage{amsmath}
+
+%\let\mathcal\undefined
+%\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
 
 \let\OLDthebibliography\thebibliography
 \renewcommand\thebibliography[1]{
@@ -157,12 +160,15 @@
 \newcommand{\Par}{\mathrm{par}}
 
 
+
+
 \titleformat{\subsubsection}[runin]% runin puts it in the same paragraph
 {\normalfont\itshape}% formatting commands to apply to the whole heading
 {\thesubsubsection.}% the label and number
 {0.5em}% space between label/number and subsection title
 {}% formatting commands applied just to subsection title
 [.\hspace*{4pt}]% punctuation or other commands following subsection title
+
 
 
 
@@ -180,20 +186,10 @@
 \begin{comment}
 Let $\f$ be a cuspidal eigenform of weight 2 over an imaginary quadratic field $K$. In this paper, we use the overconvergent cohomology of Bianchi groups to explicitly compute $p$-adic $L$-functions attached to $\f$. We give several applications to Iwasawa theory: in particular, we provide new examples where Coates and Sujatha's psuedo-nullity conjecture holds for rational elliptic curves.  --- including the first examples in rank 1.
 \end{comment}
-Using overconvergent cohomology of Bianchi groups, we present an algorithm that explicitly computes the $2$-variable $p$-adic $L$-function associated to a weight two cuspidal eigenform with small slope over an imaginary quadratic field with class number one. The algorithm builds on earlier work of the third author establishing a constructive proof of Steven's control theorem for overconvergent lifts of Bianchi modular forms. Our implementation of this algorithm crucially relies on adaptating efficient code built by the first author (along with Guitart and Sengun) that computes the required overconvergent lifts\BP{what is the right verb here? Adapt? Also is the attribution to Guitart and Sengun accurate }. Implementing this algorithm allows us to compute numerical examples of interest in the topic of higher codimension Iwasawa theory. In these numerical examples, the validity of the relevant Iwasawa main conjectures implies that the Pontraygin dual of the fine Selmer group is pseudo-null.
+Using overconvergent cohomology of Bianchi groups, we present an algorithm that explicitly computes the $2$-variable $p$-adic $L$-function associated to a weight two cuspidal eigenform with small slope over an imaginary quadratic field with class number one. The algorithm builds on earlier work of the third author establishing a constructive proof of Steven's control theorem for overconvergent lifts of Bianchi modular forms. Our implementation of this algorithm crucially relies on adaptating efficient code built by the first author (along with Guitart and Sengun) that computes the required overconvergent lifts\BP{what is the right verb here? Adapt? Also is the attribution to Guitart and Sengun accurate }. Implementing this algorithm allows us to compute numerical examples of interest in the topic of higher codimension Iwasawa theory. In these numerical examples, the validity of the appropriate Iwasawa main conjectures implies that the Pontraygin dual of the fine Selmer group is pseudo-null.
 \end{abstract}
 
-\section*{To do:}
 
-\begin{enumerate}\setlength{\itemsep}{-2pt}
-    \item Sketch of sharp/flat construction
-    \item description of how to get the classical class/citation of Marc's papers
-    \item More detail on the pseudo-nullity conjecture
-    \item description of resultant calculations to show coprimality
-    \item Evidence!!!
-    \item Fox derivatives and Fox gradients (RH Fox, free differential calculus)
-    \item Tietze algorithm
-\end{enumerate}
 \section{Introduction}
 
 
@@ -203,7 +199,7 @@ We first introduce the notations required to describe our results. Let $p$ be an
 \end{align*}
 
 
-The natural restriction maps $\widetilde{G}_\infty \twoheadrightarrow G_\pri$ and $\widetilde{G}_\infty \twoheadrightarrow G_{\overline{\pri}}$ allow us to identify $\widetilde{G}_\infty$ with  $G_\pri \times G_{\overline{\pri}}$. This further allows to consider the following isomorphism of topological $\Z_p$-algebras:
+Since $p$ does not divide the class number of $K$, the natural restriction maps $\widetilde{G}_\infty \twoheadrightarrow G_\pri$ and $\widetilde{G}_\infty \twoheadrightarrow G_{\overline{\pri}}$ allow us to identify $\widetilde{G}_\infty$ with  $G_\pri \times G_{\overline{\pri}}$. This further allows to consider the following isomorphism of topological $\Z_p$-algebras:
 \begin{align} \label{eq:iwid}
 \Z_p[[\widetilde{G}_\infty]] &\cong \Z_p[[x,y]], \\
 g_\pri &\rightarrow x+1, \notag \\
@@ -216,7 +212,7 @@ Throughout this paper, we shall fix the isomorphism in (\ref{eq:iwid})  and deno
 Let $\psi: \Gal\left({\overline{K}}/{K}\right) \rightarrow \Z_p^\times$ be a finite order continuous character. \BP{I will think of the best way to say this? So that we can incorporate Teichmuller twists, but also so that we can incorporate characters of conductor prime to p}
 
 
-Let $O_K$ denote the ring of integers of $K$. Let $\n$ be an ideal in $O_K$ satisfying the following condition:
+Let $O_K$ denote the ring of integers of $K$. Let $\n$ be an ideal in $O_K$ satisfying the following condition: \BP{do we need $p$ to exactly divide the level}.
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{$p$-stab}) --- , ref=(\textsc{$p$-stab})]
 \item\label{hyp:pstab} $\n \subset pO_K$.
 \end{enumerate}
@@ -227,14 +223,13 @@ Let $\Gamma$ denote the congruence subgroup $\Gamma_0(\n)$ of $\SLt(\mathcal{O}_
 
 Let $\D_2$ denote the space of $\Z_p$-valued $p$-adic distributions on $\Z_p^2$, endowed with a \textit{weight two} action of $\Gamma$. Let $\Symb_\Gamma(\D_2)$ denote the corresponding space of overconvergent modular symbols valued in $\D_2$. There exists an overconvergent modular symbol $\mu_{f,\psi}$ in $\D_2$ associated to the tuple $(p,f,\psi)$. See Section \ref{sec:l-functions} for a description of the interpolation properties satisfied by $\mu_{f,\psi}$ as predicted by Coates and Perrin-Riou. Recall also that the Mahler transform (\BP{or is it called the Amice transform}) provides a natural isomorphism $\D_2 \cong \Lambda$ of topological $\Z_p$-algebras.\\
 
-The purpose of our paper is to present an algorithm that computes as an element of $\Lambda$ the Mahler transform (denoted $L_{p,f,\psi}(x,y)$ here) of $\mu_{f,\psi}$ evaluated at the path $\left\{0 \rightarrow \infty \right\}$. To wit, we have
-\begin{align*}
-\D_2 &\cong \Lambda, \\
+The purpose of our paper is to present an algorithm that computes the Mahler transform (denoted $L_{p,f,\psi}(x,y)$ here) of $\mu_{f,\psi}$ evaluated at the path $\left\{0 \rightarrow \infty \right\}$. To wit, we have
+\begin{align}\label{eq:p-adic-identify}
+\D_2 &\cong \Lambda, \notag \\
 \mu_{f,\psi}\left(\left\{0 \rightarrow \infty \right\}\right) &\leftrightarrow L_{p,f,\psi}(x,y).
-\end{align*}
+\end{align}
 
-
-The application to Iwasawa theory stems from the fact that it is this element $L_{p,f,\psi}(x,y)$ (which is also sometimes called the $p$-adic $L$-function) that appears in the formulation of the Iwasawa-Greenberg main conjecture,  and is conjectured to generate the characteristic divisor in $\Lambda$ of the Pontryagin dual of a Selmer group. The construction of the Selmer group and the formulation of the main conjecture, both due to Greenberg, are recalled in Section \ref{}. \BP{describe later}
+The elements appearing in the identification given in equation (\ref{eq:p-adic-identify}) are referred to as the $p$-adic $L$-function. The application to Iwasawa theory stems from the fact that it is $L_{p,f,\psi}(x,y)$ that appears in the formulation of the Iwasawa-Greenberg main conjecture,  and is conjectured to generate the characteristic divisor in $\Lambda$ of the Pontryagin dual of a Selmer group. The construction of the Selmer group and the formulation of the main conjecture, both due to Greenberg, are recalled in Section \ref{}. \BP{describe later}
 
 \subsection{Description of the algorithm}
 
@@ -925,6 +920,18 @@ Complexity in computing this: lots of Up operators. Fox derivative and gradient.
 \section{Data}
 [Include our data, in some form or other]
 
+
+\section*{To do:}
+
+\begin{enumerate}\setlength{\itemsep}{-2pt}
+    \item Sketch of sharp/flat construction
+    \item description of how to get the classical class/citation of Marc's papers
+    \item More detail on the pseudo-nullity conjecture
+    \item description of resultant calculations to show coprimality
+    \item Evidence!!!
+    \item Fox derivatives and Fox gradients (RH Fox, free differential calculus)
+    \item Tietze algorithm
+\end{enumerate}
 
 \footnotesize
 \renewcommand{\refname}{\normalsize References} 

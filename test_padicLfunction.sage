@@ -101,7 +101,6 @@ implementation = 'geometric' # 'coset_enum' # can be either None or 'geometric' 
 pi, pibar = P.gens_reduced()[0],(K.ideal(p)/P).gens_reduced()[0]
 Up, Upbar = G.get_Up_reps_bianchi(pi,pibar)
 
-
 HH = ArithCoh(G) # needs darmonpoints & magma
 phi = HH.get_cocycle_from_elliptic_curve(E.change_ring(K)) # needs darmonpoints & magma
 
@@ -117,3 +116,24 @@ Phi.elliptic_curve = E
 
 r, s = 1,1
 print Phi.get_Lseries_term((r,s))
+
+
+##########################################################################
+## Bianchi Initialisation test
+#######################################################################
+
+from darmonpoints.sarithgroup import BigArithGroup
+from darmonpoints.cohomology_arithmetic import *
+
+
+## Simpler example: just running BigArithGp
+K.<a> = QuadraticField(-1)
+p = 5
+P = K.ideal(p).factor()[0][0]
+Pbar = K.ideal(p).factor()[1][0]
+assert len(K.ideal(p).factor()) == 2
+N = K.ideal(11)
+M = N
+
+implementation = 'coset_enum' # can be either None or 'geometric' or 'coset_enum'
+%time G = BigArithGroup(Pbar, (1,1), P, base=K, magma = magma, use_shapiro=True,grouptype="PGL2", implementation=implementation) # needs magma
