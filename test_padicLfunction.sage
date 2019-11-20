@@ -94,16 +94,27 @@ assert K.ideal(p).divides(N)
 M = N/P
 
 
-implementation = 'coset_enum' # can be either None or 'geometric' or 'coset_enum'
-G = BigArithGroup(P, (1,1), M, base= K, magma = magma, use_shapiro=True,grouptype="PGL2", implementation=implementation) # needs magma
+%time implementation = 'geometric' # can be either None or 'geometric' or 'coset_enum'
+%time G = BigArithGroup(P, (1,1), M, base= K, magma = magma, use_shapiro=True,grouptype="PGL2", implementation=implementation) # needs magma
 
-HH = ArithCoh(G) # needs darmonpoints & magma
-phi = HH.get_cocycle_from_elliptic_curve(E.change_ring(K)) # needs darmonpoints & magma
+%time HH = ArithCoh(G) # needs darmonpoints & magma
+%time phi = HH.get_cocycle_from_elliptic_curve(E.change_ring(K)) # needs darmonpoints & magma
 
 prec = 10
-ap = ##
-apbar = ##
-Phi = get_overconvergent_class_bianchi(P,phi,G,prec,ap, apbar)
+
+## Compute a_P
+apQ = E.ap(p)
+X = var('X')
+R = Zp(p)[X]
+hecke_poly = R(X^2 - apQ*X + p)
+roots = hecke_poly.roots()
+if roots[0][0].valuation() == 0:
+    ap = roots[0][0]
+else:
+    ap = roots[1][0]
+apbar = ap
+
+%time Phi = get_overconvergent_class_bianchi(P,phi,G,prec,ap, apbar, 1, 1)
 Phi.elliptic_curve = E
 
 r, s = 1,1
