@@ -88,14 +88,20 @@ K.<a> = QuadraticField(-1)
 p = 5
 E = EllipticCurve('55a')
 assert len(K.ideal(p).factor()) == 2
-P = K.ideal(p).factor()[0][0]
+P = K.ideal(p).factor()[1][0]
 N = K.ideal(p * 11)
 assert K.ideal(p).divides(N)
 M = N/P
+set_verbose(1)
+
+# magma = Magma(logfile='/tmp/magmalog.txt')
+implementation = 'geometric' # 'coset_enum' # can be either None or 'geometric' or 'coset_enum'
+%time G = BigArithGroup(P, (1,1), M, base= K, magma = magma, use_shapiro=False,grouptype="PGL2", implementation=implementation, center=[6/7,5/11,8/13,0], prec = 500, logfile='/tmp/magmalog.txt') # needs magma
 
 
-%time implementation = 'geometric' # can be either None or 'geometric' or 'coset_enum'
-%time G = BigArithGroup(P, (1,1), M, base= K, magma = magma, use_shapiro=True,grouptype="PGL2", implementation=implementation) # needs magma
+pi, pibar = P.gens_reduced()[0],(K.ideal(p)/P).gens_reduced()[0]
+Up, Upbar = G.get_Up_reps_bianchi(pi,pibar)
+
 
 %time HH = ArithCoh(G) # needs darmonpoints & magma
 %time phi = HH.get_cocycle_from_elliptic_curve(E.change_ring(K)) # needs darmonpoints & magma
@@ -114,7 +120,10 @@ else:
     ap = roots[1][0]
 apbar = ap
 
-%time Phi = get_overconvergent_class_bianchi(P,phi,G,prec,ap, apbar, 1, 1)
+CohOC = ArithCohBianchi(G,base = Zp(p,prec))
+Phi0 = CohOC(phi)
+
+Phi = get_overconvergent_class_bianchi(P,phi,G,prec,ap, apbar,1,None)
 Phi.elliptic_curve = E
 
 r, s = 1,1
