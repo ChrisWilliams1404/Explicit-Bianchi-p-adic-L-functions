@@ -8,11 +8,14 @@
 \author{Marc Masdeu, Bharathwaj Palvannan and Chris Williams}
 \date{}
 \pagestyle{headings}
-
+\usepackage{fourier}
 
 \usepackage{enumitem}
 %\usepackage{ulem}
 \usepackage{amsmath}
+
+%\let\mathcal\undefined
+%\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
 
 \let\OLDthebibliography\thebibliography
 \renewcommand\thebibliography[1]{
@@ -155,7 +158,7 @@
 
 \newcommand{\Galois}[2]{\Gal({#1}/{#2})}
 \newcommand{\Par}{\mathrm{par}}
-\usepackage{fourier}
+
 
 
 
@@ -165,6 +168,7 @@
 {0.5em}% space between label/number and subsection title
 {}% formatting commands applied just to subsection title
 [.\hspace*{4pt}]% punctuation or other commands following subsection title
+
 
 
 
