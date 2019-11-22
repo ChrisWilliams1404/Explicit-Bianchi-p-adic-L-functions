@@ -8,14 +8,11 @@
 \author{Marc Masdeu, Bharathwaj Palvannan and Chris Williams}
 \date{}
 \pagestyle{headings}
-\usepackage{fourier}
+
 
 \usepackage{enumitem}
 %\usepackage{ulem}
 \usepackage{amsmath}
-
-%\let\mathcal\undefined
-%\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
 
 \let\OLDthebibliography\thebibliography
 \renewcommand\thebibliography[1]{
@@ -39,7 +36,7 @@
 \usepackage{etoolbox}
 \newtoggle{notes}
 \toggletrue{notes}
-%\togglefalse{notes} 
+%\togglefalse{notes}
 %\usepackage{comment}
 \usepackage{verbatim}
 \iftoggle{notes}{
@@ -77,7 +74,7 @@
 \usepackage{fancyhdr}
 
 %Heading Title
-\lhead{\emph{Explicit Bianchi $p$-adic $L$-functions}}
+\lhead{\emph{Computing Bianchi $p$-adic $L$-functions}}
 \rhead{\emph{Masdeu, Palvannan \& Williams}}
 
 
@@ -86,7 +83,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %                                                                MACROS
-% 
+%
 %                          (To make sure we agree the same notation everywhere and can change it easily)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -156,19 +153,25 @@
 
 
 
+\usepackage{booktabs}
 \newcommand{\Galois}[2]{\Gal({#1}/{#2})}
 \newcommand{\Par}{\mathrm{par}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\Ind}{\mathrm{Ind}}
+\newcommand{\Res}{\mathrm{Res}}
+\newcommand{\Sel}{\mathrm{Sel}}
+
+
 
 
 
 
 \titleformat{\subsubsection}[runin]% runin puts it in the same paragraph
-{\normalfont\itshape}% formatting commands to apply to the whole heading
+{\bfseries\itshape}% formatting commands to apply to the whole heading
 {\thesubsubsection.}% the label and number
 {0.5em}% space between label/number and subsection title
 {}% formatting commands applied just to subsection title
 [.\hspace*{4pt}]% punctuation or other commands following subsection title
-
 
 
 
@@ -180,106 +183,219 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \maketitle
-
+\setcounter{tocdepth}{2}
 
 \begin{abstract}
 \begin{comment}
 Let $\f$ be a cuspidal eigenform of weight 2 over an imaginary quadratic field $K$. In this paper, we use the overconvergent cohomology of Bianchi groups to explicitly compute $p$-adic $L$-functions attached to $\f$. We give several applications to Iwasawa theory: in particular, we provide new examples where Coates and Sujatha's psuedo-nullity conjecture holds for rational elliptic curves.  --- including the first examples in rank 1.
 \end{comment}
-Using overconvergent cohomology of Bianchi groups, we present an algorithm that explicitly computes the $2$-variable $p$-adic $L$-function associated to a weight two cuspidal eigenform with small slope over an imaginary quadratic field with class number one. The algorithm builds on earlier work of the third author establishing a constructive proof of Steven's control theorem for overconvergent lifts of Bianchi modular forms. Our implementation of this algorithm crucially relies on adaptating efficient code built by the first author (along with Guitart and Sengun) that computes the required overconvergent lifts\BP{what is the right verb here? Adapt? Also is the attribution to Guitart and Sengun accurate }. Implementing this algorithm allows us to compute numerical examples of interest in the topic of higher codimension Iwasawa theory. In these numerical examples, the validity of the appropriate Iwasawa main conjectures implies that the Pontraygin dual of the fine Selmer group is pseudo-null.
+Using overconvergent cohomology of Bianchi groups, we present an algorithm that explicitly computes the $2$-variable $p$-adic $L$-function associated to a weight two cuspidal eigenform with small slope over an imaginary quadratic field with class number one. The algorithm builds on earlier work of the third author establishing a constructive proof of a control theorem for overconvergent lifts of Bianchi modular forms. Our implementation of this algorithm relies on crucially adapting efficient code built by the first author (along with Guitart and Sengun) that computes $1$-variable overconvergent lifts. Implementing this algorithm allows us to compute numerical examples of interest in the topic of higher codimension Iwasawa theory. In these numerical examples, the validity of the appropriate Iwasawa main conjectures implies that the Pontraygin dual of the fine Selmer group is pseudo-null.
 \end{abstract}
 
+\tableofcontents
 
 \section{Introduction}
 
 
-We first introduce the notations required to describe our results. Let $p$ be an odd prime number. Let $K$ be an imaginary quadratic field\footnote{so $K$ equals $\Q(\sqrt{-D})$, where $D$ belongs to $\{1,2,3,7,11,19,43,67,163\}$.} with class number one, where the prime $p$ splits as $(p) = \pri \bar{\pri}$. Let $K_\pri$, $K_{\overline{\pri}}$ denote the unique $\Z_p$-extensions of $K$ unramified outside $\pri$, $\overline{\pri}$ respectively. Let $G_\pri$, $G_{\overline{\pri}}$ denote $\Galois{K_\pri}{K}$, $\Galois{K_{\overline{\pri}}}{K}$ respectively. Let us choose topological generators $g_\pri$, $g_{\overline{\pri}}$  of $G_\pri$, $G_{\overline{\pri}}$ respectively. Let $\widetilde{K}_\infty$ denote the compositum of all the $\Z_p$-extensions of $K$. Let $\widetilde{G}_\infty$ denote $\Galois{\widetilde{K}_\infty}{K}$. Recall that we have the following isomorphisms of topological groups:
+\subsubsection*{Notations} We first introduce the notations required to describe our results. Let $p$ be an odd prime number. Let $K$ be an imaginary quadratic field\footnote{so $K$ equals $\Q(\sqrt{-D})$, where $D$ belongs to $\{1,2,3,7,11,19,43,67,163\}$.} with class number one, where the prime $p$ splits as $(p) = \pri \bar{\pri}$. Let $O_K$ denote the ring of integers of $K$. Let $K_\pri$, $K_{\overline{\pri}}$ denote the unique $\Z_p$ extensions of $K$ unramified outside $\pri$, $\overline{\pri}$ respectively. Let $G_\pri$, $G_{\overline{\pri}}$ denote $\Galois{K_\pri}{K}$, $\Galois{K_{\overline{\pri}}}{K}$ respectively. Let $\widetilde{K}$ denote the maximal abelian extension of $K$, unramified outside $p$. Let $\widetilde{K}_\infty$ denote the compositum of all the $\Z_p$-extensions of $K$. Let $\widetilde{G}$, $\widetilde{G}_\infty$ denote $\Galois{\widetilde{K}}{K}$, $\Galois{\widetilde{K}_\infty}{K}$ respectively. Let $\Delta$ denote $\ker(\widetilde{G} \twoheadrightarrow \widetilde{G}_\infty)$. Since the class number of $K$ equals one, the natural restriction maps $\widetilde{G}_\infty \twoheadrightarrow G_\pri$ and $\widetilde{G}_\infty \twoheadrightarrow G_{\overline{\pri}}$ allow us to identify $\widetilde{G}_\infty$ with  $G_\pri \times G_{\overline{\pri}}$. Recall that we have the following isomorphisms of topological groups:
 \begin{align*}
-\widetilde{G}_\infty \cong \Z_p^2, \qquad G_{\pri} \cong \Z_p, \qquad G_{\overline{\pri}} \cong \Z_p.
+\widetilde{G} \cong \Delta \times \widetilde{G}_\infty, \qquad \widetilde{G}_\infty \cong \Z_p^2, \qquad G_{\pri} \cong \Z_p, \qquad G_{\overline{\pri}} \cong \Z_p.
 \end{align*}
 
+The abelian group $\Delta$ is finite, of exponent dividing $p-1$. For each character $\chi$ in $\Hom(\Delta, \Z_p^\times)$, we have its corresponding idempotent $e_\chi$ in the group ring $\Z_p[\Delta]$. These characters are often called \textit{branch characters}.  The topological $\Z_p$-algebra $e_\chi \Z_p[[\widetilde{G}]]$ is isomorphic to $\Z_p[[\widetilde{G}_\infty]]$. We have the following natural isomorphism of topological $\Z_p$-algebras:
+\begin{align}\label{eq:ringdecomp}
+\Z_p[[\widetilde{G}]] &\cong \Z_p[[\widetilde{G}_\infty]][\Delta] \notag \\ & \cong \prod_{\chi \in \Hom(\Delta, \Z_p^\times)} e_\chi\Z_p[[\widetilde{G}]]
+\end{align}
 
-Since $p$ does not divide the class number of $K$, the natural restriction maps $\widetilde{G}_\infty \twoheadrightarrow G_\pri$ and $\widetilde{G}_\infty \twoheadrightarrow G_{\overline{\pri}}$ allow us to identify $\widetilde{G}_\infty$ with  $G_\pri \times G_{\overline{\pri}}$. This further allows to consider the following isomorphism of topological $\Z_p$-algebras:
+Henceforth, we shall fix a branch character $\chi:\Delta \rightarrow \Z_p^\times$ and simply denote the corresponding component $e_\chi\Z_p[[\widetilde{G}]]$ by $\Z_p[[\widetilde{G}_\infty]]$. Let us choose a topological generator $g_\pri$  of $G_\pri$. Under the action of complex conjugation on $g_\pri$, one obtains a topological generator $g_{\overline{\pri}}$ of  $G_{\overline{\pri}}$. This further allows to consider the following isomorphism of topological $\Z_p$-algebras:
 \begin{align} \label{eq:iwid}
 \Z_p[[\widetilde{G}_\infty]] &\cong \Z_p[[x,y]], \\
-g_\pri &\rightarrow x+1, \notag \\
-g_{\overline{\pri}} &\rightarrow y+1 \notag
+(g_\pri,1) &\rightarrow x+1, \notag \\
+(1,g_{\overline{\pri}}) &\rightarrow y+1 \notag
 \end{align}
 
 
-Throughout this paper, we shall fix the isomorphism in (\ref{eq:iwid})  and denote the $2$-variable Iwasawa algebra appearing in (\ref{eq:iwid}) by $\Lambda$.
+Throughout this paper, we shall fix the isomorphism in (\ref{eq:iwid})  and denote the $2$-variable power series ring $\Z_p[[x,y]]$ appearing in (\ref{eq:iwid}) by $\Lambda$. Let $\psi: \Gal\left({\overline{K}}/{K}\right) \rightarrow \Z_p^\times$ be a finite continuous character with conductor prime to p. Let $\kappa: \Galois{\overline{K}}{K} \twoheadrightarrow \widetilde{G}_\infty \rightarrow \GL_1(\Lambda)$ denote the tautological character.
 
-Let $\psi: \Gal\left({\overline{K}}/{K}\right) \rightarrow \Z_p^\times$ be a finite order continuous character. \BP{I will think of the best way to say this? So that we can incorporate Teichmuller twists, but also so that we can incorporate characters of conductor prime to p}
-
-
-Let $O_K$ denote the ring of integers of $K$. Let $\n$ be an ideal in $O_K$ satisfying the following condition: \BP{do we need $p$ to exactly divide the level}.
+Let $\n$ be an ideal in $O_K$ satisfying the following condition:
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{$p$-stab}) --- , ref=(\textsc{$p$-stab})]
 \item\label{hyp:pstab} $\n \subset pO_K$.
 \end{enumerate}
-Let $\Gamma$ denote the congruence subgroup $\Gamma_0(\n)$ of $\SLt(\mathcal{O}_K)$. Let $f$ be a weight $2$ \BP{Is there a prefix before weight? Is it parallel weight $2$ or just weight $2$?} Bianchi cuspidal eigenform of level $\Gamma$ with Hecke eigenvalues $\{a_I \in \Z_p: I\subset \roi_K\}$, satisfying the following condition:
+Let $\Gamma$ denote the congruence subgroup $\Gamma_0(\n)$ of $\SLt(\mathcal{O}_K)$. Let $f$ be a weight $2$ Bianchi cuspidal eigenform of level $\Gamma$ with Hecke eigenvalues $\{a_I \in \Z_p: I\subset \roi_K\}$, satisfying the following condition:
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Small slope}) --- , ref=(\textsc{Small slope})]
 \item\label{hyp:ss} The $p$-adic valuations of the eigenvalues $a_\pri$, $a_{\overline{\pri}}$ for the actions of the $U_\pri$, $U_{\overline{\pri}}$ operators on $f$ are strictly less than $1$.
 \end{enumerate}
 
-Let $\D_2$ denote the space of $\Z_p$-valued $p$-adic distributions on $\Z_p^2$, endowed with a \textit{weight two} action of $\Gamma$. Let $\Symb_\Gamma(\D_2)$ denote the corresponding space of overconvergent modular symbols valued in $\D_2$. There exists an overconvergent modular symbol $\mu_{f,\psi}$ in $\D_2$ associated to the tuple $(p,f,\psi)$. See Section \ref{sec:l-functions} for a description of the interpolation properties satisfied by $\mu_{f,\psi}$ as predicted by Coates and Perrin-Riou. Recall also that the Mahler transform (\BP{or is it called the Amice transform}) provides a natural isomorphism $\D_2 \cong \Lambda$ of topological $\Z_p$-algebras.\\
+Let $\D_2(\Q_p)$ (and $\D_2(\Z_p)$) denote the space of $\Q_p$-valued (and $\Z_p$-valued) $p$-adic distributions on $\Z_p^2$, endowed with a \textit{weight two} action of $\Gamma$. Let $\Symb_\Gamma(\D_2(\Q_p))$ denote the corresponding space of overconvergent modular symbols valued in $\D_2(\Q_p)$. There is a natural action of the Hecke algebra (of weight two and level $\Gamma$) on $\Symb_\Gamma(\D_2(\Q_p))$. Since $f$ satisfies \ref{hyp:ss},  a control theorem \cite[Thm.~6.10]{Wil17} shows that there exists a non-zero element $\Phi_f$ in $\Symb_\Gamma(\D_2(\Q_p))$, unique up to a scalar in $\Q_p$, that is stable under the action of the Hecke algebra and whose Hecke eigenvalues coincide with those of $f$. Associated to the tuple $(p,f,\chi,\psi)$, there exists a (locally analytic) distribution ${\mu}_{f,\chi,\psi}$ in $\D_2(\Q_p)$, satisfying certain interpolation properties which we elucidate in Section \ref{sec:l-functions} \BP{some attribution to the predicted properties is required here. I suppose this prediction is attributed to Coates-Perrin Riou in the ordinary setting, but what about in the supersingular setting? Is there some sort of uniform prediction?}.
 
-The purpose of our paper is to present an algorithm that computes the Mahler transform (denoted $L_{p,f,\psi}(x,y)$ here) of $\mu_{f,\psi}$ evaluated at the path $\left\{0 \rightarrow \infty \right\}$. To wit, we have
-\begin{align}\label{eq:p-adic-identify}
-\D_2 &\cong \Lambda, \notag \\
-\mu_{f,\psi}\left(\left\{0 \rightarrow \infty \right\}\right) &\leftrightarrow L_{p,f,\psi}(x,y).
-\end{align}
 
-The elements appearing in the identification given in equation (\ref{eq:p-adic-identify}) are referred to as the $p$-adic $L$-function. The application to Iwasawa theory stems from the fact that it is $L_{p,f,\psi}(x,y)$ that appears in the formulation of the Iwasawa-Greenberg main conjecture,  and is conjectured to generate the characteristic divisor in $\Lambda$ of the Pontryagin dual of a Selmer group. The construction of the Selmer group and the formulation of the main conjecture, both due to Greenberg, are recalled in Section \ref{}. \BP{describe later}
+\subsubsection*{Main Aim}  The starting point of our paper is a precise formula \BP{refequation} that computes \textit{moments} of the distribution ${\mu}_{f,\chi,\psi}$ in terms of the overconvergent modular symbol $\Phi_f$ (and in terms of the characters $\chi$, $\psi$). To illustrate in the introduction the main output of our algorithm and keeping in mind the applications to Iwasawa theory in Section \ref{sec:appIw}, we will place ourselves in the following simplifying situation. Let $E$ be an elliptic curve defined over $\Q$. Let $T_p(E)$ denote the $p$-adic Tate module associated to $E/\Q$. Let $f$ denote the cuspidal Bianchi eigenform corresponding to the base change to $K$ of the weight two $p$-stabilized cuspidal eigenform over $\Q$ associated to $E$. One can consider a $4$-dimensional Galois representation $\tau:G_\Q \rightarrow \GL_4(\Lambda)$, given by the action of $\Galois{\overline{\Q}}{\Q}$ on $\Ind^\Q_K \left( \Res^\Q_K T_p(E) \otimes_{\Z_p} \Lambda(\kappa^{-1})\right)$ --- a free $\Lambda$-module of rank $4$. \\
+
+
+\underline{\emph{When $E$ has good ordinary reduction or split multplicative reduction at $p$}}. In this case, it is known that ${\mu}_{f,\chi,\psi}$ belongs to $\D_2(\Z_p)$. Recall that the Amice transform provides an  isomorphism $\D_2(\Z_p) \cong \Lambda$ of topological $\Z_p$-algebras. The purpose of the algorithm in our paper in this case is to compute the Amice transform, denoted $L_{p,f,\chi,\psi}(x,y)$, of $\mu_{f,\chi,\psi}$. To wit, we have
+\begin{align*}
+\D_2(\Z_p) &\cong \Lambda, \\
+\mu_{f,\chi,\psi} &\leftrightarrow L_{p,f,\chi,\psi}(x,y).
+\end{align*}
+Corresponding to the fact that $E$ has good ordinary or split multiplicative reduction at $p$, one observes that the Galois representation $\tau$ satisfies Greenberg's Panchishkin condition\footnote{In fact, $\tau$ satisfies another distinct Panchishkin condition since $p$ splits in $K$.} and one can formulate an \textit{Iwasawa-Greenberg main conjecture} associated to $\tau$. See \cite{MR1265554} for more details. The application to Iwasawa theory stems from the fact that it is $L_{p,f,\chi,\psi}(x,y)$ that appears in the formulation of this conjecture, and is conjectured to generate the characteristic divisor in $\Lambda$ of the Pontryagin dual of a Selmer group (which we denote $\Sel_{f,\chi,\psi}(\Q)^\vee$).   \\
+
+\underline{\emph{When $E$ has good supersingular at $p$ with $a_p(E)=0$}.} In this case, the distribution $\mu_{f,\chi,\psi}$ does not belong to $\D_2(\Z_p)$. However, by suitably modifying this distribution (following an approach of Pollack \cite{MR1983040} in the $1$-variable case over $\Q$), Loeffler \cite{Loe14} has constructed four distributions $\mu^{\pm,\pm}_{f,\chi,\psi}$ in $\D_2(\Z_p)$. These distributions are referred to as \textit{doubly-signed} $p$-adic $L$-functions.  The purpose of the algorithm in our paper in this case is to compute the Amice transform, denoted $L^{\pm,\pm}_{p,f,\chi,\psi}(x,y)$, of $\mu^{\pm,\pm}_{f,\chi,\psi}$. To wit, we have
+\begin{align*}
+\D_2(\Z_p) &\cong \Lambda, \\
+\mu^{\pm,\pm}_{f,\chi,\psi} &\leftrightarrow L^{\pm,\pm}_{p,f,\chi,\psi}(x,y).
+\end{align*}
+The application to Iwasawa theory in this setting stems from conjectures of Kim \cite{MR3224266}. Each of the doubly signed $p$-adic $L$-functions $L^{\pm,\pm}_{p,f,\chi,\psi}(x,y)$ is conjectured to generate the characteristic divisor in $\Lambda$ of the corresponding doubly signed Selmer group (which we denote $\Sel^{\pm,\pm}_{f,\chi,\psi}(\Q)^\vee$) constructed by Kim \cite{MR3224266}, which in turn is inspired by work over $\Q$ of Kobayashi \cite{MR1965358}.
+
 
 \subsection{Description of the algorithm}
 
 The principal objects appearing in our algorithm are the following:
 
 \begin{itemize}
-\item [---] The overconvergent modular symbols valued in $\D_2$: $\Symb_\Gamma(\D_2)$
-\item[---] The parabolic cohomology group valued in distributions: $H^1_{\Par}(\Gamma,\D_2)$
-\item[---] The parabolic cohomology group with trivial coefficients $H^1_{\Par}(\Gamma,\Z_p)$.
+\item [---] The overconvergent modular symbols valued in $\D_2(\Q_p)$: $\Symb_\Gamma(\D_2(\Q_p))$,
+\item[---] The parabolic cohomology group valued in distributions: $H^1_{\Par}(\Gamma,\D_2(\Q_p))$,
+\item[---] The parabolic cohomology group with trivial coefficients $H^1_{\Par}(\Gamma,\Q_p)$.
 \end{itemize}
 
 Each of these objects are naturally endowed with an action of the  Hecke algebra (for weight $2$ and level $\Gamma$) and are related to each other by Hecke-equivariant maps as illustrated below:
-\begin{align}
+\begin{align} \label{commdiag:modsymgrpcoh}
 \xymatrix{
-\Symb_{\Gamma}(\D_2) \ar[r]^{\delta}&  H^1_{\Par}\left(\Gamma,\D_2 \right) \ar[d]^{\varrho} \\
-& H^1_{\Par}\left(\Gamma,\Z_p \right).
+\Symb_{\Gamma}(\D_2(\Q_p)) \ar[r]^{\delta}&  H^1_{\Par}\left(\Gamma,\D_2(\Q_p)\right) \ar[d]^{\varrho} \\
+& H^1_{\Par}\left(\Gamma,\Q_p \right).
 } & \qquad \qquad
 \xymatrix{
-\mu_{f,\psi} \ar[r]^{\delta}&  [\Phi_f] \ar[d]^{\varrho} \\
-& [\phi_f].
+{\Phi}_{f} \ar[r]^{\delta}&  [\Theta_{f}] \ar[d]^{\varrho} \\
+& [\vartheta_{f}].
 }
 \end{align}
 
-These maps are described in Section \ref{}. We will simply remark here that the map $\delta$ is a \textit{connecting homomorphism} in group theory, whereas the map $\varrho$ is obtained from the natural \textit{specialization map} $\D_2 \twoheadrightarrow \Z_p$.
 
-We now outline the main steps involved in our algorithm.\BP{will work on this}
+
+The objects and the maps appearing in (\ref{commdiag:modsymgrpcoh}) are described in Section \ref{}. We will simply remark here that the map $\delta$ is a \textit{connecting homomorphism} in group theory, whereas the map $\varrho$ is obtained from the natural \textit{specialization map} $\D_2(\Q_p) \twoheadrightarrow \Q_p$.
+
+We now outline the main steps involved in our algorithm.\BP{the outline is very bare ones now. It will be nice to expand on the steps a little more, especially Step 2 where the Bianchi setting really kicks in and Step 3, where we need to cleverly use code of Aurel Page, solve word presentations etc. Writing the outline perhaps makese sense to do at the end. Perhaps here or at the end, it will also be worthwhile to discuss how computationally intensive each step is}
+
+
+
+
+
+
+
 
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Step 1}) --- , ref=(\textsc{Step 1})]
-\item\label{step1} \underline{\emph{Constructing a cocycle $[\varphi_f]$ with trivial coefficients}}.
+\item\label{step1} \underline{\emph{Constructing a cocycle $[\vartheta_{f}]$ with trivial coefficients}}.
 \end{enumerate}
-In \ref{step1}, we construct a cocycle $\varphi$ in $Z^1(\Gamma,\Z_p)$ such that its corresponding cohomology class in $H^1_{\Par}\left(\Gamma,\Z_p \right)$ equals $[\varphi_f]$.
+It is known that there exists a one-dimensional $\Q_p$ vector subspace $V_f$ of $H^1_{\Par}\left(\Gamma,\Q_p \right)$ that is stable under the action of the Hecke algebra, with Hecke eigenvalues coinciding with those of $f$. In \ref{step1}, we construct a cocycle $\vartheta$ in $Z^1(\Gamma,\Q_p)$ such that its corresponding cohomology class $[\vartheta_{f}]$ in $H^1_{\Par}\left(\Gamma,\Q_p \right)$ generates $V_f$.
 
 
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Step 2}) --- , ref=(\textsc{Step 2})]
-\item\label{step2} \underline{\emph{Constructing an overconvergent lift $[\Phi_\f]$}}
+\item\label{step2} \underline{\emph{Constructing an overconvergent lift $[\Theta_{f}]$}}
 \end{enumerate}
 
-Since $f$ satisfies \ref{hyp:ss},  a control theorem \cite[Thm.~6.10]{Wil17} shows that there exists a unique cohomology class $[\Phi_f]$ in $H^1_{\Par}\left(\Gamma,\D_2 \right)$, stable under the action of the Hecke algebra, such that $\rho([\Phi_f])$ equals $[\phi_f]$.
-
-In \ref{step2}, we construct a cocycle $\Phi$ in $Z^1(\Gamma,\D_2)$ such that its corresponding cohomology class in $H^1_{\Par}\left(\Gamma,\D_2 \right)$ equals $[\Phi_f]$.
+Since $f$ satisfies \ref{hyp:ss},  the control theorem \cite[Thm.~6.10]{Wil17} is also applicable for the parabolic cohomology groups. There exists a unique cohomology class $[\Theta_{f}]$ in $H^1_{\Par}\left(\Gamma,\D_2(\Q_p) \right)$, stable under the action of the Hecke algebra, such that $\rho([\Theta_{f}])$ equals $[\vartheta_{f}]$. In \ref{step2}, we construct a cocycle $\Theta$ in $Z^1(\Gamma,\D_2(\Q_p))$ such that its corresponding cohomology class in $H^1_{\Par}\left(\Gamma,\D_2(\Q_p) \right)$ equals $[\Theta_{f}]$.
 
 
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Step 3}) --- , ref=(\textsc{Step 3})]
-\item\label{step3} \underline{\emph{Inverting the connecting homomorphism $\delta$ to obtain $\mu_{f,\psi}$}}
+\item\label{step3} \underline{\emph{Inverting the connecting homomorphism $\delta$ to obtain $\Phi_{f}$}}
 \end{enumerate}
 
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Step 4}) --- , ref=(\textsc{Step 4})]
-\item\label{step4} \underline{\emph{Computing the $2$-variable power series $L_p(x,y)$ in $\Lambda$}}.
+\item\label{step4} \underline{\emph{Computing the moments of the distribution $\mu_{f,\chi,\psi}$}}.
 \end{enumerate}
 
+
+\begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Step 5}) --- , ref=(\textsc{Step 5})]
+\item\label{step5} \underline{\emph{Computing the $2$-variable power series}}.
+\end{enumerate}
+
+
+\subsection{Applications in Iwasawa theory} \label{sec:appIw}
+
+\BP{Oops - sorry, woefully incomplete. To do:
+\begin{enumerate}
+\item Figure out how the action of complex conjugation works. Is it enough to check that  $L_p(x,y)$ and $L_p(y,x)$ are co-prime? Do you really need that the elliptic curves in this case are CM? 
+\end{enumerate}
+}
+
+
+\subsubsection{Higher codimension Iwasawa theory}
+Throughout Section \ref{sec:appIw}, suppose as before that $f$ equals the cuspidal Bianchi eigenform corresponding to the base change to $K$ of a weight two $p$-stabilized cuspidal eigenform over $\Q$ associated to an elliptic curve $E$ over $\Q$. Our application involve supporting a conjecture Coates-Sujatha \cite[Conjecture B]{MR2148798} on the Pontryagin dual of the fine Selmer group (which we denote $\Sha^1_{f,\chi,\psi}(\Q)^\vee$). The discrete fine Selmer group associated to $\tau$ is, roughly speaking, the subgroup of the first global Galois cohomology group that is locally trivial at all primes. The philosophy behind this conjecture of Coates-Sujatha goes back to conjectures of Greenberg \cite{Gre76}, \cite[Conjecture 3.5]{MR1846466}.
+
+A finitely generated torsion $\Lambda$-module is said to be \textit{pseudo-null} if its characteristic divisor $\mathrm{Div}(M)$ in $\Lambda$ equals zero. The conjecture of Coates-Sujatha in our setting amounts to the following:
+
+\begin{conjecture}
+\item $\Sha^1_{f,\chi,\psi}(\Q)^\vee$ is a pseudo-null $\Lambda$-module.
+\end{conjecture}
+
+
+
+
+\BP{Following examples should be interesting. Need to actually verify that they will be interesting and then explain why}
+
+\underline{\emph{When an elliptic curve $E/\Q$ has CM and has good ordinary reduction at $p$}}
+
+
+
+
+\begin{tabular}[t]{lrrrrr}\toprule
+ Cremona's Label          &  $K$    &  $p$    & $\mathrm{Rank}_\Z(E(\Q))$   & $\mathrm{Rank}_\Z(E(K))$ &   End.~algebra    \\ \midrule
+
+$27a1$   &   $\Q(\sqrt{-2})$  &  $7$ &  $0$   &    $1$  & $\Q(\sqrt{-3})$   \\\addlinespace
+$32a1$ &   $\Q(\sqrt{-7})$  & $5$    &  $0$   & $1$    & $\Q(\sqrt{-1})$   \\\addlinespace
+$108a1$ &   $\Q(\sqrt{-7})$  & $7$    &  $0$   & $2$    & $\Q(\sqrt{-3})$   \\\addlinespace
+$121b1$ &   $\Q(\sqrt{-19})$   &   $3$ &  $1$   & $2$    & $\Q(\sqrt{-11})$     \\
+\bottomrule
+\end{tabular}
+
+Our methodology in this case will be to show that there exists no irreducible element in $\Lambda$ that divides both
+\begin{align*}
+L_{p,f,\chi,\psi}(x,y) \text{ and } L_{p,f,\chi,\psi}(y,x).
+\end{align*}
+
+\underline{\emph{When an elliptic curve $E/\Q$ has good supersingular reduction at $p$}}
+
+
+\begin{tabular}[t]{lrrrrr}\toprule
+ Cremona's Label          &  $K$    &  $p$    & $\mathrm{Rank}_\Z(E(\Q))$   & $\mathrm{Rank}_\Z(E(K))$ &   End.~algebra    \\ \midrule
+
+$14a1$   &   $\Q(\sqrt{-11})$  &  $5$ &  $0$   &    $1$  & $\Q$   \\\addlinespace
+$37a1$ &   $\Q(\sqrt{-2})$  & $3$    &  $1$   & $1$    & $\Q$   \\\addlinespace
+$121b1$ &   $\Q(\sqrt{-19})$   &   $7$ &  $1$   & $2$    & $\Q(\sqrt{-11})$     \\
+\bottomrule
+\end{tabular}
+
+
+\begin{comment}
+\begin{enumerate}
+\item[(1CMord7)] (CM by $\Q(\sqrt{-3})$),  $K=\Q(\sqrt{-2})$, $\mathrm{Rank}_\Q E(\Q)=0$, $\mathrm{Rank}_\Q E_K(\Q)=1$, $p=7$ is ordinary .
+\item[(1CMord5)] $E=32a1$ (CM by $\Q(\sqrt{-1})$),  $K=\Q(\sqrt{-7})$, $\mathrm{Rank}_\Q E(\Q)=0$, $\mathrm{Rank}_\Q E_K(\Q)=1$, $p=5$ is ordinary .
+\item[(3CMord3)] $E=121b1$ (CM by $\Q(\sqrt{-11})$),  $K=\Q(\sqrt{-19})$, $\mathrm{Rank}_\Q E(\Q)=1$, $\mathrm{Rank}_\Q E_K(\Q)=2$, $p=3$ is ordinary .
+
+
+
+\item[(1SS5)] $E=14a1$,  $K=\Q(\sqrt{-11})$, $\mathrm{Rank}_\Q E(\Q)=0$, $\mathrm{Rank}_\Q E_K(\Q)=1$, $p=5$ is supersingular (not CM).
+\item[(2SS3)] $E=37a1$,  $K=\Q(\sqrt{-2})$, $\mathrm{Rank}_\Q E(\Q)=1$, $\mathrm{Rank}_\Q E_K(\Q)=1$, $p=3$ is supersingular (not CM).
+\item[(3SS7)] $E=121b1$,  $K=\Q(\sqrt{-19})$, $\mathrm{Rank}_\Q E(\Q)=1$, $\mathrm{Rank}_\Q E_K(\Q)=2$, $p=7$ is supersingular (CM).
+\end{enumerate}
+\end{comment}
+
+\subsubsection{Relationship to the Rankin-Selberg $p$-adic $L$-function}
+\BP{this is just an additional comment/observation, not related to higher codimension Iwasawa theory but might be interesting nonetheless --- will work on this.}
+
+Then, the Galois representation $\tau$ is isomorphic to
+\begin{align*}
+T_p(E) \otimes_{\Lambda} \Ind^\Q_K (\Z_p)  \Lambda(\kappa_{\pri}^{-1}) \otimes_\Lambda \Lambda(\kappa_{\mathrm{cyc}}^{-1}).
+\end{align*}
+This corresponds to the tensor product of the elliptic curve $E$ and the ``CM-Hida family'' corresponding to the
+Hida has constructed a $2$-variable Rankin-Selberg $p$-adic $L$-function.  where the elliptic curve $E$ has the dominant weight (equal to two) and  we vary over the classical weight one specializations of the induced represnetat the cyclotomic variable and the weight variable (of the CM family).  For this Rankin-Selberg $p$-adic $L$-function, one can vary the cyclotomic variable and the weight-variable.
+
+
+
+
+
+
+
+\begin{comment}
 \subsection{Explicit Bianchi $p$-adic $L$-functions}
 To compute the $p$-adic $L$-functions of \cite{Loe14}, there is an algorithm of the third author. The main result of \cite{Wil17} was a construction of a $p$-adic $L$-function attached to very general classes of Bianchi modular forms -- that is, modular forms over $K$ -- using a generalisation of Stevens' theory of \emph{overconvergent modular symbols}.  A particular feature of this approach, as explored for classical modular forms in \cite{PS11}, is its amenability to computation.
 
@@ -287,51 +403,55 @@ To $E/\Q$, one can attach a classical modular form $f$ under modularity, and thr
 
 We actually use a modified version of the construction of \cite{Wil17}. Existing code is much more developed for computations with arithmetic group cohomology, rather than modular symbols, so we develop a cohomological version of the construction. This approach, however, introduces new theoretical complications, which we explain and treat in the main text. In particular, it requires explicitly inverting the natural map from modular symbols to group cohomology.
 
-[Include remarks on Rob Pollack and co, and in particular emphasise the difficulty of computing 2-variable things: they restrict to index in the 100s, it takes them many hours and they compute to precision 7. We should do better?]
+\end{comment}
+
 
 
 \subsection{Concluding Remarks}
 
-\begin{enumerate} 
+\begin{enumerate}
 \item Explain why  we restrict to $K$ to have class number one.
-\item Explain here why we choose to work with group cohomology instead of modular symbols.
-\item Explain here all the places where the choices are being made (I think only initially in choosing generators) and emphasize all the objects that are canonical and don't depend on any choices (like the measure etc).
-\item Explain here how the precision is related to storing moments
-\item Explain how we verify our code by existing theoretical results, relating it to 1-variable p-adic L-functions of Pollack. And perhaps, mu-invariant results of Hida.
+\end{enumerate}
+
+For several practical reasons in our implementation, we choose to first work with arithmetic cohomology (the parabolic cohomology groups) instead of directly working with modular symbols (as in \cite{PS11,Gre07}). This is mainly since in the setting of Bianchi groups, extensive implementation to work with arithmetic cohomology groups already exists \BP{references}. Also, this approach might generalize more naturally to other settings, for example, pursuing the constructions of Barrera-Salazar \cite{Bar15} for $p$-adic $L$-functions over \emph{real} quadratic fields, where modular symbols themselves do not exist and one is forced to work with higher degree cohomology groups.
+
+\begin{enumerate}
 \item Analyse the run time of our algorithm. What are our practical limitations in computing things.
+\item Explain how we verify our code by existing theoretical results, relating it to 1-variable p-adic L-functions of Pollack. And in the root number = -1 case, showing that the appropriate anti-cyclotomic specializations are zero.
 \item Explain how our code compares to existing code of Pollack - Harron and co.
-\item Write down all the attributions here --- Stevens, Pollack, Greenberg etc. 
+[Include remarks on Rob Pollack and co, and in particular emphasise the difficulty of computing 2-variable things: they restrict to index in the 100s, it takes them many hours and they compute to precision 7. We should do better?]
+\item Write down all the attributions here --- Stevens, Pollack, Greenberg etc.
 \end{enumerate}
 
 \subsection*{Acknowledgements}
-This research was supported through the programme "Research in Pairs" by the Mathematisches Forschungsinstitut Oberwolfach in 2018; the MFO also supported this project by enabling M.M.\ and C.W.\ to visit B.P.\ whilst he was there in 2019 as a Leibniz fellow. We are grateful to the MFO for twice providing a stimulating place to do research. We would like to thank Aurel Page for helpful conversations about his code for computing presentations of arithmetic groups. The authors were supported by the following grants: [INSERT HERE] (M.M.); [INSERT HERE] (B.P.); a Heilbronn Research Fellowship and EPSRC Postdoctoral Fellowship [EP/T001615/1] (C.W.).
+This research was supported through the ``Research in Pairs'' programme at the Mathematisches Forschungsinstitut Oberwolfach in 2018; the MFO also supported this project by enabling M.M.\ and C.W.\ to visit B.P.\ whilst he was there in 2019 as a Leibniz fellow. We are grateful to the MFO for twice providing a stimulating place to do research. We would like to thank Aurel Page for helpful conversations about his code for computing presentations of arithmetic groups. The authors were supported by the following grants: [INSERT HERE] (M.M.); [INSERT HERE] (B.P.); a Heilbronn Research Fellowship and EPSRC Postdoctoral Fellowship [EP/T001615/1] (C.W.).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Bianchi modular forms and \texorpdfstring{$p$}{p}-adic \texorpdfstring{$L$}{L}-functions}
 \label{sec:bianchi p-adic l-functions}
-We recap the underlying theory of Bianchi modular forms, which are a natural generalisation of classical modular forms -- that is, automorphic forms for $\GLt/\Q$ -- to $\GLt/K$, where $K$ is an imaginary quadratic field. Throughout this paper, we take $K$ to have class number 1 for simplicity (in line with our later computations). Let $\mathcal{O}_K$ be the ring of integers. 
+We recap the underlying theory of Bianchi modular forms, which are a natural generalisation of classical modular forms -- that is, automorphic forms for $\GLt/\Q$ -- to $\GLt/K$, where $K$ is an imaginary quadratic field. Throughout this paper, we take $K$ to have class number 1 for simplicity (in line with our later computations). Let $\mathcal{O}_K$ be the ring of integers.
 
 \subsection{Background}
 For each congruence subgroup $\Gamma \subset \SLt(\mathcal{O}_K),$ there is a finite-dimensional $\C$-vector space $S_{2}^K(\Gamma)$ of `weight 2 Bianchi cusp forms', defined as harmonic vector-valued functions
 \[
     \f = (\f_0,\f_1,\f_2) : \uhs \longrightarrow \C^3
 \]
- on the upper half-space $\uhs := \C\times\R_{>0}$ satisfying a suitable transformation property under an action of $\Gamma.$ See \cite[\S1]{Wil17} for a more detailed exposition of all of this (standard) theory in our conventions (noting that $S_2^K(\Gamma)$ for us is denoted $S_{0,0}(\Gamma)$ \emph{op.\ cit}.). 
- 
- There is a Hecke action on $S_2^K(\Gamma)$, given by double coset operators and indexed by ideals of $\mathcal{O}_K$. 
+ on the upper half-space $\uhs := \C\times\R_{>0}$ satisfying a suitable transformation property under an action of $\Gamma.$ See \cite[\S1]{Wil17} for a more detailed exposition of all of this (standard) theory in our conventions (noting that $S_2^K(\Gamma)$ for us is denoted $S_{0,0}(\Gamma)$ \emph{op.\ cit}.).
+
+ There is a Hecke action on $S_2^K(\Gamma)$, given by double coset operators and indexed by ideals of $\mathcal{O}_K$.
 
 \subsubsection{$L$-functions and $p$-adic $L$-functions}\label{sec:l-functions}
-If $\f \in S_2^K(\Gamma)$ is an eigenform with Hecke eigenvalues $\{a_I : I\subset \roi_K\}$, and $\chi$ is a Hecke character of $K$, one defines the $L$-function 
+If $\f \in S_2^K(\Gamma)$ is an eigenform with Hecke eigenvalues $\{a_I : I\subset \roi_K\}$, and $\chi$ is a Hecke character of $K$, one defines the $L$-function
 \[
 	L(\f,s) = \sum_{I \subset \roi_K}a_I \chi(I)N(I)^{-s}
-\] 
+\]
 as the corresponding Dirichlet series (see \cite[\S1.2]{Wil17}). This sum converges absolutely for $\mathrm{Re}(s)>>0$ and admits analytic continuation to arbitrary $s\in\C$. Morever, there exists a complex period $\Omega_{\f} \in \C^\times$ such that
 \begin{equation}\label{eqn:algebraic}
 	\frac{L(\f,\chi,1)}{(2\pi i)^2\Omega_{\f}} \in \overline{\Q}
 \end{equation}
-for all finite order Hecke characters $\chi$ (see \cite[\S8]{Hid94}). The conjecture of Coates--Perrin-Riou then predicts the existence of a \emph{$p$-adic $L$-function} interpolating these algebraic numbers. More precisesly, this should be a $p$-adic distribution $\mu_{\f}$ on 
+for all finite order Hecke characters $\chi$ (see \cite[\S8]{Hid94}). The conjecture of Coates--Perrin-Riou then predicts the existence of a \emph{$p$-adic $L$-function} interpolating these algebraic numbers. More precisesly, this should be a $p$-adic distribution ${\mu}_{\f}$ on
 \[
 	\mathrm{Gal}(K^{\mathrm{ab},p}/K) \cong \cl_K(p^\infty) \defeq K^\times\A_K^\times/\C^\times \widehat{\roi}_K^{\times,(p)} \cong (\roi_K\otimes_{\Z}\Zp)^\times/\roi_K^\times,
 \]
@@ -339,7 +459,7 @@ where $K^{\mathrm{ab},p}$ is the maximal abelian extension of $K$ unramified out
 \begin{equation}\label{eqn:interpolation}
 	\mu_f(\chi) \defeq \int_{\cl_K(p^\infty)}\chi(z)d\mu_{\f}(z) = (*)\frac{L(\f,\chi,1)}{(2\pi i)^2\Omega_{f}},
 \end{equation}
-where $(*)$ is a precise interpolation factor (described explicitly in this case in \cite[Thm.~3.12]{BW17} with $r=0$). Moreover, $\mu_{\f}$ should satisfy a precise growth property. 
+where $(*)$ is a precise interpolation factor (described explicitly in this case in \cite[Thm.~3.12]{BW17} with $r=0$). Moreover, $\mu_{\f}$ should satisfy a precise growth property.
 
 
 \subsubsection{Base-change}
@@ -355,7 +475,7 @@ where $\chi_K$ is the quadratic Hecke character whose kernel cuts out $K/\Q$.
 
 %==================================
 \subsection{Bianchi modular symbols}
-We are interested in computational aspects of Bianchi modular forms, and particularly their $L$-functions, but the analytic definition is impractical for such purposes. Fortunately, the space $S_2^K(\Gamma)$ admits a computational avatar via the space of \emph{modular symbols}. Let 
+We are interested in computational aspects of Bianchi modular forms, and particularly their $L$-functions, but the analytic definition is impractical for such purposes. Fortunately, the space $S_2^K(\Gamma)$ admits a computational avatar via the space of \emph{modular symbols}. Let
 \[
     \Delta_0 \defeq \mathrm{Div}^0(\Proj(K))
 \]
@@ -376,7 +496,7 @@ Now let $\f \in S_2^K(\Gamma)$. To $\f$ one may attach an explicit differential 
     \phi_{\f} : \Delta_0 &\longrightarrow \C,\\
     \{r\to s\} &\longmapsto \int_{r}^s \delta_f,
 \end{align*}
-is well-defined and the transformation property satisfied by $\f$ ensures it is $\Gamma$-invariant, thus giving an element $\phi_f \in \Symb_\Gamma(\C).$ 
+is well-defined and the transformation property satisfied by $\f$ ensures it is $\Gamma$-invariant, thus giving an element $\phi_f \in \Symb_\Gamma(\C).$
 
 The space $\Symb_\Gamma(\C)$ admits an action of the Hecke operators, indexed by ideals of $\cO_F$ and generated by the operators $T_{\fl}$ for $\fl\nmid\fn$ prime and $U_{\fl}$ for $\fl|\fn$. Of particular importance are the $U_{\pri}$-operators for $\pri|p$, defined as
 \begin{align*}
@@ -385,11 +505,11 @@ The space $\Symb_\Gamma(\C)$ admits an action of the Hecke operators, indexed by
 where $\pri = (\pi)$. More generally, if the action of $\Gamma$ on $V$ extends to an action of the semigroup
 \[
 \Sigma_0(p) \defeq \{\smallmatrd{a}{b}{c}{d} \in M_2(\roi_K\otimes_{\Z}\Zp) :  ad-bc \neq 0, p\nmid a, p|c\},
-\] 
+\]
 then the formula $\phi|U_{\pri} = \sum_{a = 0}^{p-1}\phi|\smallmatrd{1}{a}{0}{\pi}$ defines an action of $U_{\pri}$ on $\Symb_\Gamma(V)$.
 
 \begin{proposition}
- The resulting map 
+ The resulting map
     \[
         \iota : S_2^K(\Gamma) \longrightarrow \Symb_\Gamma(\C)
     \]
@@ -442,7 +562,7 @@ Whilst this map will have a huge kernel, crucially, the Hecke action allows us t
 Let $\f \in S_2^K(\Gamma)$ be an eigenform, with $U_{\pri}\f = \alpha_{\pri}\f$ for each $\pri|p$. If $v_{\pri}(\alpha_{\pri}) < 1$ for all $\pri$, then the restriction of $\rho$ to the $\f$-eigenspaces of the Hecke operators is an isomorphism.
 \end{theorem}
 
-If $\f$ satisfies this condition, we say it has \emph{small slope}. If $\f$ is such a form, then the theorem says that there is a \emph{unique} $\Phi_{\f} \in \symb_\Gamma(\D_2(L))$ lifting $\phi_{\f}/\Omega_{\f}.$ 
+If $\f$ satisfies this condition, we say it has \emph{small slope}. If $\f$ is such a form, then the theorem says that there is a \emph{unique} $\Phi_{\f} \in \symb_\Gamma(\D_2(L))$ lifting $\phi_{\f}/\Omega_{\f}.$
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -453,7 +573,7 @@ If $\f$ satisfies this condition, we say it has \emph{small slope}. If $\f$ is s
 Let $\f$ be a small slope Bianchi eigenform with associated overconvergent modular symbol $\Phi_{\f}$. Recall from \S\ref{sec:l-functions} that the $p$-adic $L$-function should be a $p$-adic distribution on $\cl_K(p^\infty) = (\Zp^\times)^2/\roi_K^\times$. Note that there is a natural inclusion $\A(\cl_K(p^\infty),L) \subset \A_2(L)$
 of the subspace of analytic functions on $\cl_K(p^\infty)$, and thus a natural restriction map $\D_2(L) \to \D(\cl_K(p^\infty))$.
 
-\begin{definition} 
+\begin{definition}
 Define the \emph{$p$-adic $L$-function of $\f$} to be
 \[
 	\mu_{\f} \defeq \Phi_{\f}\{0 \to \infty\}\big|_{\cl_K(p^\infty)}.
@@ -472,11 +592,11 @@ In this section, we show how to compute the $p$-adic $L$-series of a Bianchi mod
 %%%%%%%%%%%%%%%%%%%%
 \subsubsection{Distributions on $\Zp^\times$}
 
-For simplicity, we assume that $p \geq 3$, though the case $p = 2$ can be obtained with very little (and completely standard) modification. In the classical case, the $p$-adic $L$-function is naturally a distribution on the Galois group $\mathrm{Gal}_p \defeq \mathrm{Gal}(\Q^{\mathrm{ab},p\infty}/\Q)$, which by class field theory is isomorphic to the narrow ray class group 
+For simplicity, we assume that $p \geq 3$, though the case $p = 2$ can be obtained with very little (and completely standard) modification. In the classical case, the $p$-adic $L$-function is naturally a distribution on the Galois group $\mathrm{Gal}_p \defeq \mathrm{Gal}(\Q^{\mathrm{ab},p\infty}/\Q)$, which by class field theory is isomorphic to the narrow ray class group
 \[
 	\cl_{\Q}^+(p^\infty) = \Q^\times\backslash \A^\times/\R_{>0}\widehat{\Z}^{\times,(p)} \cong \Zp^\times.
 \]
-Let now $f \in S_2(\Gamma)$ be a classical eigenform (for $\GLt/\Q$) with $U_pf = \alpha_p f$ with $v_p(\alpha_p) < 1$. By \cite{PS11}, there is a unique overconvergent modular symbol $\Phi_f \in \Hom_\Gamma(\Div^0(\Proj(\Q)),\D)$ attached to $f$, where $\D$ is the space of distributions on $\Zp$. Then $\Phi_f\{0 \to \infty\} \in \D$ is by definition a distribution on $\Zp$, and we obtain a distribution $\mu_f$ on $\Zp^\times$ by restriction. This distribution is, by \cite{PS11}, the $p$-adic $L$-function attached to $f$, and is entirely encoded in its moments 
+Let now $f \in S_2(\Gamma)$ be a classical eigenform (for $\GLt/\Q$) with $U_pf = \alpha_p f$ with $v_p(\alpha_p) < 1$. By \cite{PS11}, there is a unique overconvergent modular symbol $\Phi_f \in \Hom_\Gamma(\Div^0(\Proj(\Q)),\D)$ attached to $f$, where $\D$ is the space of distributions on $\Zp$. Then $\Phi_f\{0 \to \infty\} \in \D$ is by definition a distribution on $\Zp$, and we obtain a distribution $\mu_f$ on $\Zp^\times$ by restriction. This distribution is, by \cite{PS11}, the $p$-adic $L$-function attached to $f$, and is entirely encoded in its moments
 \[
 \left\{\mu_f(z^j) \defeq \int_{\Zp^\times} z^j d\mu_f(z) : j \geq 0\right\}.
 \] We have a simple description of the moments of $\mu_f$ in terms of $\Phi_f$, and thus, in particular, we can compute them by knowing $\Phi_f$.
@@ -500,7 +620,7 @@ The final statement follows since $\mathbf{1}_{\Zp^\times} = \sum_{a=1}^{p-1}\ma
 \end{proof}
 
 \subsubsection{Passing to $p$-adic $L$-series}
-The distribution $\mu_f$ is completely canonical. Even in higher weight situations, it is canonical up to a fixed choice of periods. For practical purposes, however, to compute $p$-adic $L$-series from $\mu_f$ we wish to break this into $p-1$ pieces via the decomposition 
+The distribution $\mu_f$ is completely canonical. Even in higher weight situations, it is canonical up to a fixed choice of periods. For practical purposes, however, to compute $p$-adic $L$-series from $\mu_f$ we wish to break this into $p-1$ pieces via the decomposition
 \begin{equation}\label{eqn:Zp decomp}
 	\Zp^\times = (\Z/p\Z)^\times \times (1+p\Zp),
 \end{equation}
@@ -508,10 +628,10 @@ The distribution $\mu_f$ is completely canonical. Even in higher weight situatio
 
 
 \begin{notation}
-	In \eqref{eqn:Zp decomp}, denote projection to the first and second factors by $z \mapsto \{z\}$ and $z \mapsto \langle z\rangle$ respectively. 
+	In \eqref{eqn:Zp decomp}, denote projection to the first and second factors by $z \mapsto \{z\}$ and $z \mapsto \langle z\rangle$ respectively.
 \end{notation}
 
-We can identify distributions $\mu$ on $\Zp^\times$ with analytic functions on \emph{weight space} 
+We can identify distributions $\mu$ on $\Zp^\times$ with analytic functions on \emph{weight space}
 \[
 	\W = \mathrm{Hom}_{\mathrm{cts}}(\Zp^\times, \C_p^\times),
 \]
@@ -545,7 +665,7 @@ The $p$-adic $L$-series attached to $\psi$ and $\mu$ is
 	L_p(\mu,\psi,T_{\pri},T_{\pribar}) = \sum_{m\geq 0}\sum_{n\geq 0} d_{m,n}(\psi) T_{\pri}^mT_{\pribar}^n,
 \]
 where -- for $c_i^{(m)}$ as in \eqref{cjn} -- we define
-\begin{align*} 
+\begin{align*}
     d_{m,n}(\psi) = \sum_{a=1}
 ^{p-1}\sum_{b=1}^{p-1} &\psi_{\pri}\big(a\big) \psi_{\pribar}\big(b\big) \\
 \times &\int_{(a+p\Zp) \times (b+p\Zp)} \bigg[ \sum_{i\geq 1} \sum_{j\geq 1} c_i^{(m)} c_j^{(n)} \left(\frac{z_{\pri}}{\{a\}}-1\right)^i \left(\frac{z_{\pribar}}{\{b\}}-1\right)^j \bigg]d\mu(\mathbf{z}) .
@@ -617,7 +737,7 @@ From the general theory, the kernel and cokernel of $\delta$ are Eisenstein; in 
 We now give an explicit and computable recipe for inverting $\delta$ on cuspidal arithmetic cohomology classes, taking care to be precise at every step.
 
 \subsubsection{Motivation: a snake diagram}
-The map $\delta$ can be realised in cohomology as 
+The map $\delta$ can be realised in cohomology as
 \[
 \delta : \h^0(\Gamma,\mathrm{Hom}(\Delta_0,\D_2) \longrightarrow \h^1(\Gamma,\D_2),
 \]
@@ -625,7 +745,7 @@ and is the connecting map in a long exact sequence given by the snake lemma. In 
 \begin{itemize}
 	\item $C^i(\mathcal{M}) \defeq C^i(\Gamma,M)$ = $\mathcal{M}$-valued $i$-cochains for $\Gamma$,
 	\item $Z^i(\mathcal{M}) \defeq$ $\mathcal{M}$-valued $i$-cocycles for $\Gamma$,
-	\item and $B^i(\mathcal{M}) \defeq$ $\mathcal{M}$-valued $i$-coboundaries for $\Gamma$. 
+	\item and $B^i(\mathcal{M}) \defeq$ $\mathcal{M}$-valued $i$-coboundaries for $\Gamma$.
 \end{itemize}
 Explicitly, as we are using right modules, a 1-cocycle is a map $z : \Gamma \to \mathcal{M}$ such that $z(\gamma_1\gamma_2) = z(\gamma_1) + z(\gamma_2)|\gamma_1^{-1}$. Also write $(C^i/B^i)(\mathcal{M})$ for the $i$-cochains modulo the $i$-coboundaries.
 
@@ -664,11 +784,11 @@ for all $\gamma \in \mathrm{Stab}_\Gamma(c_i)$.
 	\[
 		\varphi_0 \longmapsto \bigg(\beta\left(\varphi_0\right) : \gamma \mapsto \left[r \mapsto \varphi_0(\gamma)\right]\bigg),
 	\]
-	where $r$ is any element of $\Proj(K)$ (recalling that $\Delta = \Z[\Proj(K)]$ is freely generated such $r$). In particular, each $\gamma \in \Gamma$ is just sent to a constant function in $\Hom(\Delta,M)$. For $\varphi \in \ker(\beta)$, we must have $\beta(\varphi_0)$ is a coboundary, and hence that there exists $v \in \Hom(\Delta,M)$ such that 
+	where $r$ is any element of $\Proj(K)$ (recalling that $\Delta = \Z[\Proj(K)]$ is freely generated such $r$). In particular, each $\gamma \in \Gamma$ is just sent to a constant function in $\Hom(\Delta,M)$. For $\varphi \in \ker(\beta)$, we must have $\beta(\varphi_0)$ is a coboundary, and hence that there exists $v \in \Hom(\Delta,M)$ such that
 	\[
 		\beta(\varphi_0)(\gamma) = v|\gamma^{-1} - v.
 	\]
-	In particular, we have 
+	In particular, we have
 	\[
 		\beta(\varphi_0)(\gamma)(r) = v(\gamma^{-1} r)|\gamma^{-1} - v(r) = \varphi_0(\gamma)
 	\]
@@ -680,7 +800,7 @@ for all $\gamma \in \mathrm{Stab}_\Gamma(c_i)$.
 	%
 	%For the converse, suppose $\varphi_0$ is in $\ker(\oplus \mathrm{res}_{c_i})$; then we have $v_i$ as above for each cusp representative $c_i$. But this is enough to reconstruct $v \in \Hom(\Delta,M)$ such that $\beta(\varphi_0)(\gamma) = v|\gamma^{-1} - v$ for every $\gamma \in \Gamma$, since every cusp is $\Gamma$-equivalent to one of the $c_i$. In particular, we can define
 	%\[
-	%	v(r) = v(\gamma_r c_{i(r)}) = 
+	%	v(r) = v(\gamma_r c_{i(r)}) =
 	%\]
 	%\[
 	%	\beta(\varphi_0)(\gamma)(r) = \varphi_0(\gamma) = v(r)|\gamma^{-1} - v(r) = v(g_r c_{i(r)})|\gamma^{-1} - v(g_r c_{i(r)})
@@ -689,10 +809,10 @@ for all $\gamma \in \mathrm{Stab}_\Gamma(c_i)$.
 
 Let now $c_1, ..., c_t \in \Proj(K)$ be a complete set of representatives for the cusps, and for each $r \in \Proj(K)$, let $g_r \in \Gamma$ and $i(r) \in \{1,...,t\}$ be such that
 \[
-	g_r \cdot r = c_{i(r)}. 
+	g_r \cdot r = c_{i(r)}.
 \]
 Assuming $\varphi \in \ker(\beta)$, let $v_1, ..., v_t \in \D_2$ be the distributions arising from Proposition \ref{prop:stab coboundaries}. We can compute the $v_i$ by computing the action of $g$ as a linear operator on $\D_2$ (up to some precision), and then solving the resulting linear system for a sufficiently large set of elements of the stabiliser\footnote{In practice, this is actually more subtle than it appears: in the linear system, the variables will appear with varying degrees of precision, due to the filtration appearing in the explicit lifting theorem.}.
-	
+
 Again motivated by the snake lemma, we now define $\widetilde{\Phi} \in \Hom_\Gamma(\Delta,\D_2) = \h^0(\Gamma,\Hom(\Delta,\D_2))$ by setting
 
 	\begin{align*}
@@ -716,12 +836,12 @@ Again motivated by the snake lemma, we now define $\widetilde{\Phi} \in \Hom_\Ga
 %	\[
 %			g_r \cdot r = c_{i(r)}.
 %	\]
-%	\item Explicitly represent $\mathrm{Res}_{c_i}(\varphi)$ as a coboundary in $\h^1(\mathrm{Stab}_{\Gamma}(c_i), \D_2)$. In particular, find $v_1, ..., v_t \in \D_2$ such that 
+%	\item Explicitly represent $\mathrm{Res}_{c_i}(\varphi)$ as a coboundary in $\h^1(\mathrm{Stab}_{\Gamma}(c_i), \D_2)$. In particular, find $v_1, ..., v_t \in \D_2$ such that
 %	\[
 %		\varphi(g) = v_i|g^{-1} - v_i
 %	\]
-	
-	
+
+
 	\begin{proposition}
 		The map $\Phi$ gives a well-defined element of $\Symb_{\Gamma}(\D_2)$ with $\delta(\Phi) = \varphi$.
 	\end{proposition}
@@ -732,7 +852,7 @@ Again motivated by the snake lemma, we now define $\widetilde{\Phi} \in \Hom_\Ga
 									&= \varphi(\gamma) + \left[v_1 - v_1|\gamma^{-1}\right],
 		\end{align*}
 		using that $\varphi(1) = 0 = \varphi(\gamma\gamma^{-1}) = \varphi(\gamma) + \varphi(\gamma^{-1})|\gamma^{-1}$. The term in the square brackets is a coboundary; thus the cocycle $\delta(\Phi)$ represents the same cohomology class as $\varphi$.
-		
+
 		It remains to show that $\Phi$ is $\Gamma$-equivariant. Let $\gamma \in \Gamma$. Note that if $g_r \cdot r = c_{i(r)}$, then $g_r\gamma^{-1} \cdot \gamma r = c_{i(r)}$, so that $c_{i(\gamma r)} = c_{i(r)}$ and $g_{\gamma r} = g_r\gamma^{-1}$. Then
 		\begin{align*}
 			\widetilde{\Phi}(\gamma r) &= \varphi(g_{\gamma r})|g_{\gamma r} + v_{i(\gamma r)}|g_{\gamma r}\\
@@ -753,7 +873,7 @@ In general, the map $\Phi$ thus defined is not an eigensymbol. In particular, wh
 	For all sufficiently large primes $\mathfrak{l}$ of $K$, coprime to $p\fn$, the symbol
 	\[
 		\Phi_{\f} \defeq \frac{T_{\mathfrak{l}} - \ell - 1}{a_{\mathfrak{l}} - \ell + 1} \Phi \in \Symb_\Gamma(\D_2)
-	\] 
+	\]
 	is the uniquely determined overconvergent (cuspidal) eigensymbol mapped to $\varphi$ under $\delta$, where $\ell$ is the norm of $\mathfrak{l}$ and $a_{\mathfrak{l}}$ is the $T_{\mathfrak{l}}$-eigenvalue of the Bianchi modular form $\f$.
 \end{proposition}
 \begin{proof}
@@ -803,7 +923,7 @@ We will show that $\varphi(g)=0$ for all $g\in\operatorname{Stab}_{\Gamma}(c_i)$
 
 To prove the second claim, the definition clearly makes $\Phi$ to be linear on $\Div^0(\mathbb{P}^1(\Q))$, so it is enough to check $\Gamma$-equivariance. This follows from the following calculation:
 \begin{align*}
-\Phi\{g\gamma_jc_j\rightarrow g\gamma_ic_i\}&=\varphi(g\gamma_j)-\varphi(g\gamma_i) = 
+\Phi\{g\gamma_jc_j\rightarrow g\gamma_ic_i\}&=\varphi(g\gamma_j)-\varphi(g\gamma_i) =
 g\gamma_j\varphi(\gamma_j^{-1}g^{-1}) - g\gamma_i\varphi(\gamma_i^{-1}g^{-1})\\
 &=\left(g\gamma_j\varphi(\gamma_j^{-1}) + g\varphi(g^{-1})\right) -\left(g\gamma_i\varphi(\gamma_i^{-1}) + g\varphi(g^{-1})\right)\\
 &= g\left(\gamma_j\varphi(\gamma_j^{-1}) - \gamma_i\varphi(\gamma_i^{-1})\right)\\
@@ -821,10 +941,12 @@ The modular symbol thus defined is not an eigensymbol, in general. Since $\delta
 \delta(T(f) - f) = 0,
 \]
 and so $T(f) = f + \epsilon$, where $\epsilon$ is an Eistenstein symbol. In order to obtain an eigensymbol it suffices to apply for example $T_\ell-\ell-1$ for any prime $\ell$.
-      
+
 % The problem, however, is that it is difficult to make the inverse of $\delta$ explicit. In particular, given an overconvergent arithmetic class $\varphi$, from the definition we only know how to evaluate $\delta^{-1}(\varphi)$ at divisors of the form $\gamma\cdot\infty \rightarrow \infty$, where $\gamma \in \Gamma$. The cusps $0$ and $\infty$, however, are not $\Gamma$-equivalent, so it is far from clear how to extract the data $\delta^{-1}(\varphi)\{0\rightarrow\infty\}$ from $\varphi$. For clarity, we first explain how to do this for $\GLt/\Q$, which is similar but simpler.
 \end{comment}
 
+
+\begin{comment}
 
 \subsubsection{Remark: an alternative formula using $U_p$}
 In certain cases, there are even more explicit formula -- inspired by Prop.~\ref{prop:apply Up} -- for computing $p$-adic $L$-functions from the knowledge only of $\varphi$ (without inverting $\delta$ to compute the whole modular symbol $\Phi$). We highlight this only in the rational case for simplicity, though the same ideas go through for Bianchi modular forms too.
@@ -839,7 +961,7 @@ Let $d_q$ denote the order of $q$ in $(\Z/p\Z)^\times$, and write $a_q$ for the 
 \begin{align*}
 \big(1 -a_q^{-d_q}&q^{jd_q}\big)\Phi\left\{\tfrac{a}{p}\rightarrow\infty\right\}((a+pz)^j) =
 \\
-& a_p^{-1} \sum_{m = 0}^{d_q-1} a_q^{-m}q^{jm}%\lambda_1^{-m_1}q_1^{m_1j}\cdots \lambda_r^{-m_r}q_r^{m_rj} 
+& a_p^{-1} \sum_{m = 0}^{d_q-1} a_q^{-m}q^{jm}%\lambda_1^{-m_1}q_1^{m_1j}\cdots \lambda_r^{-m_r}q_r^{m_rj}
 \sum_{\substack{\beta \in (\Z/Np\Z)^\times\\ \beta \equiv a/q^m\newmod{p}}} \Phi\left\{\tfrac{\beta}{qp}\rightarrow \infty\right\}\big((\beta + qpz)^j\big).
 \end{align*}
 \end{proposition}
@@ -851,14 +973,14 @@ We can now find an element $\gamma = \smallmatrd{\beta}{*}{pq}{*} \in \Gamma_0(N
 Note that if $j \neq 0$ (or, in the Bianchi setting, when either $j \neq 0$ or $k \neq 0$) the scalar $1-a_q^{-d_q}q^{jd_q}$ is always non-zero, and thus we can always recover the \emph{higher} moments required to define the $p$-adic $L$-series without inverting $\delta$. However, when $j = 0$ (or $j=k=0$), it is possible for the scalar to vanish. In particular, if $f$ is attached to an elliptic curve $E$ of rank 1 with good reduction at $p$, then the sign of the functional equation forces the existence of some prime $q$ such that $a_q(E) = 1$, and then the scalar vanishes. This leads to the curious phenomenon where we can compute all but the first moment; and yet the first moment is precisely the value of the \emph{classical} modular symbol we started with. Thus via this method, in this case we can compute all of the overconvergent moments, but not the classical starting moment!
 \end{remark}
 
-
+\end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The algorithms}
 
 \subsection{Computing with the classical cohomology}
-There are well-established routines for computing classical cohomology classes attached to elliptic curves over number fields, as used by the first author and his collaborators in in [CITE MARC'S PAPERS]. These rely on computing a presentation of the group $\Gamma$, using existing Magma code of Aurel Page to compute a fundamental domain for the action of $\Gamma$ on the upper half-space $\uhs$. Given this, $\h^1(\Gamma,\Z)$ is the abelianisation of $\Gamma$, and distinguished classes are constructed by computing the kernels of sufficiently many operators $T_{\mathfrak{q}} - \alpha_{\mathfrak{q}}.$ 
+There are well-established routines for computing classical cohomology classes attached to elliptic curves over number fields, as used by the first author and his collaborators in in [CITE MARC'S PAPERS]. These rely on computing a presentation of the group $\Gamma$, using existing Magma code of Aurel Page to compute a fundamental domain for the action of $\Gamma$ on the upper half-space $\uhs$. Given this, $\h^1(\Gamma,\Z)$ is the abelianisation of $\Gamma$, and distinguished classes are constructed by computing the kernels of sufficiently many operators $T_{\mathfrak{q}} - \alpha_{\mathfrak{q}}.$
 
 In practice, working with Bianchi groups is a difficult computational problem, and one that greatly restricts the scope of computations. This is particularly the case in the base-change setting. Consider, for example, the smallest elliptic curve of rank 1, which has conductor 37, and say we want to compute the $3$-adic $L$-function; then we must work with the group $\Gamma_0(3\cdot 37\roi_K)$, which has index $\sim 12,000$ in $\mathrm{SL}_2(\roi_K)$. The first rank 2 example has conductor $389$, leading to index $\sim 1,300,000$, far beyond current state-of-the-art (for example, in \cite{LMFDB}, the highest conductors appearing for Bianchi groups are of index 500,000).
 
@@ -869,7 +991,7 @@ To counter this computational difficulty, we used ...[DESCRIBE? OR LEAVE OUT?]
 \subsection{Computing with distributions}
 Two variable distributions with coefficients in an extension $L/\Qp$ are naturally in bijection with doubly-indexed bounded sequences in $L$ (see \cite[Proposition 3.6]{Wil17}), the map being given by
 \[
- \mu \mapsto \{\mu(x_iy_j) : i,j \geq 0\}. 
+ \mu \mapsto \{\mu(x_iy_j) : i,j \geq 0\}.
 \]
 We can compute with these distributions using the \emph{finite approximation modules} \emph{op.\ cit.}.
 
@@ -891,19 +1013,19 @@ Recall that $\Sigma_0(p)^2$ acts on the \emph{left} of $\A(L)$ by
 Denote by $\psi_{\A}(g)$ the matrix of $g$ acting on $\A(L)$ in the basis $
 \{v_{n,i}\}$.
 
-We want to compute the dual action on distributions. The natural dual action is a \emph{right} action. However, since we will ultimately compute with the group cohomology -- which prefers \emph{left} actions -- it is convenient here to pass to the right action on $\A_2(L)$ defined by $f|g = g^{-1}\cdot f,$ inducing a left dual action. 
+We want to compute the dual action on distributions. The natural dual action is a \emph{right} action. However, since we will ultimately compute with the group cohomology -- which prefers \emph{left} actions -- it is convenient here to pass to the right action on $\A_2(L)$ defined by $f|g = g^{-1}\cdot f,$ inducing a left dual action.
 
 Now write
 \[
 	v_{n,i}^* \defeq \mathcal{X}^{n-i}\mathcal{Y}^i
 \]
-for the dual basis, where $v_{n,i}^*(v_{m,j}) = \delta_{mn}\delta_{ij}.$ For , then the matrix of $g$ acting on $\D(L)$, on the \emph{left}, in this dual basis, is given by 
+for the dual basis, where $v_{n,i}^*(v_{m,j}) = \delta_{mn}\delta_{ij}.$ For , then the matrix of $g$ acting on $\D(L)$, on the \emph{left}, in this dual basis, is given by
 \[
 	\psi_{\D}(g) \defeq \psi_{\A}(g^{-1})^T.
 \]
 We are reduced, then, to computing the action on $\A$.
 
-In practice, we use the following algorithm. Define 
+In practice, we use the following algorithm. Define
 \[
 	r = \frac{b+dx}{a+cx}, \hspace{12pt} s = \frac{\overline{b}+\overline{d}y}{\overline{a}+\overline{c}x}.
 \]
@@ -921,6 +1043,19 @@ Complexity in computing this: lots of Up operators. Fox derivative and gradient.
 [Include our data, in some form or other]
 
 
+
+
+
+\BP{
+\section*{Bookkeeping:}
+\begin{enumerate}\item I chose $f$ to represent the Bianchi modular form instead of the calligraphic $\f$.
+\item I chose to represent the modular symbols by $\Phi_f$ and $\varphi_f$. I chose to represent the objects in parabolic cohomology by $[\Theta_f]$ and $[\vartheta_f]$. Any cocycle corresponding to these cohomology classes are represented without the brackets by $\Theta$ and $\vartheta$. In particular, also notice that the overconvergent objects are represented by an uppercase Greek alphabet $\Phi$ and $[\Theta]$, whereas the objects with trivial coefficients are lowercase ``var'' Greek $\varphi$ and $[\vartheta]$.
+\item I am starting to suspect that the the constant term of the 2-variable power series is zero, if the Elliptic curve has rank 2 over K --- can this be seen from the analytic side?
+\item If I wanted to remove some text from the pdf, I placed stuff under the comment environment in the tex file.
+\item My 2 cents --- for the purposes of narrative flow, I think it may be better to have in an appendix rather than the main text --- the theory of modular symbols over $\Q$, along with description of the main conjectures and explanations of why the examples we work out are interesting.
+\end{enumerate}
+}
+
 \section*{To do:}
 
 \begin{enumerate}\setlength{\itemsep}{-2pt}
@@ -934,7 +1069,7 @@ Complexity in computing this: lots of Up operators. Fox derivative and gradient.
 \end{enumerate}
 
 \footnotesize
-\renewcommand{\refname}{\normalsize References} 
+\renewcommand{\refname}{\normalsize References}
 \bibliography{references}{}
 \bibliographystyle{alpha}
 
