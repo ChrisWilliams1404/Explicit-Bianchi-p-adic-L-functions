@@ -20,11 +20,46 @@ Daniel Barrera~Salazar and Chris Williams.
   forms.
 \newblock {\em Trans. Amer. Math. Soc.}, 372(1):1--34, 2019.
 
+\bibitem[CS05]{MR2148798}
+J.~Coates and R.~Sujatha.
+\newblock Fine {S}elmer groups of elliptic curves over {$p$}-adic {L}ie
+  extensions.
+\newblock {\em Math. Ann.}, 331(4):809--839, 2005.
+
 \bibitem[CW94]{CrWh94}
 John Cremona and Elise Whitley.
 \newblock Periods of cusp forms and elliptic curves over imaginary quadratic
   fields.
 \newblock {\em Math. Comp.}, 62(205):407--429, 1994.
+
+\bibitem[GM{\c{S}}15]{GMS15}
+Xavier Guitart, Marc Masdeu, and Mehmet~Haluk {\c{S}}eng\"{u}n.
+\newblock Darmon points on elliptic curves over number fields of arbitrary
+  signature.
+\newblock {\em Proc. Lond. Math. Soc.}, 111(2):484 -- 518, 2015.
+
+\bibitem[Gre76]{Gre76}
+Ralph Greenberg.
+\newblock On the {I}wasawa invariants of totally realy number fields.
+\newblock {\em Amer. J. Math.}, 98(1):263--284, 1976.
+
+\bibitem[Gre94]{MR1265554}
+Ralph Greenberg.
+\newblock Iwasawa theory and {$p$}-adic deformations of motives.
+\newblock In {\em Motives ({S}eattle, {WA}, 1991)}, volume~55 of {\em Proc.
+  Sympos. Pure Math.}, pages 193--223. Amer. Math. Soc., Providence, RI, 1994.
+
+\bibitem[Gre01]{MR1846466}
+Ralph Greenberg.
+\newblock Iwasawa theory---past and present.
+\newblock In {\em Class field theory---its centenary and prospect ({T}okyo,
+  1998)}, volume~30 of {\em Adv. Stud. Pure Math.}, pages 335--385. Math. Soc.
+  Japan, Tokyo, 2001.
+
+\bibitem[Gre07]{Gre07}
+Matthew Greenberg.
+\newblock Lifting modular symbols of non-critical slope.
+\newblock {\em Israel J. Math.}, 161:141--155, 2007.
 
 \bibitem[Har87]{Har87}
 G{\"u}nter Harder.
@@ -37,6 +72,17 @@ Haruzo Hida.
   {GL}(2)$\times${GL}(2).
 \newblock {\em Duke Math.}, 74:432--528, 1994.
 
+\bibitem[Kim14]{MR3224266}
+Byoung~Du Kim.
+\newblock Signed-{S}elmer groups over the {$\Bbb{Z}_p^2$}-extension of an
+  imaginary quadratic field.
+\newblock {\em Canad. J. Math.}, 66(4):826--843, 2014.
+
+\bibitem[Kob03]{MR1965358}
+Shin-ichi Kobayashi.
+\newblock Iwasawa theory for elliptic curves at supersingular primes.
+\newblock {\em Invent. Math.}, 152(1):1--36, 2003.
+
 \bibitem[Loe14]{Loe14}
 David Loeffler.
 \newblock {$P$}-adic integration on ray class groups and non-ordinary $p$-adic
@@ -44,6 +90,12 @@ David Loeffler.
 \newblock In T.~Bouganis and O.~Venjakob, editors, {\em Iwasawa 2012: {S}tate
   of the art and recent advances}, volume~7 of {\em Contributions in
   Mathematical and Computational Sciences}, pages 357 -- 378. Springer, 2014.
+
+\bibitem[Pol03]{MR1983040}
+Robert Pollack.
+\newblock On the {$p$}-adic {$L$}-function of a modular form at a supersingular
+  prime.
+\newblock {\em Duke Math. J.}, 118(3):523--558, 2003.
 
 \bibitem[PP09]{PP09}
 David Pollack and Robert Pollack.

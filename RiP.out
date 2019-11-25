@@ -1,29 +1,21 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [2][-]{subsection.1.1}{The pseudo-nullity conjecture}{section.1}% 2
-\BOOKMARK [2][-]{subsection.1.2}{Explicit Bianchi p-adic L-functions}{section.1}% 3
-\BOOKMARK [1][-]{section.2}{Bianchi modular forms and p-adic L-functions}{}% 4
-\BOOKMARK [2][-]{subsection.2.1}{Background}{section.2}% 5
-\BOOKMARK [3][-]{subsubsection.2.1.1}{L-functions and p-adic L-functions}{subsection.2.1}% 6
-\BOOKMARK [3][-]{subsubsection.2.1.2}{Base-change}{subsection.2.1}% 7
+\BOOKMARK [2][-]{subsection.1.1}{Main Aim}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Description of the algorithm}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Applications in Iwasawa theory}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.4}{Concluding Remarks}{section.1}% 5
+\BOOKMARK [1][-]{section.2}{Bianchi modular forms and p-adic L-functions}{}% 6
+\BOOKMARK [2][-]{subsection.2.1}{Background}{section.2}% 7
 \BOOKMARK [2][-]{subsection.2.2}{Bianchi modular symbols}{section.2}% 8
 \BOOKMARK [2][-]{subsection.2.3}{Overconvergent modular symbols}{section.2}% 9
 \BOOKMARK [2][-]{subsection.2.4}{The p-adic L-function of a Bianchi modular form}{section.2}% 10
 \BOOKMARK [1][-]{section.3}{Computing p-adic L-series from modular symbols}{}% 11
 \BOOKMARK [2][-]{subsection.3.1}{The classical case}{section.3}% 12
-\BOOKMARK [3][-]{subsubsection.3.1.1}{Distributions on Zp}{subsection.3.1}% 13
-\BOOKMARK [3][-]{subsubsection.3.1.2}{Passing to p-adic L-series}{subsection.3.1}% 14
-\BOOKMARK [2][-]{subsection.3.2}{The Bianchi case}{section.3}% 15
-\BOOKMARK [3][-]{subsubsection.3.2.1}{Obtaining power series from the moments of mu}{subsection.3.2}% 16
-\BOOKMARK [3][-]{subsubsection.3.2.2}{Twists}{subsection.3.2}% 17
-\BOOKMARK [1][-]{section.4}{Rephrasing via arithmetic cohomology}{}% 18
-\BOOKMARK [2][-]{subsection.4.1}{Definition and basic properties}{section.4}% 19
-\BOOKMARK [2][-]{subsection.4.2}{Explicit inversion of }{section.4}% 20
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Motivation: a snake diagram}{subsection.4.2}% 21
-\BOOKMARK [3][-]{subsubsection.4.2.2}{An explicit formula for inverting }{subsection.4.2}% 22
-\BOOKMARK [3][-]{subsubsection.4.2.3}{Remark: an alternative formula using Up}{subsection.4.2}% 23
-\BOOKMARK [1][-]{section.5}{The algorithms}{}% 24
-\BOOKMARK [2][-]{subsection.5.1}{Computing with the classical cohomology}{section.5}% 25
-\BOOKMARK [2][-]{subsection.5.2}{Computing with distributions}{section.5}% 26
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Computing the action of S0\(p\)2 on distributions}{subsection.5.2}% 27
-\BOOKMARK [2][-]{subsection.5.3}{An explicit lifting theorem}{section.5}% 28
-\BOOKMARK [1][-]{section.6}{Data}{}% 29
+\BOOKMARK [2][-]{subsection.3.2}{The Bianchi case}{section.3}% 13
+\BOOKMARK [1][-]{section.4}{Rephrasing via arithmetic cohomology}{}% 14
+\BOOKMARK [2][-]{subsection.4.1}{Definition and basic properties}{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.2}{Explicit inversion of }{section.4}% 16
+\BOOKMARK [1][-]{section.5}{The algorithms}{}% 17
+\BOOKMARK [2][-]{subsection.5.1}{Computing with the classical cohomology}{section.5}% 18
+\BOOKMARK [2][-]{subsection.5.2}{Computing with distributions}{section.5}% 19
+\BOOKMARK [2][-]{subsection.5.3}{An explicit lifting theorem}{section.5}% 20
+\BOOKMARK [1][-]{section.6}{Data}{}% 21

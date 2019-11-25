@@ -229,17 +229,17 @@ Let $\Gamma$ denote the congruence subgroup $\Gamma_0(\n)$ of $\SLt(\mathcal{O}_
 Let $\D_2(\Q_p)$ (and $\D_2(\Z_p)$) denote the space of $\Q_p$-valued (and $\Z_p$-valued) $p$-adic distributions on $\Z_p^2$, endowed with a \textit{weight two} action of $\Gamma$. Let $\Symb_\Gamma(\D_2(\Q_p))$ denote the corresponding space of overconvergent modular symbols valued in $\D_2(\Q_p)$. There is a natural action of the Hecke algebra (of weight two and level $\Gamma$) on $\Symb_\Gamma(\D_2(\Q_p))$. Since $f$ satisfies \ref{hyp:ss},  a control theorem \cite[Thm.~6.10]{Wil17} shows that there exists a non-zero element $\Phi_f$ in $\Symb_\Gamma(\D_2(\Q_p))$, unique up to a scalar in $\Q_p$, that is stable under the action of the Hecke algebra and whose Hecke eigenvalues coincide with those of $f$. Associated to the tuple $(p,f,\chi,\psi)$, there exists a (locally analytic) distribution ${\mu}_{f,\chi,\psi}$ in $\D_2(\Q_p)$, satisfying certain interpolation properties which we elucidate in Section \ref{sec:l-functions} \BP{some attribution to the predicted properties is required here. I suppose this prediction is attributed to Coates-Perrin Riou in the ordinary setting, but what about in the supersingular setting? Is there some sort of uniform prediction?}.
 
 
-\subsubsection*{Main Aim}  The starting point of our paper is a precise formula \BP{refequation} that computes \textit{moments} of the distribution ${\mu}_{f,\chi,\psi}$ in terms of the overconvergent modular symbol $\Phi_f$ (and in terms of the characters $\chi$, $\psi$). To illustrate in the introduction the main output of our algorithm and keeping in mind the applications to Iwasawa theory in Section \ref{sec:appIw}, we will place ourselves in the following simplifying situation. Let $E$ be an elliptic curve defined over $\Q$. Let $T_p(E)$ denote the $p$-adic Tate module associated to $E/\Q$. Let $f$ denote the cuspidal Bianchi eigenform corresponding to the base change to $K$ of the weight two $p$-stabilized cuspidal eigenform over $\Q$ associated to $E$. One can consider a $4$-dimensional Galois representation $\tau:G_\Q \rightarrow \GL_4(\Lambda)$, given by the action of $\Galois{\overline{\Q}}{\Q}$ on $\Ind^\Q_K \left( \Res^\Q_K T_p(E) \otimes_{\Z_p} \Lambda(\kappa^{-1})\right)$ --- a free $\Lambda$-module of rank $4$. \\
+\subsection{Main Aim}  The starting point of our paper is a precise formula \BP{refequation} that computes \textit{moments} of the distribution ${\mu}_{f,\chi,\psi}$ in terms of the overconvergent modular symbol $\Phi_f$ (and in terms of the characters $\chi$, $\psi$). To illustrate in the introduction the main output of our algorithm and keeping in mind the applications to Iwasawa theory in Section \ref{sec:appIw}, we will place ourselves in the following simplifying situation. Let $E$ be an elliptic curve defined over $\Q$. Let $T_p(E)$ denote the $p$-adic Tate module associated to $E/\Q$. Let $f$ denote the cuspidal Bianchi eigenform corresponding to the base change to $K$ of the weight two $p$-stabilized cuspidal eigenform over $\Q$ associated to $E$. One can consider a $4$-dimensional Galois representation $\tau:G_\Q \rightarrow \GL_4(\Lambda)$, given by the action of $\Galois{\overline{\Q}}{\Q}$ on $\Ind^\Q_K \left( \Res^\Q_K T_p(E) \otimes_{\Z_p} \Lambda(\kappa^{-1})\right)$ --- a free $\Lambda$-module of rank $4$. \\
 
 
-\underline{\emph{When $E$ has good ordinary reduction or split multplicative reduction at $p$}}. In this case, it is known that ${\mu}_{f,\chi,\psi}$ belongs to $\D_2(\Z_p)$. Recall that the Amice transform provides an  isomorphism $\D_2(\Z_p) \cong \Lambda$ of topological $\Z_p$-algebras. The purpose of the algorithm in our paper in this case is to compute the Amice transform, denoted $L_{p,f,\chi,\psi}(x,y)$, of $\mu_{f,\chi,\psi}$. To wit, we have
+\subsubsection*{When $E$ has good ordinary or split multiplicative reduction at $p$} In this case, it is known that ${\mu}_{f,\chi,\psi}$ belongs to $\D_2(\Z_p)$. Recall that the Amice transform provides an  isomorphism $\D_2(\Z_p) \cong \Lambda$ of topological $\Z_p$-algebras. The purpose of the algorithm in our paper in this case is to compute the Amice transform, denoted $L_{p,f,\chi,\psi}(x,y)$, of $\mu_{f,\chi,\psi}$. To wit, we have
 \begin{align*}
 \D_2(\Z_p) &\cong \Lambda, \\
 \mu_{f,\chi,\psi} &\leftrightarrow L_{p,f,\chi,\psi}(x,y).
 \end{align*}
 Corresponding to the fact that $E$ has good ordinary or split multiplicative reduction at $p$, one observes that the Galois representation $\tau$ satisfies Greenberg's Panchishkin condition\footnote{In fact, $\tau$ satisfies another distinct Panchishkin condition since $p$ splits in $K$.} and one can formulate an \textit{Iwasawa-Greenberg main conjecture} associated to $\tau$. See \cite{MR1265554} for more details. The application to Iwasawa theory stems from the fact that it is $L_{p,f,\chi,\psi}(x,y)$ that appears in the formulation of this conjecture, and is conjectured to generate the characteristic divisor in $\Lambda$ of the Pontryagin dual of a Selmer group (which we denote $\Sel_{f,\chi,\psi}(\Q)^\vee$).   \\
 
-\underline{\emph{When $E$ has good supersingular at $p$ with $a_p(E)=0$}.} In this case, the distribution $\mu_{f,\chi,\psi}$ does not belong to $\D_2(\Z_p)$. However, by suitably modifying this distribution (following an approach of Pollack \cite{MR1983040} in the $1$-variable case over $\Q$), Loeffler \cite{Loe14} has constructed four distributions $\mu^{\pm,\pm}_{f,\chi,\psi}$ in $\D_2(\Z_p)$. These distributions are referred to as \textit{doubly-signed} $p$-adic $L$-functions.  The purpose of the algorithm in our paper in this case is to compute the Amice transform, denoted $L^{\pm,\pm}_{p,f,\chi,\psi}(x,y)$, of $\mu^{\pm,\pm}_{f,\chi,\psi}$. To wit, we have
+\subsubsection*{When $E$ is good supersingular at $p$ with $a_p(E)=0$} In this case, the distribution $\mu_{f,\chi,\psi}$ does not belong to $\D_2(\Z_p)$. \CWnote{Actually, the $p$-adic $L$-function is in $\D_2$! This is the space of distributions, not measures. It is not, however, a measure, that is a bounded distribution/distribution of growth 0. We should perhaps denote the subspace of measures by $\D_2^0$?} However, by suitably modifying this distribution (following an approach of Pollack \cite{MR1983040} in the $1$-variable case over $\Q$), Loeffler \cite{Loe14} has constructed four distributions $\mu^{\pm,\pm}_{f,\chi,\psi}$ in $\D_2(\Z_p)$. These distributions are referred to as \textit{doubly-signed} $p$-adic $L$-functions.  The purpose of the algorithm in our paper in this case is to compute the Amice transform, denoted $L^{\pm,\pm}_{p,f,\chi,\psi}(x,y)$, of $\mu^{\pm,\pm}_{f,\chi,\psi}$. To wit, we have
 \begin{align*}
 \D_2(\Z_p) &\cong \Lambda, \\
 \mu^{\pm,\pm}_{f,\chi,\psi} &\leftrightarrow L^{\pm,\pm}_{p,f,\chi,\psi}(x,y).
@@ -329,15 +329,22 @@ A finitely generated torsion $\Lambda$-module is said to be \textit{pseudo-null}
 
 
 
+\subsubsection*{Target examples}
+Tables \ref{good/ordinary} and \ref{supersingular} provide a list of target examples where our computations can be used to prove pseudo-nullity.
+
+Our methodology in the good ordinary case (Table \ref{good/ordinary}) will be to show that there exists no irreducible element in $\Lambda$ that divides both
+\begin{align*}
+L_{p,f,\chi,\psi}(x,y) \text{ and } L_{p,f,\chi,\psi}(y,x).
+\end{align*}
+
 
 \BP{Following examples should be interesting. Need to actually verify that they will be interesting and then explain why}
 
-\underline{\emph{When an elliptic curve $E/\Q$ has CM and has good ordinary reduction at $p$}}
 
 
-
-
-\begin{tabular}[t]{lrrrrr}\toprule
+\begin{table}	\caption{\label{good/ordinary}\emph{Examples of CM $E/\Q$ with good ordinary reduction at $p$}}
+\begin{tabular}[t]{lrrrrr}
+	\toprule
  Cremona's Label          &  $K$    &  $p$    & $\mathrm{Rank}_\Z(E(\Q))$   & $\mathrm{Rank}_\Z(E(K))$ &   End.~algebra    \\ \midrule
 
 $27a1$   &   $\Q(\sqrt{-2})$  &  $7$ &  $0$   &    $1$  & $\Q(\sqrt{-3})$   \\\addlinespace
@@ -346,15 +353,12 @@ $108a1$ &   $\Q(\sqrt{-7})$  & $7$    &  $0$   & $2$    & $\Q(\sqrt{-3})$   \\\a
 $121b1$ &   $\Q(\sqrt{-19})$   &   $3$ &  $1$   & $2$    & $\Q(\sqrt{-11})$     \\
 \bottomrule
 \end{tabular}
-
-Our methodology in this case will be to show that there exists no irreducible element in $\Lambda$ that divides both
-\begin{align*}
-L_{p,f,\chi,\psi}(x,y) \text{ and } L_{p,f,\chi,\psi}(y,x).
-\end{align*}
-
-\underline{\emph{When an elliptic curve $E/\Q$ has good supersingular reduction at $p$}}
+\end{table}
 
 
+
+
+\begin{table}	\caption{\label{supersingular}\emph{Examples of $E/\Q$ with good supersingular reduction at $p$}}
 \begin{tabular}[t]{lrrrrr}\toprule
  Cremona's Label          &  $K$    &  $p$    & $\mathrm{Rank}_\Z(E(\Q))$   & $\mathrm{Rank}_\Z(E(K))$ &   End.~algebra    \\ \midrule
 
@@ -363,6 +367,7 @@ $37a1$ &   $\Q(\sqrt{-2})$  & $3$    &  $1$   & $1$    & $\Q$   \\\addlinespace
 $121b1$ &   $\Q(\sqrt{-19})$   &   $7$ &  $1$   & $2$    & $\Q(\sqrt{-11})$     \\
 \bottomrule
 \end{tabular}
+\end{table}
 
 
 \begin{comment}
@@ -409,11 +414,9 @@ We actually use a modified version of the construction of \cite{Wil17}. Existing
 
 \subsection{Concluding Remarks}
 
-\begin{enumerate}
-\item Explain why  we restrict to $K$ to have class number one.
-\end{enumerate}
+In the computations, we restrict to imaginary quadratic fields of class number one for simplicity. In this case, the space of modular symbols is rich enough to capture all of the arithmetic of the form $f$. In the case of class number $h$, we would instead need to consider a direct sum of $h$ copies of modular symbols, with Hecke operators at non-principal primes permuting the factors; see, for example, \cite{Wil17} for a detailed description of this. Such a decomposition arises since the Bianchi three-fold in this situation decomposes into a disjoint union of $h$ connected components via strong approximation for $\GLt/K$.
 
-For several practical reasons in our implementation, we choose to first work with arithmetic cohomology (the parabolic cohomology groups) instead of directly working with modular symbols (as in \cite{PS11,Gre07}). This is mainly since in the setting of Bianchi groups, extensive implementation to work with arithmetic cohomology groups already exists \BP{references}. Also, this approach might generalize more naturally to other settings, for example, pursuing the constructions of Barrera-Salazar \cite{Bar15} for $p$-adic $L$-functions over \emph{real} quadratic fields, where modular symbols themselves do not exist and one is forced to work with higher degree cohomology groups.
+For several practical reasons in our implementation, we choose to first work with arithmetic cohomology (the parabolic cohomology groups) instead of directly working with modular symbols (as in \cite{PS11,Gre07}). This is mainly since in the setting of Bianchi groups, extensive implementation to work with arithmetic cohomology groups already exists; for example, such computations form the basis of \cite{GMS15}. Also, this approach might generalize more naturally to other settings, for example, pursuing the constructions of Barrera-Salazar \cite{Bar15} for $p$-adic $L$-functions over \emph{real} quadratic fields, where modular symbols themselves do not exist and one is forced to work with higher degree cohomology groups.
 
 \begin{enumerate}
 \item Analyse the run time of our algorithm. What are our practical limitations in computing things.
