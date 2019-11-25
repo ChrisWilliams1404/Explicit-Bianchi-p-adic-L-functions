@@ -167,7 +167,7 @@
 
 
 \titleformat{\subsubsection}[runin]% runin puts it in the same paragraph
-{\bfseries\itshape}% formatting commands to apply to the whole heading
+{\bfseries}% formatting commands to apply to the whole heading
 {\thesubsubsection.}% the label and number
 {0.5em}% space between label/number and subsection title
 {}% formatting commands applied just to subsection title
@@ -197,7 +197,7 @@ Using overconvergent cohomology of Bianchi groups, we present an algorithm that 
 \section{Introduction}
 
 
-\subsubsection*{Notations} We first introduce the notations required to describe our results. Let $p$ be an odd prime number. Let $K$ be an imaginary quadratic field\footnote{so $K$ equals $\Q(\sqrt{-D})$, where $D$ belongs to $\{1,2,3,7,11,19,43,67,163\}$.} with class number one, where the prime $p$ splits as $(p) = \pri \bar{\pri}$. Let $O_K$ denote the ring of integers of $K$. Let $K_\pri$, $K_{\overline{\pri}}$ denote the unique $\Z_p$ extensions of $K$ unramified outside $\pri$, $\overline{\pri}$ respectively. Let $G_\pri$, $G_{\overline{\pri}}$ denote $\Galois{K_\pri}{K}$, $\Galois{K_{\overline{\pri}}}{K}$ respectively. Let $\widetilde{K}$ denote the maximal abelian extension of $K$, unramified outside $p$. Let $\widetilde{K}_\infty$ denote the compositum of all the $\Z_p$-extensions of $K$. Let $\widetilde{G}$, $\widetilde{G}_\infty$ denote $\Galois{\widetilde{K}}{K}$, $\Galois{\widetilde{K}_\infty}{K}$ respectively. Let $\Delta$ denote $\ker(\widetilde{G} \twoheadrightarrow \widetilde{G}_\infty)$. Since the class number of $K$ equals one, the natural restriction maps $\widetilde{G}_\infty \twoheadrightarrow G_\pri$ and $\widetilde{G}_\infty \twoheadrightarrow G_{\overline{\pri}}$ allow us to identify $\widetilde{G}_\infty$ with  $G_\pri \times G_{\overline{\pri}}$. Recall that we have the following isomorphisms of topological groups:
+\subsubsection*{Notations} We first introduce the notations required to describe our results. Let $p$ be an odd prime number. Let $K$ be an imaginary quadratic field\footnote{so $K$ equals $\Q(\sqrt{-D})$, where $D$ belongs to $\{1,2,3,7,11,19,43,67,163\}$.} with class number one, where the prime $p$ splits as $(p) = \pri \bar{\pri}$. Let $\cO_K$ denote the ring of integers of $K$. Let $K_\pri$, $K_{\overline{\pri}}$ denote the unique $\Z_p$ extensions of $K$ unramified outside $\pri$, $\overline{\pri}$ respectively. Let $G_\pri$, $G_{\overline{\pri}}$ denote $\Galois{K_\pri}{K}$, $\Galois{K_{\overline{\pri}}}{K}$ respectively. Let $\widetilde{K}$ denote the maximal abelian extension of $K$, unramified outside $p$. Let $\widetilde{K}_\infty$ denote the compositum of all the $\Z_p$-extensions of $K$. Let $\widetilde{G}$, $\widetilde{G}_\infty$ denote $\Galois{\widetilde{K}}{K}$, $\Galois{\widetilde{K}_\infty}{K}$ respectively. Let $\Delta$ denote $\ker(\widetilde{G} \twoheadrightarrow \widetilde{G}_\infty)$. Since the class number of $K$ equals one, the natural restriction maps $\widetilde{G}_\infty \twoheadrightarrow G_\pri$ and $\widetilde{G}_\infty \twoheadrightarrow G_{\overline{\pri}}$ allow us to identify $\widetilde{G}_\infty$ with  $G_\pri \times G_{\overline{\pri}}$. Recall that we have the following isomorphisms of topological groups:
 \begin{align*}
 \widetilde{G} \cong \Delta \times \widetilde{G}_\infty, \qquad \widetilde{G}_\infty \cong \Z_p^2, \qquad G_{\pri} \cong \Z_p, \qquad G_{\overline{\pri}} \cong \Z_p.
 \end{align*}
@@ -217,9 +217,9 @@ Henceforth, we shall fix a branch character $\chi:\Delta \rightarrow \Z_p^\times
 
 Throughout this paper, we shall fix the isomorphism in (\ref{eq:iwid})  and denote the $2$-variable power series ring $\Z_p[[x,y]]$ appearing in (\ref{eq:iwid}) by $\Lambda$. Let $\psi: \Gal\left({\overline{K}}/{K}\right) \rightarrow \Z_p^\times$ be a finite continuous character with conductor prime to p. Let $\kappa: \Galois{\overline{K}}{K} \twoheadrightarrow \widetilde{G}_\infty \rightarrow \GL_1(\Lambda)$ denote the tautological character.
 
-Let $\n$ be an ideal in $O_K$ satisfying the following condition:
+Let $\n$ be an ideal in $\cO_K$ satisfying the following condition:
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{$p$-stab}) --- , ref=(\textsc{$p$-stab})]
-\item\label{hyp:pstab} $\n \subset pO_K$.
+\item\label{hyp:pstab} $\n \subset p\cO_K$.
 \end{enumerate}
 Let $\Gamma$ denote the congruence subgroup $\Gamma_0(\n)$ of $\SLt(\mathcal{O}_K)$. Let $f$ be a weight $2$ Bianchi cuspidal eigenform of level $\Gamma$ with Hecke eigenvalues $\{a_I \in \Z_p: I\subset \roi_K\}$, satisfying the following condition:
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Small slope}) --- , ref=(\textsc{Small slope})]
