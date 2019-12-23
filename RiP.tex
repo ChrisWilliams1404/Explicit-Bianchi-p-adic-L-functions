@@ -14,6 +14,11 @@
 %\usepackage{ulem}
 \usepackage{amsmath}
 
+
+
+\usepackage{float}
+\restylefloat{table}
+
 \let\OLDthebibliography\thebibliography
 \renewcommand\thebibliography[1]{
 \OLDthebibliography{#1}
@@ -160,8 +165,8 @@
 \newcommand{\Ind}{\mathrm{Ind}}
 \newcommand{\Res}{\mathrm{Res}}
 \newcommand{\Sel}{\mathrm{Sel}}
-
-
+\newcommand{\LLL}{\mathfrak{L}}
+\newcommand{\DDD}{\mathfrak{D}}
 
 
 
@@ -189,33 +194,45 @@
 \begin{comment}
 Let $\f$ be a cuspidal eigenform of weight 2 over an imaginary quadratic field $K$. In this paper, we use the overconvergent cohomology of Bianchi groups to explicitly compute $p$-adic $L$-functions attached to $\f$. We give several applications to Iwasawa theory: in particular, we provide new examples where Coates and Sujatha's psuedo-nullity conjecture holds for rational elliptic curves.  --- including the first examples in rank 1.
 \end{comment}
-Using overconvergent cohomology of Bianchi groups, we present an algorithm that explicitly computes the $2$-variable $p$-adic $L$-function associated to a weight two cuspidal eigenform with small slope over an imaginary quadratic field with class number one. The algorithm builds on earlier work of the third author establishing a constructive proof of a control theorem for overconvergent lifts of Bianchi modular forms. Our implementation of this algorithm relies on crucially adapting efficient code built by the first author (along with Guitart and Sengun) that computes $1$-variable overconvergent lifts. Implementing this algorithm allows us to compute numerical examples of interest in the topic of higher codimension Iwasawa theory. In these numerical examples, the validity of the appropriate Iwasawa main conjectures implies that the Pontraygin dual of the fine Selmer group is pseudo-null.
+Using overconvergent cohomology of Bianchi groups, we present an algorithm that explicitly computes the $2$-variable $p$-adic $L$-function associated to a weight two cuspidal eigenform with small slope over an imaginary quadratic field with class number one. The algorithm builds on earlier work of the third author establishing a constructive proof of a control theorem for overconvergent lifts of Bianchi modular forms. Our implementation of this algorithm relies on crucially adapting efficient code built by the first author (along with Guitart and Sengun) that computes $1$-variable overconvergent lifts. Our implementation allows us to compute numerical examples of interest in the topic of higher codimension Iwasawa theory. In these numerical examples, the validity of the appropriate Iwasawa main conjectures \CWnote{We're treating base-change cases, right? I think the IMC might even be known in this setting - I think it's a key part of the proof of the IMC for elliptic curves?} implies that the Pontraygin dual of the fine Selmer group is pseudo-null.
 \end{abstract}
 
 \tableofcontents
 
 \section{Introduction}
 
+$p$-adic $L$-functions occupy a distinguished position in the framework of the \textit{Iwasawa--Greenberg main conjecture}. Phrased as an equality of codimension one cycles, the conjecture predicts (roughly speaking in general) that the $p$-adic $L$-function generates the characteristic ideal of the Pontryagin dual of a Selmer group. In view of this connection, it is desirable to explicitly compute $p$-adic $L$-functions.  Remarkably, these explicit numerical computations have found spectacular applications in the study of the Birch and Swinnerton-Dyer conjecture and, in particular, to construct explicit points on rational elliptic curves.
 
-\subsubsection*{Notations} We first introduce the notations required to describe our results. Let $p$ be an odd prime number. Let $K$ be an imaginary quadratic field\footnote{so $K$ equals $\Q(\sqrt{-D})$, where $D$ belongs to $\{1,2,3,7,11,19,43,67,163\}$.} with class number one, where the prime $p$ splits as $(p) = \pri \bar{\pri}$. Let $\cO_K$ denote the ring of integers of $K$. Let $K_\pri$, $K_{\overline{\pri}}$ denote the unique $\Z_p$ extensions of $K$ unramified outside $\pri$, $\overline{\pri}$ respectively. Let $G_\pri$, $G_{\overline{\pri}}$ denote $\Galois{K_\pri}{K}$, $\Galois{K_{\overline{\pri}}}{K}$ respectively. Let $\widetilde{K}$ denote the maximal abelian extension of $K$, unramified outside $p$. Let $\widetilde{K}_\infty$ denote the compositum of all the $\Z_p$-extensions of $K$. Let $\widetilde{G}$, $\widetilde{G}_\infty$ denote $\Galois{\widetilde{K}}{K}$, $\Galois{\widetilde{K}_\infty}{K}$ respectively. Let $\Delta$ denote $\ker(\widetilde{G} \twoheadrightarrow \widetilde{G}_\infty)$. Since the class number of $K$ equals one, the natural restriction maps $\widetilde{G}_\infty \twoheadrightarrow G_\pri$ and $\widetilde{G}_\infty \twoheadrightarrow G_{\overline{\pri}}$ allow us to identify $\widetilde{G}_\infty$ with  $G_\pri \times G_{\overline{\pri}}$. Recall that we have the following isomorphisms of topological groups:
+While the Iwasawa--Greenberg main conjecture predicts an equality of codimension one cycles, there has recently been much interest in studying \textit{higher codimension} Iwasawa theory and it is in this framework that our manuscript sits. Some of the main  results~(\cite[Theorem 5.2.5]{bleher2015higher}, \cite[Theorem 1]{lei2018codimension}, \cite[Theorem 1]{lei2019codimension}) in higher codimension Iwasawa theory seek to generalize the Iwasawa--Greenberg main conjectures and are phrased as an equality of codimension two cycles. These aforementioned results are established under the validity of certain pseudo-nullity (a specific structural property) conjectures. We consider applications of our numerical computations of $2$-variable Bianchi $p$-adic $L$-functions to support a pseudo-nullity conjecture of Coates-Sujatha \cite[Conjecture B]{MR2148798}.  It involves the \textit{fine Selmer group}, which is a subgroup of the usual Selmer group that appears in the formulation of the Iwasawa-Greenberg main conjectures. The origins of the idea behind this conjecture date back to pseudo-nullity conjectures of Greenberg \cite{Gre76}, \cite[Conjecture 3.5]{MR1846466} involving classical Iwasawa modules. The definition of pseudo-nullity and the statement of the pseudo-nullity conjecture of Coates--Sujatha (Conjecture \ref{conj:CS}) are recalled in Section \ref{sec:appIw}. To support Conjecture \ref{conj:CS} using our numerical computations, we exploit a method appearing in work of Lei and the second author \cite{lei2018codimension}. In the settings of our supporting numerical examples, there is naturally more than one distinct $p$-adic $L$-function to consider and we show that these $p$-adic $L$-functions have no common irreducible factor in a $2$-variable Iwasawa algebra. In fact, it is under the validity of this criterion in our method  on no common irreducible factors that the aforementioned results in higher codimension Iwasawa theory are established. \\
+
+Although there has been almost no theoretical progress towards a general proof of pseudo-nullity conjectures (both of Greenberg and Coates--Sujatha), even a general methodology towards obtaining numerical evidence is lacking. The only exception that we know of is work of McCallum-Sharifi \cite{MR2019977} towards Greenberg's pseudo-nullity conjecture specialized to the number field $\Q(\mu_p)$. Their methodology in turn is based on a deep conjecture about a cup-product pairing introduced by them.  In \cite{lei2018codimension}, to produce numerical examples using the criterion of no common irreducible factors, the authors had to restrict to the case when the Mordell-Weil rank of the elliptic curve over the base field (say $r$) was zero. Along with an additional hypothesis, this allowed them to reduce to the ``\textit{$1$-dimensional case}'', where they could use an earlier construction of $1$-variable cyclotomic $p$-adic $L$-functions \cite{PS11}. Such a reduction would not be possible if $r \geq 1$. In the formulation of \cite[Conjecture B]{MR2148798}, the Galois extension underlying the Iwasawa algebra is an \textit{admissible $p$-adic Lie extension} with $p$-adic Lie dimension $d \geq 2$. In fact, Coates--Sujatha discuss a closely related phenomenon with $d=1$ when pseudo-nullity fails. With this point in mind, the phenomenon of pseudo-nullity seems to be an artefact of working over admissible $p$-adic Lie extensions with $d \geq 2$ and the reduction to the ``$1$-dimensional case'' might not always succeed. This is an important motivation behind our emphasis on computing $2$-variable $p$-adic $L$-functions. Our numerical examples are chosen (so that $r \geq 1$) to illustrate our methodology with precisely the closely-related exceptional cases in mind.
+
+
+\begin{comment}
+Let $E/\Q$ be an elliptic curve. Selmer groups attached to $E$ can be seen as cohomological avatars of its group of rational points, and Iwasawa theory aims to understand their structure over $p$-adic field extensions. In particular, the celebrated \emph{Iwasawa main conjecture} predicts that the arithmetic of the Selmer group -- via its characteristic ideal -- is described by an analytic \emph{$p$-adic $L$-function}, providing deep connections between arithmetic and analysis that have had profound implications in the study of the Birch and Swinnerton-Dyer conjecture.
+
+The Iwasawa main conjectures can be viewed as `codimension 1' Iwasawa theory, via the link between the characteristic ideal and first Chern class of the Selmer group. There has recently been much interest in studying `higher codimension' Iwasawa theory [CITE PAPERS: e.g. from Frauke's lectures], and it is in this framework that this paper sits. There are long-standing conjectures predicting structural results for Selmer groups, and in particular, that such modules are often \emph{pseudo-null}. However, the evidence for these conjectures remains scarce. In this paper, we verify this conjecture in a number of cases, providing in particular the first examples for elliptic curves of positive rank. \CWnote{It's really worth checking whether such examples exist. It will be a big boost for our paper to be able to say this} To do this, we use a criterion explored in previous work of the second author with Lei [CITE BHARATH'S PAPERS], which means that pseudo-nullity is implied by the coprimality of a pair of $p$-adic $L$-functions attached to $E$. We use the overconvergent Bianchi modular symbols of \cite{Wil17} to compute these $p$-adic $L$-functions and verify explicitly that they are coprime. In particular, we also give the first explicit examples of two-variable $p$-adic $L$-functions attached to elliptic curves over imaginary quadratic fields.
+\end{comment}
+
+\subsubsection*{Notation} We introduce the notations required to describe our algorithm that computes $2$-variable Bianchi $p$-adic $L$-functions. Let $p$ be an odd prime number. Let $K$ be an imaginary quadratic field\footnote{so $K$ equals $\Q(\sqrt{-D})$, where $D$ belongs to $\{1,2,3,7,11,19,43,67,163\}$.} with class number one, where the prime $p$ splits as $(p) = \pri \bar{\pri}$. Let $\cO_K$ denote the ring of integers of $K$. Let $K_\pri$, $K_{\overline{\pri}}$ denote the unique $\Z_p$ extensions of $K$ unramified outside $\pri$, $\overline{\pri}$ respectively. Let $G_\pri$, $G_{\overline{\pri}}$ denote $\Galois{K_\pri}{K}$, $\Galois{K_{\overline{\pri}}}{K}$ respectively. Let $\widetilde{K}$ denote the maximal abelian extension of $K$, unramified outside $p$. Let $K_\infty$ denote the compositum of all the $\Z_p$-extensions of $K$. Let $\widetilde{G}$, $G_\infty$ denote $\Galois{\widetilde{K}}{K}$, $\Galois{K_\infty}{K}$ respectively. Let $\Delta$ denote $\ker(\widetilde{G} \twoheadrightarrow G_\infty)$. Since the class number of $K$ equals one, the natural restriction maps $G_\infty \twoheadrightarrow G_\pri$ and $G_\infty \twoheadrightarrow G_{\overline{\pri}}$ allow us to identify $G_\infty$ with  $G_\pri \times G_{\overline{\pri}}$. Recall that we have the following isomorphisms of topological groups:
 \begin{align*}
-\widetilde{G} \cong \Delta \times \widetilde{G}_\infty, \qquad \widetilde{G}_\infty \cong \Z_p^2, \qquad G_{\pri} \cong \Z_p, \qquad G_{\overline{\pri}} \cong \Z_p.
+\widetilde{G} \cong \Delta \times G_\infty, \qquad G_\infty \cong \Z_p^2, \qquad G_{\pri} \cong \Z_p, \qquad G_{\overline{\pri}} \cong \Z_p.
 \end{align*}
 
-The abelian group $\Delta$ is finite, of exponent dividing $p-1$. For each character $\chi$ in $\Hom(\Delta, \Z_p^\times)$, we have its corresponding idempotent $e_\chi$ in the group ring $\Z_p[\Delta]$. These characters are often called \textit{branch characters}.  The topological $\Z_p$-algebra $e_\chi \Z_p[[\widetilde{G}]]$ is isomorphic to $\Z_p[[\widetilde{G}_\infty]]$. We have the following natural isomorphism of topological $\Z_p$-algebras:
+The abelian group $\Delta$ is finite, of exponent dividing $p-1$. For each character $\psi$ in $\Hom(\Delta, \Z_p^\times)$, we have its corresponding idempotent $e_\psi$ in the group ring $\Z_p[\Delta]$. These characters are often called \textit{branch characters}.  The topological $\Z_p$-algebra $e_\psi \Z_p[[\widetilde{G}]]$ is isomorphic to $\Z_p[[G_\infty]]$. We have the following natural isomorphism of topological $\Z_p$-algebras:
 \begin{align}\label{eq:ringdecomp}
-\Z_p[[\widetilde{G}]] &\cong \Z_p[[\widetilde{G}_\infty]][\Delta] \notag \\ & \cong \prod_{\chi \in \Hom(\Delta, \Z_p^\times)} e_\chi\Z_p[[\widetilde{G}]]
+\Z_p[[\widetilde{G}]] &\cong \Z_p[[G_\infty]][\Delta] \notag \\ & \cong \prod_{\psi \in \Hom(\Delta, \Z_p^\times)} e_\psi\Z_p[[\widetilde{G}]]
 \end{align}
 
-Henceforth, we shall fix a branch character $\chi:\Delta \rightarrow \Z_p^\times$ and simply denote the corresponding component $e_\chi\Z_p[[\widetilde{G}]]$ by $\Z_p[[\widetilde{G}_\infty]]$. Let us choose a topological generator $g_\pri$  of $G_\pri$. Under the action of complex conjugation on $g_\pri$, one obtains a topological generator $g_{\overline{\pri}}$ of  $G_{\overline{\pri}}$. This further allows to consider the following isomorphism of topological $\Z_p$-algebras:
+Henceforth, we shall fix a branch character $\psi:\Delta \rightarrow \Z_p^\times$ and simply denote the corresponding component $e_\psi\Z_p[[\widetilde{G}]]$ by $\Z_p[[G_\infty]]$. Let us choose a topological generator $g_\pri$  of $G_\pri$. Under the action of complex conjugation on $g_\pri$, one obtains a topological generator $g_{\overline{\pri}}$ of  $G_{\overline{\pri}}$. This further allows to consider the following isomorphism of topological $\Z_p$-algebras:
 \begin{align} \label{eq:iwid}
-\Z_p[[\widetilde{G}_\infty]] &\cong \Z_p[[x,y]], \\
+\Z_p[[G_\infty]] &\cong \Z_p[[x,y]], \\
 (g_\pri,1) &\rightarrow x+1, \notag \\
 (1,g_{\overline{\pri}}) &\rightarrow y+1 \notag
 \end{align}
 
 
-Throughout this paper, we shall fix the isomorphism in (\ref{eq:iwid})  and denote the $2$-variable power series ring $\Z_p[[x,y]]$ appearing in (\ref{eq:iwid}) by $\Lambda$. Let $\psi: \Gal\left({\overline{K}}/{K}\right) \rightarrow \Z_p^\times$ be a finite continuous character with conductor prime to p. Let $\kappa: \Galois{\overline{K}}{K} \twoheadrightarrow \widetilde{G}_\infty \rightarrow \GL_1(\Lambda)$ denote the tautological character.
+Throughout this paper, we shall fix the isomorphism in (\ref{eq:iwid})  and denote the $2$-variable power series ring $\Z_p[[x,y]]$ appearing in (\ref{eq:iwid}) by $\Lambda$. Let $\chi: \Gal\left({\overline{K}}/{K}\right) \rightarrow \Z_p^\times$ be a finite continuous character with conductor prime to $p$. \CWnote{In the main text, $\psi$ and $\chi$ were switched! I've changed the introduction accordingly. This convention matches \cite{PS11}} Let $\kappa: \Galois{\overline{K}}{K} \twoheadrightarrow \widetilde{G}_\infty \rightarrow \GL_1(\Lambda)$ denote the tautological character.
 
 Let $\n$ be an ideal in $\cO_K$ satisfying the following condition:
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{$p$-stab}) --- , ref=(\textsc{$p$-stab})]
@@ -226,25 +243,31 @@ Let $\Gamma$ denote the congruence subgroup $\Gamma_0(\n)$ of $\SLt(\mathcal{O}_
 \item\label{hyp:ss} The $p$-adic valuations of the eigenvalues $a_\pri$, $a_{\overline{\pri}}$ for the actions of the $U_\pri$, $U_{\overline{\pri}}$ operators on $f$ are strictly less than $1$.
 \end{enumerate}
 
-Let $\D_2(\Q_p)$ (and $\D_2(\Z_p)$) denote the space of $\Q_p$-valued (and $\Z_p$-valued) $p$-adic distributions on $\Z_p^2$, endowed with a \textit{weight two} action of $\Gamma$. Let $\Symb_\Gamma(\D_2(\Q_p))$ denote the corresponding space of overconvergent modular symbols valued in $\D_2(\Q_p)$. There is a natural action of the Hecke algebra (of weight two and level $\Gamma$) on $\Symb_\Gamma(\D_2(\Q_p))$. Since $f$ satisfies \ref{hyp:ss},  a control theorem \cite[Thm.~6.10]{Wil17} shows that there exists a non-zero element $\Phi_f$ in $\Symb_\Gamma(\D_2(\Q_p))$, unique up to a scalar in $\Q_p$, that is stable under the action of the Hecke algebra and whose Hecke eigenvalues coincide with those of $f$. Associated to the tuple $(p,f,\chi,\psi)$, there exists a (locally analytic) distribution ${\mu}_{f,\chi,\psi}$ in $\D_2(\Q_p)$, satisfying certain interpolation properties which we elucidate in Section \ref{sec:l-functions} \BP{some attribution to the predicted properties is required here. I suppose this prediction is attributed to Coates-Perrin Riou in the ordinary setting, but what about in the supersingular setting? Is there some sort of uniform prediction?}.
+Let $\D_2(\Q_p)$ denote the space of $\Q_p$-valued $p$-adic distributions on $\Z_p^2$, endowed with a \textit{weight two} action of $\Gamma$. Let $\D_2^0(\Z_p)$ denote the subspace of $\Z_p$-valued measures (bounded distributions) on $\Z_p^2$, also endowed with a weight two action of $\Gamma$. Let $\Symb_\Gamma(\D_2(\Q_p))$ denote the corresponding space of overconvergent modular symbols valued in $\D_2(\Q_p)$. There is a natural action of the Hecke algebra (of weight two and level $\Gamma$) on $\Symb_\Gamma(\D_2(\Q_p))$. Since $f$ satisfies \ref{hyp:ss},  a control theorem \cite[Thm.~6.10]{Wil17} shows that there exists a non-zero element $\Phi_f$ in $\Symb_\Gamma(\D_2(\Q_p))$, unique up to a scalar in $\Q_p$, that is stable under the action of the Hecke algebra and whose Hecke eigenvalues coincide with those of $f$. Associated to the tuple $(p,f,\psi,\chi)$, there exists a (locally analytic) distribution ${\mu}_{f,\psi,\chi}$ in $\D_2(\Q_p)$, built using $\Phi_f$, which interpolates the critical $L$-values of the modular form $f$. We elucidate this property in Section \ref{sec:l-functions}.
 
 
-\subsubsection*{Main Aim}  The starting point of our paper is a precise formula \BP{refequation} that computes \textit{moments} of the distribution ${\mu}_{f,\chi,\psi}$ in terms of the overconvergent modular symbol $\Phi_f$ (and in terms of the characters $\chi$, $\psi$). To illustrate in the introduction the main output of our algorithm and keeping in mind the applications to Iwasawa theory in Section \ref{sec:appIw}, we will place ourselves in the following simplifying situation. Let $E$ be an elliptic curve defined over $\Q$. Let $T_p(E)$ denote the $p$-adic Tate module associated to $E/\Q$. Let $f$ denote the cuspidal Bianchi eigenform corresponding to the base change to $K$ of the weight two $p$-stabilized cuspidal eigenform over $\Q$ associated to $E$. One can consider a $4$-dimensional Galois representation $\tau:G_\Q \rightarrow \GL_4(\Lambda)$, given by the action of $\Galois{\overline{\Q}}{\Q}$ on $\Ind^\Q_K \left( \Res^\Q_K T_p(E) \otimes_{\Z_p} \Lambda(\kappa^{-1})\right)$ --- a free $\Lambda$-module of rank $4$. \\
+\subsection{Main Aim}  The starting point of our algorithm is a precise formula, given in equation \eqref{eqn:moments}, that computes \textit{moments} of the distribution ${\mu}_{f,\psi,\chi}$ in terms of the overconvergent modular symbol $\Phi_f$. To illustrate in the introduction the main output of our algorithm and keeping in mind the applications to Iwasawa theory in Section \ref{sec:appIw}, we will place ourselves in the following simplifying situation:
+
+\begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Base-Change}) --- , ref=(\textsc{Base-Change})]
+\item\label{hyp:basechange}  $f$ equals the cuspidal Bianchi eigenform corresponding to the base change to $K$ of the weight two $p$-stabilized cuspidal eigenform over $\Q$ associated to an elliptic curve $E$, defined over $\Q$.
+\end{enumerate}
+
+Let $T_p(E)$ denote the $p$-adic Tate module associated to $E/\Q$. One can consider a $4$-dimensional Galois representation $\tau:G_\Q \rightarrow \GL_4(\Lambda)$, given by the action of $\Galois{\overline{\Q}}{\Q}$ on $\LLL_\tau:= \Ind^\Q_K \left( \Res^\Q_K T_p(E) \otimes_{\Z_p} \Lambda(\kappa^{-1})\right)$. Observe that $\LLL_\tau$ is a free $\Lambda$-module of rank $4$. Let $\DDD_\tau:=\LLL_\tau \otimes_\Lambda \Hom_{\mathrm{cont}}\left(\Lambda,\Q_p/\Z_p\right)$ denote the associated discrete $\Lambda$-module.
 
 
-\underline{\emph{When $E$ has good ordinary reduction or split multplicative reduction at $p$}}. In this case, it is known that ${\mu}_{f,\chi,\psi}$ belongs to $\D_2(\Z_p)$. Recall that the Amice transform provides an  isomorphism $\D_2(\Z_p) \cong \Lambda$ of topological $\Z_p$-algebras. The purpose of the algorithm in our paper in this case is to compute the Amice transform, denoted $L_{p,f,\chi,\psi}(x,y)$, of $\mu_{f,\chi,\psi}$. To wit, we have
+\subsubsection*{(Ord): When $E$ has good ordinary reduction at $p$} In this case, it is known that ${\mu}_{f,\psi,\chi}$ belongs to $\D_2^0(\Z_p)$. Recall that the Amice transform provides an  isomorphism $\D_2^0(\Z_p) \cong \Lambda$ of topological $\Z_p$-algebras. The purpose of the algorithm in our paper in this case is to compute the Amice transform, denoted $L_{p,f,\psi,\chi}(x,y)$, of $\mu_{f,\psi,\chi}$. To wit, we have
 \begin{align*}
-\D_2(\Z_p) &\cong \Lambda, \\
-\mu_{f,\chi,\psi} &\leftrightarrow L_{p,f,\chi,\psi}(x,y).
+\D_2^0(\Z_p) &\cong \Lambda, \\
+\mu_{f,\psi,\chi} &\leftrightarrow L_{p,f,\psi,\chi}(x,y).
 \end{align*}
-Corresponding to the fact that $E$ has good ordinary or split multiplicative reduction at $p$, one observes that the Galois representation $\tau$ satisfies Greenberg's Panchishkin condition\footnote{In fact, $\tau$ satisfies another distinct Panchishkin condition since $p$ splits in $K$.} and one can formulate an \textit{Iwasawa-Greenberg main conjecture} associated to $\tau$. See \cite{MR1265554} for more details. The application to Iwasawa theory stems from the fact that it is $L_{p,f,\chi,\psi}(x,y)$ that appears in the formulation of this conjecture, and is conjectured to generate the characteristic divisor in $\Lambda$ of the Pontryagin dual of a Selmer group (which we denote $\Sel_{f,\chi,\psi}(\Q)^\vee$).   \\
+Corresponding to the fact that $E$ has good ordinary reduction at $p$, one observes that the Galois representation $\tau$ satisfies Greenberg's Panchishkin condition\footnote{In fact, $\tau$ satisfies another distinct Panchishkin condition since $p$ splits in $K$.} and one can formulate an \textit{Iwasawa-Greenberg main conjecture} associated to $\tau$. See \cite{MR1265554} for more details. The application to Iwasawa theory stems from the fact that it is $L_{p,f,\psi,\chi}(x,y)$ that appears in the formulation of this conjecture, and is conjectured to generate the characteristic divisor in $\Lambda$ of the Pontryagin dual of a Selmer group (which we denote $\Sel(\Q,\DDD_\tau)^\vee$).
 
-\underline{\emph{When $E$ has good supersingular at $p$ with $a_p(E)=0$}.} In this case, the distribution $\mu_{f,\chi,\psi}$ does not belong to $\D_2(\Z_p)$. However, by suitably modifying this distribution (following an approach of Pollack \cite{MR1983040} in the $1$-variable case over $\Q$), Loeffler \cite{Loe14} has constructed four distributions $\mu^{\pm,\pm}_{f,\chi,\psi}$ in $\D_2(\Z_p)$. These distributions are referred to as \textit{doubly-signed} $p$-adic $L$-functions.  The purpose of the algorithm in our paper in this case is to compute the Amice transform, denoted $L^{\pm,\pm}_{p,f,\chi,\psi}(x,y)$, of $\mu^{\pm,\pm}_{f,\chi,\psi}$. To wit, we have
+\subsubsection*{(SS): When $E$ has good supersingular reduction at $p$ with $a_p(E)=0$} In this case, the distribution $\mu_{f,\psi,\chi}$ does not belong to $\D_2^0(\Z_p)$. However, by suitably modifying this distribution (following an approach of Pollack \cite{MR1983040} in the $1$-variable case over $\Q$), Loeffler \cite{Loe14} has constructed four distributions $\mu^{\pm,\pm}_{f,\psi,\chi}$ in $\D_2^0(\Z_p)$. These distributions are referred to as \textit{doubly-signed} $p$-adic $L$-functions.  The purpose of the algorithm in our paper in this case is to compute the Amice transform, denoted $L^{\pm,\pm}_{p,f,\psi,\chi}(x,y)$, of $\mu^{\pm,\pm}_{f,\psi,\chi}$. To wit, we have
 \begin{align*}
-\D_2(\Z_p) &\cong \Lambda, \\
-\mu^{\pm,\pm}_{f,\chi,\psi} &\leftrightarrow L^{\pm,\pm}_{p,f,\chi,\psi}(x,y).
+\D_2^0(\Z_p) &\cong \Lambda, \\
+\mu^{\pm,\pm}_{f,\psi,\chi} &\leftrightarrow L^{\pm,\pm}_{p,f,\psi,\chi}(x,y).
 \end{align*}
-The application to Iwasawa theory in this setting stems from conjectures of Kim \cite{MR3224266}. Each of the doubly signed $p$-adic $L$-functions $L^{\pm,\pm}_{p,f,\chi,\psi}(x,y)$ is conjectured to generate the characteristic divisor in $\Lambda$ of the corresponding doubly signed Selmer group (which we denote $\Sel^{\pm,\pm}_{f,\chi,\psi}(\Q)^\vee$) constructed by Kim \cite{MR3224266}, which in turn is inspired by work over $\Q$ of Kobayashi \cite{MR1965358}.
+The application to Iwasawa theory in this setting stems from conjectures of Kim \cite{MR3224266}. Each of the doubly signed $p$-adic $L$-functions $L^{\pm,\pm}_{p,f,\psi,\chi}(x,y)$ is conjectured to generate the characteristic divisor in $\Lambda$ of the corresponding doubly signed Selmer group (which we denote $\Sel^{\pm,\pm}(\Q,\DDD_\tau)^\vee$) constructed by Kim \cite{MR3224266}, which in turn is inspired by work over $\Q$ of Kobayashi \cite{MR1965358}.
 
 
 \subsection{Description of the algorithm}
@@ -285,14 +308,14 @@ We now outline the main steps involved in our algorithm.\BP{the outline is very 
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Step 1}) --- , ref=(\textsc{Step 1})]
 \item\label{step1} \underline{\emph{Constructing a cocycle $[\vartheta_{f}]$ with trivial coefficients}}.
 \end{enumerate}
-It is known that there exists a one-dimensional $\Q_p$ vector subspace $V_f$ of $H^1_{\Par}\left(\Gamma,\Q_p \right)$ that is stable under the action of the Hecke algebra, with Hecke eigenvalues coinciding with those of $f$. In \ref{step1}, we construct a cocycle $\vartheta$ in $Z^1(\Gamma,\Q_p)$ such that its corresponding cohomology class $[\vartheta_{f}]$ in $H^1_{\Par}\left(\Gamma,\Q_p \right)$ generates $V_f$.
+By multiplicity one \BP{can we add a suffix, like multiplicity one for blah-blah}, there exists a one-dimensional $\Q_p$ vector subspace $V_f$ of $H^1_{\Par}\left(\Gamma,\Q_p \right)$ that is stable under the action of the Hecke algebra, with Hecke eigenvalues coinciding with those of $f$. In \ref{step1}, we construct a cocycle $\vartheta$ in $Z^1(\Gamma,\Q_p)$ such that its corresponding cohomology class $[\vartheta_{f}]$ in $H^1_{\Par}\left(\Gamma,\Q_p \right)$ generates $V_f$.
 
 
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Step 2}) --- , ref=(\textsc{Step 2})]
 \item\label{step2} \underline{\emph{Constructing an overconvergent lift $[\Theta_{f}]$}}
 \end{enumerate}
 
-Since $f$ satisfies \ref{hyp:ss},  the control theorem \cite[Thm.~6.10]{Wil17} is also applicable for the parabolic cohomology groups. There exists a unique cohomology class $[\Theta_{f}]$ in $H^1_{\Par}\left(\Gamma,\D_2(\Q_p) \right)$, stable under the action of the Hecke algebra, such that $\rho([\Theta_{f}])$ equals $[\vartheta_{f}]$. In \ref{step2}, we construct a cocycle $\Theta$ in $Z^1(\Gamma,\D_2(\Q_p))$ such that its corresponding cohomology class in $H^1_{\Par}\left(\Gamma,\D_2(\Q_p) \right)$ equals $[\Theta_{f}]$.
+ The control theorem of \cite[Thm.~6.10]{Wil17} is also applicable in the setting of group cohomology \cite[Thm.~3.7]{Wil18} \BP{Reference Wil18 missing}. There thus exists a unique cohomology class $[\Theta_{f}]$ in $H^1_{\Par}\left(\Gamma,\D_2(\Q_p) \right)$, stable under the action of the Hecke algebra, such that $\rho([\Theta_{f}])$ equals $[\vartheta_{f}]$. In \ref{step2}, we construct a cocycle $\Theta$ in $Z^1(\Gamma,\D_2(\Q_p))$ such that its corresponding cohomology class in $H^1_{\Par}\left(\Gamma,\D_2(\Q_p) \right)$ equals $[\Theta_{f}]$.
 
 
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Step 3}) --- , ref=(\textsc{Step 3})]
@@ -300,7 +323,7 @@ Since $f$ satisfies \ref{hyp:ss},  the control theorem \cite[Thm.~6.10]{Wil17} i
 \end{enumerate}
 
 \begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{Step 4}) --- , ref=(\textsc{Step 4})]
-\item\label{step4} \underline{\emph{Computing the moments of the distribution $\mu_{f,\chi,\psi}$}}.
+\item\label{step4} \underline{\emph{Computing the moments of the distribution $\mu_{f,\psi,\chi}$}}.
 \end{enumerate}
 
 
@@ -309,35 +332,66 @@ Since $f$ satisfies \ref{hyp:ss},  the control theorem \cite[Thm.~6.10]{Wil17} i
 \end{enumerate}
 
 
-\subsection{Applications in Iwasawa theory} \label{sec:appIw}
-
-\BP{Oops - sorry, woefully incomplete. To do:
-\begin{enumerate}
-\item Figure out how the action of complex conjugation works. Is it enough to check that  $L_p(x,y)$ and $L_p(y,x)$ are co-prime? Do you really need that the elliptic curves in this case are CM? 
-\end{enumerate}
-}
+\subsection{Applications to higher codimension Iwasawa theory} \label{sec:appIw}
 
 
-\subsubsection{Higher codimension Iwasawa theory}
-Throughout Section \ref{sec:appIw}, suppose as before that $f$ equals the cuspidal Bianchi eigenform corresponding to the base change to $K$ of a weight two $p$-stabilized cuspidal eigenform over $\Q$ associated to an elliptic curve $E$ over $\Q$. Our application involve supporting a conjecture Coates-Sujatha \cite[Conjecture B]{MR2148798} on the Pontryagin dual of the fine Selmer group (which we denote $\Sha^1_{f,\chi,\psi}(\Q)^\vee$). The discrete fine Selmer group associated to $\tau$ is, roughly speaking, the subgroup of the first global Galois cohomology group that is locally trivial at all primes. The philosophy behind this conjecture of Coates-Sujatha goes back to conjectures of Greenberg \cite{Gre76}, \cite[Conjecture 3.5]{MR1846466}.
+Suppose $f$ satisfies \ref{hyp:basechange}. Let $S$ denote the set of primes in $\Q$ containing $p$, $\infty$ along with all the primes dividing the conductor of $E$ and the discriminant of $K/\Q$. The discrete fine Selmer group associated to $\tau$ is defined below:
+\begin{align*}
+\Sha^1(\Q,\DDD_\tau):= \mathrm{ker}\left(H^1\left(\Q_S/\Q, \DDD_\tau\right) \rightarrow \bigoplus_{\nu \in S} H^1\left(\Q_\nu, \DDD_\tau \right) \right).
+\end{align*}
 
-A finitely generated torsion $\Lambda$-module is said to be \textit{pseudo-null} if its characteristic divisor $\mathrm{Div}(M)$ in $\Lambda$ equals zero. The conjecture of Coates-Sujatha in our setting amounts to the following:
 
-\begin{conjecture}
-\item $\Sha^1_{f,\chi,\psi}(\Q)^\vee$ is a pseudo-null $\Lambda$-module.
+
+
+
+
+\begin{definition}\label{defn:pseudonull}
+A finitely generated torsion $\Lambda$-module $M$ is said to be \textit{pseudo-null} if its characteristic divisor $\mathrm{Div}(M)$ in $\Lambda$ equals zero.
+\end{definition}
+When $E$ has good ordinary reduction at $p$, one can establish that $\Sha^1(\Q,\DDD_\tau)^\vee$  is a finitely generated torsion $\Lambda$-module (essentially using a result of Rubin in the CM case and of Kato \cite{Kat04} in the non-CM case). When $E$ has good supersingular reduction at $p$, one can establish that $\Sha^1(\Q,\DDD_\tau)^\vee$ is a finitely generated torsion $\Lambda$-module using a result of Kobayashi \cite{MR1965358}. We have the following conjecture, due to Coates-Sujatha (\cite[Conjecture B]{MR2148798}):
+\begin{conjecture} \label{conj:CS}
+\item The $\Lambda$-module $\Sha^1(\Q,\DDD_\tau)^\vee$ is pseudo-null.
 \end{conjecture}
 
+We start with a few observations:
+\begin{enumerate}
+\item When the rank (say $r:=\mathrm{Rank}_{\Z}E(K)$) of the Mordell-Weil group of $E/K$ satisfies $r\geq 1$ , the cyclotomic specializations of the $2$-variable $p$-adic $L$-functions that we consider will have a common irreducible factor in the $1$-variable Iwasawa algebra corresponding to this Mordell-Weil group.
+\item When $r \geq 2$, the Pontryagin dual of the fine Selmer group over every $\Z_p$-extension $L/K$ will have a positive $\Z_p$-rank and consequently  will not be pseudo-null over the corresponding $1$-variable Iwasawa algebra for $\Gal{L}{K}$. \BP{Verify that $r\geq 2$ is sufficient to demonstrate that these fine Selmer groups aren't pseudo-null and then later add a proof somewhere, perhaps an appendix}.
+\end{enumerate}
+
+
+To illustrate the method on no common irreducible factors, for the sake of simplicity only a few examples are selected in Tables \ref{table:ordinary} and \ref{table:supersingular} \BP{Add a reference to an online source where we establish lots more examples, including $r=0$}. Keeping in mind the observations stated earlier, we have chosen the ``simplest'' examples that satisfy $r \geq 1$.
 
 
 
-\BP{Following examples should be interesting. Need to actually verify that they will be interesting and then explain why}
+\subsubsection*{(Ord): When $E$ has good ordinary reduction at $p$}
+The Iwasawa-Greenberg main conjecture amounts to the following:
+\begin{conjecture}\label{conj:ordmain}
+The $p$-adic $L$-function $L_{p,f,\psi,\chi}(x,y)$ is non-zero. Furthermore, we have the following equality of characteristic divisors of $\Lambda$:
+\begin{align*}
+\mathrm{Div} \left(\Sel(\Q,\DDD_\tau)^\vee\right) = \Div\left(L_{p,f,\psi,\chi}(x,y)\right).
+\end{align*}
+\end{conjecture}
+\BP{What we really only need for the application to pseudo-nullity is the Euler-system inequality $\mathrm{Div} \left(\Sel(\Q,\DDD_\tau)^\vee\right) \leq \Div\left(L_{p,f,\psi,\chi}(x,y)\right)$. Is this known due to Skinner-Urban? Need to find more info on the current status of this.}
 
-\underline{\emph{When an elliptic curve $E/\Q$ has CM and has good ordinary reduction at $p$}}
 
+We will focus on elliptic curves $E/\Q$ with complex multiplication, whose endomorphism algebra (an imaginary quadratic field say $L$) is chosen not to equal $K$. Let $\delta$ denote the non-trivial element in $\Gal{L}{\Q}$. We have the following natural surjections of $\Lambda$-modules:
+\begin{align} \label{eq:ordsurjection}
+\Sel(\Q,\DDD_\tau)^\vee  \twoheadrightarrow \Sha^1(\Q,\DDD_\tau)^\vee, \qquad \delta(\Sel(\Q,\DDD_\tau)^\vee)   \twoheadrightarrow \Sha^1(\Q,\DDD_\tau)^\vee
+\end{align}
 
+Assume Conjecture \ref{conj:ordmain} holds. Equation (\ref{eq:ordsurjection}) lets us deduce that the pseudo-nullity conjecture (Conjecture \ref{conj:CS}) holds if we can establish that following hypothesis:
+\begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{ord:gcd}) --- , ref=(\textsc{ord:gcd})]
+\item\label{hyp:ssgcd} There exists no irreducible element in $\Lambda$ that divides both $L_{p,f,\psi,\chi}(x,y)$ and $\delta(L_{p,f,\psi,\chi}(x,y))$.
+\end{enumerate}
 
+\BP{As stated above, it's not entirely accurate since $\delta(\Sel(\Q,\DDD_\tau)^\vee)$ and $\delta(L_{p,f,\psi,\chi}(x,y))$ may not make sense. Instead, I really have to look at local and global class field theory to get the other $p$-adic $L$-function from $L_p$, something like a $p$-adic functional equation. Argh! annoying but should be doable!}
 
-\begin{tabular}[t]{lrrrrr}\toprule
+In this manuscript, we simply focus on the examples given in Table \ref{table:ordinary}, where we establish  \ref{hyp:ordgcd}, motivated by its connection to Conjecture \ref{conj:CS}. See \BP{Section on examples}.
+
+\begin{table}[H]	\caption{\label{table:ordinary}\emph{Examples of CM $E/\Q$ with good ordinary reduction at $p$}}
+\begin{tabular}[t]{lrrrrr}
+	\toprule
  Cremona's Label          &  $K$    &  $p$    & $\mathrm{Rank}_\Z(E(\Q))$   & $\mathrm{Rank}_\Z(E(K))$ &   End.~algebra    \\ \midrule
 
 $27a1$   &   $\Q(\sqrt{-2})$  &  $7$ &  $0$   &    $1$  & $\Q(\sqrt{-3})$   \\\addlinespace
@@ -346,15 +400,35 @@ $108a1$ &   $\Q(\sqrt{-7})$  & $7$    &  $0$   & $2$    & $\Q(\sqrt{-3})$   \\\a
 $121b1$ &   $\Q(\sqrt{-19})$   &   $3$ &  $1$   & $2$    & $\Q(\sqrt{-11})$     \\
 \bottomrule
 \end{tabular}
+\end{table}
 
-Our methodology in this case will be to show that there exists no irreducible element in $\Lambda$ that divides both
+
+
+\subsubsection*{(SS): When $E$ has good supersingular reduction at $p$ with $a_p(E)=0$}
+
+We have the following conjecture due to Kim (\cite[Conjecture 3.1]{MR3224266},\cite[Conjecture 6.7]{wanss}):
+\begin{conjecture}\label{conj:SSmain}
+Let $\bullet, \circ \in \{+,-\}$. The $p$-adic $L$-function $L^{\bullet,\circ}_{p,f,\psi,\chi}(x,y)$ is non-zero. Furthermore, we have the following equality of characteristic divisors of $\Lambda$:
 \begin{align*}
-L_{p,f,\chi,\psi}(x,y) \text{ and } L_{p,f,\chi,\psi}(y,x).
+\mathrm{Div} \left(\Sel^{\bullet,\circ}(\Q,\DDD_\tau)^\vee\right) = \Div\left(L^{\bullet,\circ}_{p,f,\psi,\chi}(x,y)\right).
 \end{align*}
+\end{conjecture}
 
-\underline{\emph{When an elliptic curve $E/\Q$ has good supersingular reduction at $p$}}
+For each $\bullet, \circ \in \{+,-\}$, we have the following natural surjections of $\Lambda$-modules:
+\begin{align} \label{eq:SSsurjection}
+\Sel^{\bullet, \circ}(\Q,\DDD_\tau)^\vee  \twoheadrightarrow \Sha^1(\Q,\DDD_\tau)^\vee
+\end{align}
 
+Assume Conjecture \ref{conj:SSmain} holds. Equation (\ref{eq:SSsurjection}) lets us deduce that the pseudo-nullity conjecture (Conjecture \ref{conj:CS}) holds if we can establish that following hypothesis:
+\begin{enumerate}[style=sameline, style=sameline, align=left,label=(\textsc{ss:gcd}) --- , ref=(\textsc{ss:gcd})]
+\item\label{hyp:ssgcd} There exists no irreducible element in $\Lambda$ that divides all four of the $p$-adic $L$-functions $L^{\pm,\pm}_{p,f,\psi,\chi}(x,y)$.
+\end{enumerate}
 
+In this manuscript, we simply focus on the examples given in Table \ref{table:supersingular}, where we establish  \ref{hyp:ssgcd}, motivated by its connection to Conjecture \ref{conj:CS}. See \BP{Section on examples}.
+
+A result of Kobayashi (\cite{MR1965358}) allows us to deduce that the equal doubly-signed $p$-adic $L$-functions $L^{+,+}_{p,f,\psi,\chi}(x,y)$ and $L^{-,-}_{p,f,\psi,\chi}(x,y)$ are non-zero (see \cite[Proposition 3.5]{CCSS17}, \cite[Remark 8.5]{lei2018codimension}). In general however, it has not been currently established that the mixed doubly-signed $p$-adic $L$-functions are non-zero. Consequently, we are also able to provide numerical examples when the mixed doubly-signed $p$-adic $L$-functions are non-zero, establishing part of Conjecture \ref{conj:SSmain} in this case as well.
+
+\begin{table}[H]	\caption{\label{table:supersingular}\emph{Examples of $E/\Q$ with good supersingular reduction at $p$}}
 \begin{tabular}[t]{lrrrrr}\toprule
  Cremona's Label          &  $K$    &  $p$    & $\mathrm{Rank}_\Z(E(\Q))$   & $\mathrm{Rank}_\Z(E(K))$ &   End.~algebra    \\ \midrule
 
@@ -363,6 +437,7 @@ $37a1$ &   $\Q(\sqrt{-2})$  & $3$    &  $1$   & $1$    & $\Q$   \\\addlinespace
 $121b1$ &   $\Q(\sqrt{-19})$   &   $7$ &  $1$   & $2$    & $\Q(\sqrt{-11})$     \\
 \bottomrule
 \end{tabular}
+\end{table}
 
 
 \begin{comment}
@@ -380,14 +455,11 @@ $121b1$ &   $\Q(\sqrt{-19})$   &   $7$ &  $1$   & $2$    & $\Q(\sqrt{-11})$     
 \end{comment}
 
 \subsubsection{Relationship to the Rankin-Selberg $p$-adic $L$-function}
-\BP{this is just an additional comment/observation, not related to higher codimension Iwasawa theory but might be interesting nonetheless --- will work on this.}
-
-Then, the Galois representation $\tau$ is isomorphic to
+Suppose that $f$ satisfies \ref{hyp:basechange}. Observe that as a $\Lambda[\Galois{\overline{\Q}}{\Q}]$-module, $\LLL_\tau$ is isomorphic to
 \begin{align*}
-T_p(E) \otimes_{\Lambda} \Ind^\Q_K (\Z_p)  \Lambda(\kappa_{\pri}^{-1}) \otimes_\Lambda \Lambda(\kappa_{\mathrm{cyc}}^{-1}).
+\bigg(T_p(E) \otimes_{\Z_p} \Ind^\Q_K \Lambda(\kappa_{\pri}^{-1})\bigg) (\kappa_{\mathrm{cyc}}^{-1}).
 \end{align*}
-This corresponds to the tensor product of the elliptic curve $E$ and the ``CM-Hida family'' corresponding to the
-Hida has constructed a $2$-variable Rankin-Selberg $p$-adic $L$-function.  where the elliptic curve $E$ has the dominant weight (equal to two) and  we vary over the classical weight one specializations of the induced represnetat the cyclotomic variable and the weight variable (of the CM family).  For this Rankin-Selberg $p$-adic $L$-function, one can vary the cyclotomic variable and the weight-variable.
+Here, $\kappa_\pri:\Galois{\overline{K}}{K} \twoheadrightarrow G_\pri \hookrightarrow \Lambda^\times$ is the tautological character and one can view the induction of the character $\kappa_{\pri}^{-1}$ as being associated to a \textit{CM Hida family}. The character $\kappa_{\mathrm{cyc}}$ is the tautological cyclotomic character for the cyclotomic $\Z_p$-extension. This perspective allows us to view the Galois representation $\tau$ as the cyclotomic deformation of the tensor product of $E$ and this CM-Hida family. Suppose now that $E$ has good ordinary reduction at $p$. Hida has constructed a $2$-variable Rankin-Selberg $p$-adic $L$-function in the fraction field of $\Lambda$, where one can vary the cyclotomic variable and the weight-variable of the CM-Hida family. We consider the Rankin-Selberg $p$-adic $L$-function that interpolates critical $L$-values as we fix the cyclotomic variable to equal $1$ and vary over the classical weight one specializations of the CM Hida family (so the elliptic curve $E$ has the dominant weight). We refer the interested reader to Hida's works \cite{HidE,hida1985ap,hida1988p,Hid96} for the precise interpolation properties. It is possible to formulate two Iwasawa-Greenberg main conjectures over the ring $\Lambda$ --- the first corresponding to the $2$-variable Bianchi $p$-adic $L$-function and the second corresponding to Hida's $2$-variable Rankin-Selberg $p$-adic $L$-function. These conjectures assert that each of these $p$-adic $L$-functions generate the characteristic ideal of the $\Lambda$-module $\Sel(\Q,\DDD_\tau)^\vee$. As a result, we expect the ratio of these $p$-adic $L$-functions to be a unit in the ring $\Lambda$. Indeed, this expectation is confirmed in a preprint of Skinner-Zhang \cite[Lemma  9.5]{SkinnerZhang}, which asserts that the ratio of the complex periods appearing in the constructions of the $p$-adic $L$-functions is in fact a unit in $\Z_p$. Up to this unit in $\Z_p$, our algorithm would thus compute in this setting Hida's $2$-variable Rankin-Selberg $p$-adic $L$-function as well.
 
 
 
@@ -409,19 +481,22 @@ We actually use a modified version of the construction of \cite{Wil17}. Existing
 
 \subsection{Concluding Remarks}
 
-\begin{enumerate}
-\item Explain why  we restrict to $K$ to have class number one.
-\end{enumerate}
+In the computations, we restrict to imaginary quadratic fields with class number one for simplicity. In this case, the space of modular symbols is rich enough to capture all of the arithmetic of the form $f$. In the general case when the class number of $K$ equals $h$, we would instead need to consider a direct sum decomposition of $h$ copies of modular symbols, with Hecke operators at non-principal primes permuting the factors in these copies; see, for example, \cite{Wil17} for a detailed description of the general case. Such a decomposition arises since the Bianchi three-fold in this situation decomposes into a disjoint union of $h$ connected components (via strong approximation for $\GLt/K$).
 
-For several practical reasons in our implementation, we choose to first work with arithmetic cohomology (the parabolic cohomology groups) instead of directly working with modular symbols (as in \cite{PS11,Gre07}). This is mainly since in the setting of Bianchi groups, extensive implementation to work with arithmetic cohomology groups already exists \BP{references}. Also, this approach might generalize more naturally to other settings, for example, pursuing the constructions of Barrera-Salazar \cite{Bar15} for $p$-adic $L$-functions over \emph{real} quadratic fields, where modular symbols themselves do not exist and one is forced to work with higher degree cohomology groups.
+For several practical reasons in our implementation, we choose to first work with arithmetic cohomology (the parabolic cohomology groups) instead of directly working with modular symbols (as in \cite{PS11,Gre07}). This is mainly since in the setting of Bianchi groups, extensive implementation to work with arithmetic cohomology groups already exists; for example, such computations form the basis of \cite{GMS15}. Also, this approach might generalize more naturally to other settings, for example, pursuing the constructions of Barrera-Salazar \cite{Bar15} for $p$-adic $L$-functions over \emph{real} quadratic fields, where modular symbols themselves do not exist and one is forced to work with higher degree cohomology groups.
+
+We refer the interested reader to \cite{MR2287113,MR2830442,MR2916368,MR3440445,MR3810684} where there are examples of specific elliptic curves when the pseudo-nullity conjecture of Coates--Sujatha has been verified (in a setup different to ours).
 
 \begin{enumerate}
 \item Analyse the run time of our algorithm. What are our practical limitations in computing things.
 \item Explain how we verify our code by existing theoretical results, relating it to 1-variable p-adic L-functions of Pollack. And in the root number = -1 case, showing that the appropriate anti-cyclotomic specializations are zero.
+\item Also add a line saying that we target a very small sample size (6) just to simplify things and to illustrate our methods better. Mention that we have a larger list of numerical computations online somewhere.
 \item Explain how our code compares to existing code of Pollack - Harron and co.
 [Include remarks on Rob Pollack and co, and in particular emphasise the difficulty of computing 2-variable things: they restrict to index in the 100s, it takes them many hours and they compute to precision 7. We should do better?]
 \item Write down all the attributions here --- Stevens, Pollack, Greenberg etc.
 \end{enumerate}
+
+
 
 \subsection*{Acknowledgements}
 This research was supported through the ``Research in Pairs'' programme at the Mathematisches Forschungsinstitut Oberwolfach in 2018; the MFO also supported this project by enabling M.M.\ and C.W.\ to visit B.P.\ whilst he was there in 2019 as a Leibniz fellow. We are grateful to the MFO for twice providing a stimulating place to do research. We would like to thank Aurel Page for helpful conversations about his code for computing presentations of arithmetic groups. The authors were supported by the following grants: [INSERT HERE] (M.M.); [INSERT HERE] (B.P.); a Heilbronn Research Fellowship and EPSRC Postdoctoral Fellowship [EP/T001615/1] (C.W.).
@@ -675,10 +750,10 @@ where -- for $c_i^{(m)}$ as in \eqref{cjn} -- we define
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Obtaining power series from the moments of \texorpdfstring{$\mu$}{mu}}
 As before, it is simple to obtain the moments of $\mu_f$ by applying the $U_p$ operator. Write $V_{a,b}$ for the open compact set $(a+p\Zp)\times(b+p\Zp) \subset (\roi_K\otimes_{\Z}\Zp)^\times$. We compute that
-\begin{align*}
+\begin{align}\label{eqn:moments}
 	\int_{V_{a,b}}f(z_{\pri},z_{\pribar}) d\mu(\mathbf{z}) &\defeq \Phi\{0\rightarrow\infty\}(f(z_{\pri},z_{\pribar})\mathbbm{1}_{V_{a,b}}) \\
-    &= \alpha_{p}^{-1}\Phi\{c/p \rightarrow \infty\}\big(f(c + pz_{\pri}, \overline{c} + pz_{\pribar})\big),
-    \end{align*}
+    &= \alpha_{p}^{-1}\Phi\{c/p \rightarrow \infty\}\big(f(c + pz_{\pri}, \overline{c} + pz_{\pribar})\big), \notag
+    \end{align}
 where $c = c_{a,b} \in \roi_K$ is such that
 \[
 	c \equiv a \pmod{\pri},\quad \overline{c}\equiv b\pmod{\pribar}.
@@ -691,7 +766,7 @@ Twisting by characters of $p$-power conductor is built into the definitions abov
 \[
 	\Phi_\chi \defeq \sum_{b \newmod{\mathfrak{D}}} \chi(b) \bigg[\Phi\{b/\mathfrak{d} \rightarrow \infty\}\bigg| \matrd{1}{b}{0}{\mathfrak{d}}\bigg],
 \]
-then computes $L_p(\mu,\psi\chi,T) \defeq L_p(\mu_\chi,\psi,T),$ where $\mu_\chi \defeq \Phi_\chi\{0\rightarrow \infty\}|_{\cl_K(p^\infty)}$. This case is treated in \cite[\S3.4]{BW17}.
+then computes $L_p(\mu,\psi\chi,T) \defeq L_p(\mu_\psi,\chi,T),$ where $\mu_\chi \defeq \Phi_\chi\{0\rightarrow \infty\}|_{\cl_K(p^\infty)}$. This case is treated in \cite[\S3.4]{BW17}.
 
 
 
@@ -1048,11 +1123,34 @@ Complexity in computing this: lots of Up operators. Fox derivative and gradient.
 
 \BP{
 \section*{Bookkeeping:}
-\begin{enumerate}\item I chose $f$ to represent the Bianchi modular form instead of the calligraphic $\f$.
-\item I chose to represent the modular symbols by $\Phi_f$ and $\varphi_f$. I chose to represent the objects in parabolic cohomology by $[\Theta_f]$ and $[\vartheta_f]$. Any cocycle corresponding to these cohomology classes are represented without the brackets by $\Theta$ and $\vartheta$. In particular, also notice that the overconvergent objects are represented by an uppercase Greek alphabet $\Phi$ and $[\Theta]$, whereas the objects with trivial coefficients are lowercase ``var'' Greek $\varphi$ and $[\vartheta]$.
-\item I am starting to suspect that the the constant term of the 2-variable power series is zero, if the Elliptic curve has rank 2 over K --- can this be seen from the analytic side?
+\begin{enumerate}\item I chose $f$ to represent the Bianchi modular form instead of the calligraphic $\f$. \CWnote{Makes sense.}
+\item I chose to represent the modular symbols by $\Phi_f$ and $\varphi_f$. I chose to represent the objects in parabolic cohomology by $[\Theta_f]$ and $[\vartheta_f]$. Any cocycle corresponding to these cohomology classes are represented without the brackets by $\Theta$ and $\vartheta$. In particular, also notice that the overconvergent objects are represented by an uppercase Greek alphabet $\Phi$ and $[\Theta]$, whereas the objects with trivial coefficients are lowercase ``var'' Greek $\varphi$ and $[\vartheta]$. \CWnote{I like these conventions!}
+\item I am starting to suspect that the the constant term of the 2-variable power series is zero, if the Elliptic curve has rank 2 over K --- can this be seen from the analytic side? \CWnote{The analytic $p$-adic $L$-function will certainly be zero as a distribution. This probably translates to the power series being zero when evaluated at the character as well, but I'm not so confident in that statement: and this would equally apply in rank 1.}
 \item If I wanted to remove some text from the pdf, I placed stuff under the comment environment in the tex file.
-\item My 2 cents --- for the purposes of narrative flow, I think it may be better to have in an appendix rather than the main text --- the theory of modular symbols over $\Q$, along with description of the main conjectures and explanations of why the examples we work out are interesting.
+\item My 2 cents --- for the purposes of narrative flow, I think it may be better to have in an appendix rather than the main text --- the theory of modular symbols over $\Q$, along with description of the main conjectures and explanations of why the examples we work out are interesting. \CWnote{I personally think the descriptions of the conjectures/why the examples are interesting should come either in the introduction or in one of the opening sections, before we do any algorithmic stuff. The modular symbols over $\Q$ would be suited to an appendix, though I don't think we should move the material from section 3.1, as that motivates/explains 3.2 very concretely.}
+\BP{Can we then label modular forms over $Q$ by $g$ instead of $f$?}
+
+---------------------------------------------------------------------------------
+
+\item
+
+\CWnote{I generally like to start papers with some extended fluff explaining what we're doing: sort of like a second abstract, but detailing the context in which the paper sits. In particular it is nice for the reader to understand what we've done and why we've done it within the first 5 minutes of picking up the paper. I've written a sketch, and you two can veto/reduce if you object!}
+
+
+
+\BP{Actually what you said makes a lot of sense, seems better to start the paper with some motivation than just writing down a bunch of notations. I expanded on what you wrote and added some context for higher codimension Iwasawa theory. I chose to focus almost entirely on the application to pseudo-nullity in the second abstract since the bit about the algorithm and modular symbols appears in the actual abstract and immeditely afterwards}
+
+\item \CWnote{Actually, the $p$-adic $L$-function is in $\D_2$! This is the space of distributions, not measures. It is not, however, a measure, that is a bounded distribution/distribution of growth 0. We should perhaps denote the subspace of measures by $\D_2^0$?}
+\BP{Okay, how about now?}
+
+\item
+\CWnote{It's really worth checking whether such examples exist. It will be a big boost for our paper to be able to say this}
+
+
+
+So what I did was go to Mathscinet and check all those papers that refer the Math Annalen paper of Coates-Sujatha. I feel this is a more or less exhaustive list with relevant numerical examples  -- \cite{MR2287113,MR2830442,MR2916368,MR3810684,MR3440445,lei2018codimension}. This drove me crazy --- to go and check each of the numerical examples there. While I did find some examples where the MW rank was $1$, most of the data however seem to target specific curves. I tried to phrase the introduction to still emphasize why computing $2$-variable objects is important. The writing there is the best motivation I could come up with.
+
+\item By the way, I also commented out the trick which allows us to compute all the moments except the zeroth since we found a way to get around that. If you still feel this is important, could we add this in an appendix instead?
 \end{enumerate}
 }
 
