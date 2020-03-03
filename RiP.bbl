@@ -1,4 +1,12 @@
-\begin{thebibliography}{BSW19}
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{BCG{\etalchar{+}}19}
+
+\bibitem[BCG{\etalchar{+}}19]{bleher2015higher}
+FM~Bleher, T~Chinburg, R~Greenberg, M~Kakde, G~Pappas, R~Sharifi, and
+  MJ~Taylor.
+\newblock Higher {C}hern classes in {I}wasawa theory.
+\newblock {\em to appear in Amer. J. Math., available at arXiv:1512.00273},
+  2019.
 
 \bibitem[BS15]{Bar15}
 Daniel Barrera~Salazar.
@@ -19,6 +27,14 @@ Daniel Barrera~Salazar and Chris Williams.
 \newblock Exceptional zeros and {$\mathcal{L}$}-invariants of {B}ianchi modular
   forms.
 \newblock {\em Trans. Amer. Math. Soc.}, 372(1):1--34, 2019.
+
+\bibitem[C{\c{C}}SS17]{CCSS17}
+Francesc Castella, Mirela {\c{C}}iperiani, Christopher Skinner, and Florian
+  Sprung.
+\newblock On the {I}wasawa main conjectures for modular forms at non-ordinary
+  primes.
+\newblock 2017.
+\newblock Preprint.
 
 \bibitem[CS05]{MR2148798}
 J.~Coates and R.~Sujatha.
@@ -66,11 +82,29 @@ G{\"u}nter Harder.
 \newblock Eisenstein cohomology of arithmetic groups: The case {GL}$_2$.
 \newblock {\em Invent. Math.}, 89:37--118, 1987.
 
+\bibitem[Hid93]{HidE}
+Haruzo Hida.
+\newblock {\em Elementary theory of {$L$}-functions and {E}isenstein series},
+  volume~26 of {\em LMS Student Texts}.
+\newblock Cambridge University Press, 1993.
+
 \bibitem[Hid94]{Hid94}
 Haruzo Hida.
 \newblock On the critical values of {$L$}-functions of {GL}(2) and
   {GL}(2)$\times${GL}(2).
 \newblock {\em Duke Math.}, 74:432--528, 1994.
+
+\bibitem[Hid96]{Hid96}
+Haruzo Hida.
+\newblock On the search of genuine {$p$}-adic modular {$L$}-functions for
+  {GL}(n).
+\newblock {\em M\'{e}m. Soc. Math. Fr. (N.S)}, no. 67:vi+110, 1996.
+
+\bibitem[Kat04]{Kat04}
+Kazuya Kato.
+\newblock $p$-adic {H}odge theory and values of zeta functions of modular
+  forms.
+\newblock {\em Ast\'{e}risque}, 295:117--290, 2004.
 
 \bibitem[Kim14]{MR3224266}
 Byoung~Du Kim.
@@ -90,6 +124,12 @@ David Loeffler.
 \newblock In T.~Bouganis and O.~Venjakob, editors, {\em Iwasawa 2012: {S}tate
   of the art and recent advances}, volume~7 of {\em Contributions in
   Mathematical and Computational Sciences}, pages 357 -- 378. Springer, 2014.
+
+\bibitem[LP19]{lei2018codimension}
+Antonio Lei and Bharathwaj Palvannan.
+\newblock Codimension two cycles in {I}wasawa theory and elliptic curves with
+  supersingular reduction.
+\newblock {\em Forum Math. Sigma}, 7:e25, 81 pages, 2019.
 
 \bibitem[Pol03]{MR1983040}
 Robert Pollack.
