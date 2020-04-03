@@ -170,13 +170,30 @@
 
 
 
-
+\usepackage{titlesec}
 \titleformat{\subsubsection}[runin]% runin puts it in the same paragraph
-{\bfseries}% formatting commands to apply to the whole heading
+{\normalfont\itshape}% formatting commands to apply to the whole heading
 {\thesubsubsection.}% the label and number
 {0.5em}% space between label/number and subsection title
 {}% formatting commands applied just to subsection title
-[.\hspace*{4pt}]% punctuation or other commands following subsection title
+[.\hspace*{6pt}]% punctuation or other commands following subsection title
+
+\titleformat{\subsection}[runin]
+{\normalfont\bfseries}% formatting commands to apply to the whole heading
+{\thesubsection.}% the label and number
+{0.5em}% space between label/number and subsection title
+{}% formatting commands applied just to subsection title
+[.\hspace*{6pt}]% punctuation or other commands following subsection title
+
+
+
+\titleformat{\section}
+{\large\bfseries}% formatting commands to apply to the whole heading
+{\thesection.}% the label and number
+{0.5em}% space between label/number and subsection title
+{}% formatting commands applied just to subsection title
+[]% punctuation or other commands following subsection title
+
 
 
 
