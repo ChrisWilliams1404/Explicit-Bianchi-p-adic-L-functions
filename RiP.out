@@ -6,16 +6,19 @@
 \BOOKMARK [1][-]{section.2}{Bianchi modular forms and p-adic L-functions}{}% 6
 \BOOKMARK [2][-]{subsection.2.1}{Background}{section.2}% 7
 \BOOKMARK [2][-]{subsection.2.2}{Bianchi modular symbols}{section.2}% 8
-\BOOKMARK [2][-]{subsection.2.3}{Overconvergent modular symbols}{section.2}% 9
-\BOOKMARK [2][-]{subsection.2.4}{The p-adic L-function of a Bianchi modular form}{section.2}% 10
-\BOOKMARK [1][-]{section.3}{Computing p-adic L-series from modular symbols}{}% 11
-\BOOKMARK [2][-]{subsection.3.1}{The classical case}{section.3}% 12
-\BOOKMARK [2][-]{subsection.3.2}{The Bianchi case}{section.3}% 13
-\BOOKMARK [1][-]{section.4}{Rephrasing via arithmetic cohomology}{}% 14
-\BOOKMARK [2][-]{subsection.4.1}{Definition and basic properties}{section.4}% 15
-\BOOKMARK [2][-]{subsection.4.2}{Explicit inversion of }{section.4}% 16
-\BOOKMARK [1][-]{section.5}{The algorithms}{}% 17
-\BOOKMARK [2][-]{subsection.5.1}{Computing with the classical cohomology}{section.5}% 18
-\BOOKMARK [2][-]{subsection.5.2}{Computing with distributions}{section.5}% 19
-\BOOKMARK [2][-]{subsection.5.3}{An explicit lifting theorem}{section.5}% 20
-\BOOKMARK [1][-]{section.6}{Data}{}% 21
+\BOOKMARK [1][-]{section.3}{Explicit values of modular symbols}{}% 9
+\BOOKMARK [2][-]{subsection.3.1}{Overconvergent modular symbols}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.2}{The p-adic L-function of a Bianchi modular form}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Computing p-adic L-series from modular symbols}{}% 12
+\BOOKMARK [2][-]{subsection.4.1}{The classical case}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.2}{The Bianchi case}{section.4}% 14
+\BOOKMARK [1][-]{section.5}{Rephrasing via arithmetic cohomology}{}% 15
+\BOOKMARK [2][-]{subsection.5.1}{Definition and basic properties}{section.5}% 16
+\BOOKMARK [2][-]{subsection.5.2}{Explicit inversion of }{section.5}% 17
+\BOOKMARK [1][-]{section.6}{The algorithms}{}% 18
+\BOOKMARK [2][-]{subsection.6.1}{Computing with the classical cohomology}{section.6}% 19
+\BOOKMARK [2][-]{subsection.6.2}{Computing with distributions}{section.6}% 20
+\BOOKMARK [2][-]{subsection.6.3}{An explicit lifting theorem}{section.6}% 21
+\BOOKMARK [1][-]{section.7}{Data}{}% 22
+\BOOKMARK [1][-]{appendix.A}{Rank 0 elliptic curves over K}{}% 23
+\BOOKMARK [1][-]{appendix.B}{Rank 1 elliptic curves over K}{}% 24
